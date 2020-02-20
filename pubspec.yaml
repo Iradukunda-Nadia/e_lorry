@@ -27,7 +27,7 @@ dependencies:
   firebase_core: ^0.4.0
   firebase_messaging: 5.1.5
   mask_text_input_formatter: ^1.0.5
-  shared_preferences: ^0.4.3
+  shared_preferences: any
   dash_chat: ^1.0.10
   intl: any
   pdf: any
