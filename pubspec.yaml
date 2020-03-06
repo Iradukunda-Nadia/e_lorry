@@ -33,7 +33,7 @@ dependencies:
   pdf: any
   firebase_storage: ^3.0.0
   path_provider: ^1.4.0
-  printing: ^3.1.0
+  printing:
 
 dev_dependencies:
   flutter_test:
