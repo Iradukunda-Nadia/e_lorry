@@ -10,7 +10,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
-import 'package:e_lorry/printing.dart';
+import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -196,7 +196,7 @@ class _lpoDetailState extends State<lpoDetail> {
 
     final RenderRepaintBoundary boundary =
     _renderObjectKey.currentContext.findRenderObject();
-    final ui.Image im = await boundary.toImage();
+    final ui.Image im = await boundary.toImage(pixelRatio: 5.0);
     final ByteData bytes =
     await im.toByteData(format: ui.ImageByteFormat.rawRgba);
     print('Print Screen ${im.width}x${im.height} ...');

@@ -1,4 +1,18 @@
-
+/*
+ * Copyright (C) 2017, David PHAM-VAN <dev.nfet.net@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 part of printing;
 
@@ -54,7 +68,20 @@ mixin Printing {
         final _PrintJob job = _printJobs[call.arguments['job']];
         job.onHtmlRendered.completeError(call.arguments['error']);
         break;
-
+      case 'onPageRasterized':
+        final _PrintJob job = _printJobs[call.arguments['job']];
+        final PdfRaster raster = PdfRaster._(
+          call.arguments['width'],
+          call.arguments['height'],
+          call.arguments['image'],
+        );
+        job.onPageRasterized.add(raster);
+        break;
+      case 'onPageRasterEnd':
+        final _PrintJob job = _printJobs[call.arguments['job']];
+        job.onPageRasterized.close();
+        _printJobs.remove(job.index);
+        break;
     }
   }
 
@@ -184,7 +211,7 @@ mixin Printing {
 
     layoutPdf(
         onLayout: (PdfPageFormat format) =>
-            document != null ? document.save() : bytes);
+        document != null ? document.save() : bytes);
   }
 
   /// Displays a platform popup to share the Pdf document to another application
@@ -218,8 +245,8 @@ mixin Printing {
   /// Convert an html document to a pdf data
   static Future<List<int>> convertHtml(
       {@required String html,
-      String baseUrl,
-      PdfPageFormat format = PdfPageFormat.a4}) async {
+        String baseUrl,
+        PdfPageFormat format = PdfPageFormat.a4}) async {
     _channel.setMethodCallHandler(_handleMethod);
 
     final _PrintJob job = _newPrintJob(_PrintJob(
@@ -261,4 +288,25 @@ mixin Printing {
     return PrintingInfo.fromMap(result);
   }
 
+  static Stream<PdfRaster> raster(
+      List<int> document, {
+        List<int> pages,
+        double dpi = PdfPageFormat.inch,
+      }) {
+    _channel.setMethodCallHandler(_handleMethod);
+
+    final _PrintJob job = _newPrintJob(_PrintJob(
+      onPageRasterized: StreamController<PdfRaster>(),
+    ));
+
+    final Map<String, dynamic> params = <String, dynamic>{
+      'doc': Uint8List.fromList(document),
+      'pages': pages,
+      'scale': dpi / PdfPageFormat.inch,
+      'job': job.index,
+    };
+
+    _channel.invokeMethod<void>('rasterPdf', params);
+    return job.onPageRasterized.stream;
   }
+}
