@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:e_lorry/printing.dart';
+import 'package:printing/printing.dart';
 
 import 'dart:async';
 import 'dart:convert';
