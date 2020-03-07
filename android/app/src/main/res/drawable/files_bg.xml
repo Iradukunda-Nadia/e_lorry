@@ -5,9 +5,5 @@
             <solid android:color="#b71c1c" />
         </shape>
     </item>
-    <item>
-        <bitmap
-            android:src="@drawable/gplay"
-            android:tileMode="repeat" />
-    </item>
+
 </layer-list>

@@ -5,12 +5,12 @@
 
     <!-- You can insert your own image assets here -->
      <item android:width="400dp"
-         android:height="500dp"
+         android:height="300dp"
          android:gravity="center"
          >
         <bitmap
 
-            android:src="@drawable/lo"
+            android:src="@drawable/logo1"
             android:mipMap="true"/>
     </item>
 </layer-list>
