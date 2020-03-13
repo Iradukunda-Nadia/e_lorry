@@ -43,7 +43,8 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Chat"),
+          title: new Text("Group Chat"),
+          backgroundColor: const Color(0xff016836),
           elevation:
           Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
         ),
@@ -120,6 +121,7 @@ class _ChatState extends State<Chat> {
             children: <Widget>[
               new Flexible(
                 child: new TextField(
+                  textCapitalization: TextCapitalization.sentences,
                   controller: _textEditingController,
                   onChanged: (String messageText) {
                     setState(() {
@@ -214,6 +216,7 @@ class ChatMessageListItem extends StatelessWidget {
           new Container(
               margin: const EdgeInsets.only(left: 8.0),
               child: new CircleAvatar(
+                backgroundColor: Colors.red[900],
                 child: new Text("${messageSnapshot.data['senderName']
                     .substring(0,2)}",
                   style: new TextStyle(
@@ -234,6 +237,7 @@ class ChatMessageListItem extends StatelessWidget {
           new Container(
               margin: const EdgeInsets.only(right: 8.0),
               child: new CircleAvatar(
+                backgroundColor: const Color(0xff016836),
                 child: new Text("${messageSnapshot.data['senderName']
                     .substring(0,2)}",
                   style: new TextStyle(

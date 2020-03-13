@@ -13,11 +13,12 @@ class _adminHomeState extends State<adminHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: const Color(0xff016836),
       appBar: new AppBar(
         title: new Text("App Admin"),
         centerTitle: true,
         elevation: 0.0,
+        backgroundColor: const Color(0xff016836),
       ),
       //drawer: new Drawer(),
       body: SingleChildScrollView(

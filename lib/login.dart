@@ -1,4 +1,5 @@
 import 'package:e_lorry/admin/adminHome.dart';
+import 'package:e_lorry/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'user/user.dart';
@@ -287,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
     setState(() {
-      logoImage = 'assets/logo.png';
+      logoImage = 'assets/log02.png';
       _borderContainer = Color.fromRGBO(252, 233, 187, 1);
       _backgroundColor = [
         Color.fromRGBO(255, 180, 0, 1),
@@ -339,17 +340,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
 
-                  Image.asset(
-                    logoImage,
-                    fit: BoxFit.contain,
-                    height: 200.0,
-                    width: 300.0,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Image.asset(
+                      logoImage,
+                      fit: BoxFit.contain,
+                      height: 180.0,
+                      width: 380.0,
+                    ),
                   ),
 
                   Column(
                     children: <Widget>[
                       Container(
-                        height: 450.0,
+                        height: 410.0,
                         width: MediaQuery
                             .of(context)
                             .size
@@ -358,8 +362,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15))),
+
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10,10),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -367,16 +372,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                     bottomRight: Radius.circular(15),
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15)),
-                              color: Colors.red[900],
+                              color: const Color(0xff016836),
 
                                 ),
                             child: Form(
                               key: formKey,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
+                                    child: Container(
+                                      child: Text("Welcome", style: TextStyle(color: Colors.white, fontSize: 18),)
+                                    ),
+                                  ),
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                                     child: Container(
@@ -399,6 +409,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 fontSize: 15
                                             )
                                         ),
+                                        textCapitalization: TextCapitalization.sentences,
                                         validator: (val) =>
                                         val.isEmpty  ? 'Enter a valid Username' : null,
                                         onSaved: (val) => _email = val,
@@ -455,10 +466,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                   ),
-
-
-
-
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: FlatButton(
+                                        child: new Text(
+                                            "New user? Sign up here",
+                                            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300, color: Colors.white60)),
+                                        onPressed: (){
+                                          Navigator.of(context).push(new MaterialPageRoute(
+                                            builder: (BuildContext context) => new Signup()
+                                        ));
+                                        }
+                                     ),
+                                  )
                                 ],
                               ),
                             ),

@@ -49,10 +49,10 @@ class _UserState extends State<User> {
               child: Column(
                 children: <Widget>[
                   Image.asset(
-                    "assets/logo.png",
+                    "assets/lo.png",
                     fit: BoxFit.contain,
                     height: 100.0,
-                    width: 200.0,
+                    width: 300.0,
                   ),
                   Text("Accounts"),
                 ],
@@ -510,6 +510,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -537,6 +538,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -562,6 +564,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -586,6 +589,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -610,6 +614,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -635,6 +640,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -659,6 +665,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'
@@ -683,6 +690,7 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'SFUIDisplay'

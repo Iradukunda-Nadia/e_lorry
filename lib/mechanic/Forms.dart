@@ -3095,6 +3095,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                                         fontSize: 11
                                     )
                                 ),
+                                textCapitalization: TextCapitalization.sentences,
                                 validator: (val) =>
                                 val.isEmpty  ? 'Enter a valid value' : null,
                                 onSaved: (val) => _bktyre = val,
@@ -3105,6 +3106,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3130,6 +3132,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
                                 ),
+                                textCapitalization: TextCapitalization.sentences,
                                 decoration: InputDecoration(
 
                                     errorStyle: TextStyle(color: Colors.red),
@@ -3148,6 +3151,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3169,6 +3173,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3193,6 +3198,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3218,6 +3224,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3261,6 +3268,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                                         fontSize: 11
                                     )
                                 ),
+                                textCapitalization: TextCapitalization.sentences,
                                 validator: (val) =>
                                 val.isEmpty  ? 'Enter a valid value' : null,
                                 onSaved: (val) => _batwarranty = val,
@@ -3272,6 +3280,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3298,6 +3307,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3323,6 +3333,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3353,6 +3364,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           child: Container(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'SFUIDisplay'
@@ -3376,6 +3388,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           child: Container(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'SFUIDisplay'
@@ -3399,6 +3412,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           child: Container(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'SFUIDisplay'
@@ -3422,6 +3436,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           child: Container(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'SFUIDisplay'
@@ -3445,6 +3460,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           child: Container(
                             child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'SFUIDisplay'
@@ -3472,6 +3488,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3495,6 +3512,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3518,6 +3536,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3545,6 +3564,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3568,6 +3588,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3591,6 +3612,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3614,6 +3636,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3637,6 +3660,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3660,6 +3684,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3683,6 +3708,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3706,6 +3732,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3729,6 +3756,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -3757,6 +3785,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                         padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                         child: Container(
                           child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'SFUIDisplay'

@@ -48,13 +48,16 @@ class _ManagerState extends State<Manager> {
         child: new Column(
           children: <Widget>[
             DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.white
+              ),
               child: Column(
                 children: <Widget>[
                   Image.asset(
-                    "assets/logo.png",
+                    "assets/lo.png",
                     fit: BoxFit.contain,
                     height: 100.0,
-                    width: 200.0,
+                    width: 300.0,
                   ),
                   Text("Manager"),
                 ],
@@ -735,6 +738,9 @@ class _ApprovalState extends State<Approval> {
                                 padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                                 child: Container(
                                   child: TextFormField(
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
+                                    textCapitalization: TextCapitalization.sentences,
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontFamily: 'SFUIDisplay'

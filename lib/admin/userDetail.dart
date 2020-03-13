@@ -51,8 +51,9 @@ class _userDetailsState extends State<userDetails> {
   }
 
   _updateData() async {
+    final form = formKey.currentState;
     await Firestore.instance
-        .collection('userUID')
+        .collection('userID')
         .document(widget.docID)
         .updateData({
       'name': _name,
@@ -75,7 +76,7 @@ class _userDetailsState extends State<userDetails> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          content: new Text("Your request has been sent"),
+          content: new Text("Data has been updated"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -163,6 +164,7 @@ class _userDetailsState extends State<userDetails> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -179,7 +181,10 @@ class _userDetailsState extends State<userDetails> {
                                 initialValue: widget.name,
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
-                                onSaved: (val) => _name = val,
+                                onSaved: (val) {
+                                  val.isEmpty ?  widget.name = val: null;
+                                  _name = val;
+                                },
                               ),
                             ),
                           ),
@@ -187,6 +192,7 @@ class _userDetailsState extends State<userDetails> {
                             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                             child: Container(
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'SFUIDisplay'
@@ -203,7 +209,10 @@ class _userDetailsState extends State<userDetails> {
                                 initialValue: widget.uid,
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
-                                onSaved: (val) => _uid = val,
+                                onSaved: (val) {
+                                  val.isEmpty ?  widget.uid = val: null;
+                                  _uid = val;
+                                },
                               ),
                             ),
                           ),
@@ -227,7 +236,10 @@ class _userDetailsState extends State<userDetails> {
                                 initialValue: widget.pw,
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
-                                onSaved: (val) => _pw = val,
+                                onSaved: (val) {
+                                  val.isEmpty ?  widget.pw = val: null;
+                                  _pw = val;
+                                },
                               ),
                             ),
                           ),
@@ -272,8 +284,7 @@ class _userDetailsState extends State<userDetails> {
                                         FlatButton(
                                           child: Text("Close"),
                                           onPressed: () {
-                                            Navigator.of(context).push(new CupertinoPageRoute(
-                                                builder: (context) => AppUsers()));
+                                            Navigator.of(context).pop();
                                           },
                                         )
                                       ],

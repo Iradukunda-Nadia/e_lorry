@@ -209,6 +209,7 @@ class _matRequestState extends State<matRequest> {
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay'
                       ),
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
 
                           errorStyle: TextStyle(color: Colors.red),
@@ -229,6 +230,7 @@ class _matRequestState extends State<matRequest> {
                   padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: Container(
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay'
@@ -253,6 +255,7 @@ class _matRequestState extends State<matRequest> {
                   padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: Container(
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay'
@@ -277,6 +280,7 @@ class _matRequestState extends State<matRequest> {
                   padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: Container(
                     child: TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay'
