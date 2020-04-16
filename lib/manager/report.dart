@@ -309,13 +309,7 @@ class _ReportState extends State<Report> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.print),
-          //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
-          onPressed: () {
-            _printScreen();
-          },
-        ),
+
         body: new Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
