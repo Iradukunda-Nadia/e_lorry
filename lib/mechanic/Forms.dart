@@ -165,6 +165,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
   void _saveService() {
     final form = formKey.currentState;
     if (form.validate()) {
+      form.save();
       _serviceDialog();
     }
   }
@@ -183,7 +184,40 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
             new FlatButton(
               child: new Text("Continue"),
               onPressed: () {
-                _serviceCommand();
+                Navigator.of(context).pop();
+                Firestore.instance.runTransaction((Transaction transaction) async {
+                  CollectionReference reference = Firestore.instance.collection('service');
+
+                  await reference.add({
+                    "Truck": widget.truckNumber,
+                    "Driver": widget.driverName,
+                    "Number": widget.driverNumber,
+                    "Inspection Expiry": sInsp,
+                    "Insurance Expiry": sInsu,
+                    "Speed Governor Expiry": sge,
+                    "Back tyre serial number":_bktyre,
+                    "Front tyre serial number": _frtyre,
+                    "Spare tyre serial number": _sptyre,
+                    "Battery warranty": _batwarranty,
+                    "Date purchased": pd,
+                    "Battery serial number": _batserial,
+                    "Date Given": dg,
+                    "1st Tank": _first,
+                    "2nd Tank": _second,
+                    "Total litres": _ttliters,
+                    "Average per kilometre": _avg,
+                    "Current kilometres": _current,
+                    "Next service": nex,
+                    "Km when Oil, Gearbox, and Diff oil changed": _oil,
+                    "Grease frontwheel": _grease,
+                    "timestamp" : DateFormat('MMM yyyy').format(DateTime.now()),
+                    "date":_date2,
+                    "Service by" : "Mechanic",
+                  });
+                }).then((result) =>
+
+                    _showRequest());
+
 
               },
             ),
