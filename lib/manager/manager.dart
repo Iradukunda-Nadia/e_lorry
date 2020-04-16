@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_lorry/manager/report.dart';
 import 'package:e_lorry/user/document.dart';
 import 'package:e_lorry/user/post_trip.dart';
 import 'package:e_lorry/user/truck_service.dart';
@@ -119,6 +120,21 @@ class _ManagerState extends State<Manager> {
               title: new Text("Logout"),
               onTap: (){
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new LoginScreen()));
+              },
+            ),
+
+            new Divider(),
+
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.assignment,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Daily Report"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Report()));
               },
             ),
 
