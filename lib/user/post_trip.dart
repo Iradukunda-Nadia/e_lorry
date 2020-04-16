@@ -131,7 +131,7 @@ class _PostDatesState extends State<PostDates> {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: collectionReference.where("Truck", isEqualTo:
-          widget.truckNumber).snapshots(),
+          widget.truckNumber).orderBy("timestamp", descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

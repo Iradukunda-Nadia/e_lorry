@@ -152,6 +152,8 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
   TextEditingController sInsu = TextEditingController();
   TextEditingController sge = TextEditingController();
   TextEditingController nex = TextEditingController();
+  TextEditingController pd = TextEditingController();
+  TextEditingController dg = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -216,9 +218,9 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Front tyre serial number": _frtyre,
         "Spare tyre serial number": _sptyre,
         "Battery warranty": _batwarranty,
-        "Date purchased": _purchase,
+        "Date purchased": pd,
         "Battery serial number": _batserial,
-        "Date Given": _given,
+        "Date Given": dg,
         "1st Tank": _first,
         "2nd Tank": _second,
         "Total litres": _ttliters,
@@ -3236,29 +3238,24 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           ),
 
                           Padding(
-                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                             child: Container(
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'SFUIDisplay'
-                                ),
+                                controller: pd,
                                 decoration: InputDecoration(
-                                    hintText: "mm/dd/yyyy",
-                                    errorStyle: TextStyle(color: Colors.red),
-                                    filled: true,
-                                    fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Date Purchased',
-                                    labelStyle: TextStyle(
-                                        fontSize: 11
-                                    )
-                                ),
-                                inputFormatters: [mask],
-                                validator: (val) =>
-                                val.isEmpty  ? 'Enter a valid value' : null,
-                                onSaved: (val) => _purchase = val,
-                              ),
+                                  labelText: "Purchase Date",
+                                  hintText: "Enter Date",),
+                                onTap: () async{
+                                  DateTime date = DateTime(1900);
+                                  FocusScope.of(context).requestFocus(new FocusNode());
+
+                                  date = await showDatePicker(
+                                      context: context,
+                                      initialDate:DateTime.now(),
+                                      firstDate:DateTime(1900),
+                                      lastDate: DateTime(3000));
+
+                                  pd.text = DateFormat(' dd MMM yyyy').format(date);},),
                             ),
                           ),
 
@@ -3289,29 +3286,24 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           ),
 
                           Padding(
-                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                             child: Container(
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'SFUIDisplay'
-                                ),
+                                controller: dg,
                                 decoration: InputDecoration(
-                                    hintText: "mm/dd/yyyy",
-                                    errorStyle: TextStyle(color: Colors.red),
-                                    filled: true,
-                                    fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Date Given',
-                                    labelStyle: TextStyle(
-                                        fontSize: 11
-                                    )
-                                ),
-                                inputFormatters: [mask],
-                                validator: (val) =>
-                                val.isEmpty  ? 'Enter a valid value' : null,
-                                onSaved: (val) => _email = val,
-                              ),
+                                  labelText: "Date Given",
+                                  hintText: "Enter Date",),
+                                onTap: () async{
+                                  DateTime date = DateTime(1900);
+                                  FocusScope.of(context).requestFocus(new FocusNode());
+
+                                  date = await showDatePicker(
+                                      context: context,
+                                      initialDate:DateTime.now(),
+                                      firstDate:DateTime(1900),
+                                      lastDate: DateTime(3000));
+
+                                  dg.text = DateFormat(' dd MMM yyyy').format(date);},),
                             ),
                           ),
                         ],
@@ -3740,32 +3732,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
 
 
 
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: Container(
-                          child: TextFormField(
-                            textCapitalization: TextCapitalization.sentences,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'SFUIDisplay'
-                            ),
-                            decoration: InputDecoration(
-                                hintText: "01/01/2001",
-                                errorStyle: TextStyle(color: Colors.red),
-                                filled: true,
-                                fillColor: Colors.white.withOpacity(0.1),
-                                labelText: 'Date of service',
-                                labelStyle: TextStyle(
-                                    fontSize: 11
-                                )
-                            ),
-                            inputFormatters: [mask],
-                            validator: (val) =>
-                            val.isEmpty  ? 'Enter a valid value' : null,
-                            onSaved: (val) => _date2 = val,
-                          ),
-                        ),
-                      ),
+
 
 
 

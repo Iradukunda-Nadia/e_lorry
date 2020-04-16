@@ -123,7 +123,7 @@ class _SeviceDatesState extends State<SeviceDates> {
       appBar: AppBar(backgroundColor: Colors.red[900],),
       body: StreamBuilder<QuerySnapshot>(
           stream: collectionReference.where("Truck", isEqualTo:
-          widget.truckNumber).snapshots(),
+          widget.truckNumber).orderBy("timestamp", descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -139,7 +139,7 @@ class _SeviceDatesState extends State<SeviceDates> {
                   var doc = snapshot.data.documents[index];
                       return Card(
                         child: ListTile(
-                          title: Text("Date: ${doc.data['date'].toString()}"),
+                          title: Text("Date: ${doc.data['timestamp'].toString()}"),
                           subtitle: Text("Next service: ${doc.data['Next service']}"),
 
                           onTap: () async {
