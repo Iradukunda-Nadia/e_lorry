@@ -272,8 +272,9 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Next service": nex.text,
         "Km when Oil, Gearbox, and Diff oil changed": _oil,
         "Grease frontwheel": _grease,
-        "timestamp" : DateFormat('MMM yyyy').format(DateTime.now()),
+        "timestamp" : DateFormat('dd MMM yyyy').format(DateTime.now()),
         "date":_date2,
+        "todate" : DateFormat(' dd MMM yyyy').format(DateTime.now()),
         "Service by" : "Mechanic",
       });
     }).then((result) =>
@@ -349,6 +350,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Greasing at KM": _greasing,
         "Comment": _comment,
         "timestamp" : DateFormat('dd MMM yyyy').format(DateTime.now()),
+        "date" : DateFormat('dd MMM yyyy').format(DateTime.now()),
         "engine" : {
           "Gasket": _gasket,
           "Hose pipe": _hose,
