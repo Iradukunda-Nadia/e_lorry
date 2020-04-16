@@ -165,7 +165,6 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
   void _saveService() {
     final form = formKey.currentState;
     if (form.validate()) {
-      form.save();
       _serviceDialog();
     }
   }
@@ -184,7 +183,6 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
             new FlatButton(
               child: new Text("Continue"),
               onPressed: () {
-                Navigator.of(context).pop();
                 _serviceCommand();
 
               },
