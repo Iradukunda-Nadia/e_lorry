@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class matRequest extends StatefulWidget {
@@ -60,7 +61,7 @@ class _matRequestState extends State<matRequest> {
         "Name": _name,
         "tType": widget.truckType,
         "status": "pending",
-        "date" : DateTime.now(),
+        "date" : DateFormat(' dd MMM yyyy').format(DateTime.now()),
       });
     }).then((result) =>
 

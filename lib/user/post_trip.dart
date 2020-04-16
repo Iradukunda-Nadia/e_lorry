@@ -144,7 +144,7 @@ class _PostDatesState extends State<PostDates> {
                   var doc = snapshot.data.documents[index];
                       return Card(
                         child: ListTile(
-                          title: Text("Date: ${doc.data['date']}"),
+                          title: Text("Date: ${doc.data['timestamp']}"),
 
                           onTap: () async {
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:intl/intl.dart';
 import 'material_request.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -145,6 +146,13 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
   String _comment;
 
 
+  TextEditingController pInsu = TextEditingController();
+  TextEditingController pInsp = TextEditingController();
+  TextEditingController sInsp = TextEditingController();
+  TextEditingController sInsu = TextEditingController();
+  TextEditingController sge = TextEditingController();
+  TextEditingController nex = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var mask = new MaskTextInputFormatter(mask: '##/##/####', filter: { "#": RegExp(r'[0-9]') });
@@ -201,9 +209,9 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Truck": widget.truckNumber,
         "Driver": widget.driverName,
         "Number": widget.driverNumber,
-        "Inspection Expiry": _inspection,
-        "Insurance Expiry": _insurance,
-        "Speed Governor Expiry": _speedgov,
+        "Inspection Expiry": sInsp,
+        "Insurance Expiry": sInsu,
+        "Speed Governor Expiry": sge,
         "Back tyre serial number":_bktyre,
         "Front tyre serial number": _frtyre,
         "Spare tyre serial number": _sptyre,
@@ -216,10 +224,10 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Total litres": _ttliters,
         "Average per kilometre": _avg,
         "Current kilometres": _current,
-        "Next service": _nxt,
+        "Next service": nex,
         "Km when Oil, Gearbox, and Diff oil changed": _oil,
         "Grease frontwheel": _grease,
-        "timestamp" : DateTime.now(),
+        "timestamp" : DateFormat('MMM yyyy').format(DateTime.now()),
         "date":_date2,
         "Service by" : "Mechanic",
       });
@@ -284,12 +292,11 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
 
       await reference.add({
         "Truck": widget.truckNumber,
-        "date": _date,
-        "Insurance Expiry": _insu,
-        "Inspection": _insp,
+        "Insurance Expiry": pInsu,
+        "Inspection": pInsp,
         "Greasing at KM": _greasing,
         "Comment": _comment,
-        "timestamp" : DateTime.now(),
+        "timestamp" : DateFormat('dd MMM yyyy').format(DateTime.now()),
         "engine" : {
           "Gasket": _gasket,
           "Hose pipe": _hose,
@@ -2751,55 +2758,49 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: Container(
                   child: TextFormField(
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'SFUIDisplay'
-                    ),
+                    controller: pInsu,
                     decoration: InputDecoration(
-                        hintText: "mm/dd/yyyy",
-                        errorStyle: TextStyle(color: Colors.red),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                        labelText: 'Insurance expiry',
-                        labelStyle: TextStyle(
-                            fontSize: 11
-                        )
-                    ),
-                    inputFormatters: [mask],
-                    validator: (val) =>
-                    val.isEmpty  ? 'Required' : null,
-                    onSaved: (val) => _insu = val,
-                  ),
+                      labelText: "Insurance expiry",
+                      hintText: "Enter Date",),
+                    onTap: () async{
+                      DateTime date = DateTime(1900);
+                      FocusScope.of(context).requestFocus(new FocusNode());
+
+                      date = await showDatePicker(
+                          context: context,
+                          initialDate:DateTime.now(),
+                          firstDate:DateTime(1900),
+                          lastDate: DateTime(2100));
+
+                      pInsu.text = DateFormat(' dd MMM yyyy').format(date);},),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: Container(
                   child: TextFormField(
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'SFUIDisplay'
-                    ),
+                    controller: pInsp,
                     decoration: InputDecoration(
-                        hintText: "mm/dd/yyyy",
-                        errorStyle: TextStyle(color: Colors.red),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                        labelText: 'Next inspection',
-                        labelStyle: TextStyle(
-                            fontSize: 11
-                        )
-                    ),
-                    inputFormatters: [mask],
-                    validator: (val) =>
-                    val.isEmpty  ? 'Required' : null,
-                    onSaved: (val) => _insp = val,
-                  ),
+                      labelText: "Next inspection",
+                      hintText: "Enter Date",),
+                    onTap: () async{
+                      DateTime date = DateTime(1900);
+                      FocusScope.of(context).requestFocus(new FocusNode());
+
+                      date = await showDatePicker(
+                          context: context,
+                          initialDate:DateTime.now(),
+                          firstDate:DateTime(1900),
+                          lastDate: DateTime(2100));
+
+                      pInsp.text = DateFormat(' dd MMM yyyy').format(date);},),
                 ),
               ),
+
+
               Padding(
                 padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                 child: Container(
@@ -2869,31 +2870,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                child: Container(
-                  child: TextFormField(
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'SFUIDisplay'
-                    ),
-                    decoration: InputDecoration(
-                        hintText: "mm/dd/yyyy",
-                        errorStyle: TextStyle(color: Colors.red),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                        labelText: 'Date of Evaluation',
-                        labelStyle: TextStyle(
-                            fontSize: 11
-                        )
-                    ),
-                    inputFormatters: [mask],
-                    validator: (val) =>
-                    val.isEmpty  ? 'Required' : null,
-                    onSaved: (val) => _date = val,
-                  ),
-                ),
-              ),
+
               RaisedButton(
                 child: Text('Do you have a comment?'),
                 onPressed: showToast,
@@ -2970,106 +2947,88 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                        ExpansionTile(title: Text("Dates"),
                          children: <Widget>[
                            Padding(
-                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                              child: Container(
                                child: TextFormField(
-                                 style: TextStyle(
-                                     color: Colors.black,
-                                     fontFamily: 'SFUIDisplay'
-                                 ),
+                                 controller: sInsp,
                                  decoration: InputDecoration(
-                                     hintText: "mm/dd/yyyy",
-                                     errorStyle: TextStyle(color: Colors.red),
-                                     filled: true,
-                                     fillColor: Colors.white.withOpacity(0.1),
-                                     labelText: 'Inspection Expiry',
-                                     labelStyle: TextStyle(
-                                         fontSize: 11
-                                     )
-                                 ),
-                                 inputFormatters: [mask],
-                                 keyboardType: TextInputType.datetime,
-                                 validator: (val) =>
-                                 val.isEmpty  ? 'Enter a valid date' : null,
-                                 onSaved: (val) => _inspection = val,
-                               ),
+                                   labelText: "Insp expiry",
+                                   hintText: "Enter Date",),
+                                 onTap: () async{
+                                   DateTime date = DateTime(1900);
+                                   FocusScope.of(context).requestFocus(new FocusNode());
+
+                                   date = await showDatePicker(
+                                       context: context,
+                                       initialDate:DateTime.now(),
+                                       firstDate:DateTime(1900),
+                                       lastDate: DateTime(3000));
+
+                                   sInsp.text = DateFormat(' dd MMM yyyy').format(date);},),
                              ),
                            ),
                            Padding(
-                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                              child: Container(
                                child: TextFormField(
-                                 style: TextStyle(
-                                     color: Colors.black,
-                                     fontFamily: 'SFUIDisplay'
-                                 ),
+                                 controller: sInsu,
                                  decoration: InputDecoration(
-                                     hintText: "mm/dd/yyyy",
-                                     errorStyle: TextStyle(color: Colors.red),
-                                     filled: true,
-                                     fillColor: Colors.white.withOpacity(0.1),
-                                     labelText: 'Insurance Expiry',
-                                     labelStyle: TextStyle(
-                                         fontSize: 11
-                                     )
-                                 ),
-                                 inputFormatters: [mask],
-                                 keyboardType: TextInputType.datetime,
-                                 validator: (val) =>
-                                 val.isEmpty  ? 'Enter a valid value' : null,
-                                 onSaved: (val) => _insurance = val,
-                               ),
+                                   labelText: "Insurance expiry",
+                                   hintText: "Enter Date",),
+                                 onTap: () async{
+                                   DateTime date = DateTime(1900);
+                                   FocusScope.of(context).requestFocus(new FocusNode());
+
+                                   date = await showDatePicker(
+                                       context: context,
+                                       initialDate:DateTime.now(),
+                                       firstDate:DateTime(1900),
+                                       lastDate: DateTime(3000));
+
+                                   sInsu.text = DateFormat(' dd MMM yyyy').format(date);},),
                              ),
                            ),
 
                            Padding(
-                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                              child: Container(
                                child: TextFormField(
-                                 style: TextStyle(
-                                     color: Colors.black,
-                                     fontFamily: 'SFUIDisplay'
-                                 ),
+                                 controller: sge,
                                  decoration: InputDecoration(
-                                     hintText: "mm/dd/yyyy",
-                                     errorStyle: TextStyle(color: Colors.red),
-                                     filled: true,
-                                     fillColor: Colors.white.withOpacity(0.1),
-                                     labelText: 'Speed Governor Expiry',
-                                     labelStyle: TextStyle(
-                                         fontSize: 11
-                                     )
-                                 ),
-                                 inputFormatters: [mask],
-                                 validator: (val) =>
-                                 val.isEmpty  ? 'Enter a valid value' : null,
-                                 onSaved: (val) => _speedgov = val,
-                               ),
+                                   labelText: "Speed Governor expiry",
+                                   hintText: "Enter Date",),
+                                 onTap: () async{
+                                   DateTime date = DateTime(1900);
+                                   FocusScope.of(context).requestFocus(new FocusNode());
+
+                                   date = await showDatePicker(
+                                       context: context,
+                                       initialDate:DateTime.now(),
+                                       firstDate:DateTime(1900),
+                                       lastDate: DateTime(3000));
+
+                                   sge.text = DateFormat(' dd MMM yyyy').format(date);},),
                              ),
                            ),
                            Padding(
-                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
                              child: Container(
                                child: TextFormField(
-                                 style: TextStyle(
-                                     color: Colors.black,
-                                     fontFamily: 'SFUIDisplay'
-                                 ),
+                                 controller: nex,
                                  decoration: InputDecoration(
-                                     hintText: "mm/dd/yyyy",
-                                     errorStyle: TextStyle(color: Colors.red),
-                                     filled: true,
-                                     fillColor: Colors.white.withOpacity(0.1),
-                                     labelText: 'Next Service',
-                                     labelStyle: TextStyle(
-                                         fontSize: 11
-                                     )
-                                 ),
-                                 inputFormatters: [mask],
-                                 validator: (val) =>
-                                 val.isEmpty  ? 'Enter a valid value' : null,
-                                 onSaved: (val) => _nxt = val,
-                               ),
+                                   labelText: "Next Service",
+                                   hintText: "Enter Date",),
+                                 onTap: () async{
+                                   DateTime date = DateTime(1900);
+                                   FocusScope.of(context).requestFocus(new FocusNode());
+
+                                   date = await showDatePicker(
+                                       context: context,
+                                       initialDate:DateTime.now(),
+                                       firstDate:DateTime(1900),
+                                       lastDate: DateTime(3000));
+
+                                   nex.text = DateFormat(' dd MMM yyyy').format(date);},),
                              ),
                            ),
                          ],

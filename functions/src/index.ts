@@ -1,10 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as nodemailer from 'nodemailer';
 
 
 admin.initializeApp();
 
 const fcm = admin.messaging();
+
+
 
 export const sendToTopic = functions.firestore
        .document('request/{Item}')
@@ -183,3 +186,4 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
         });
     });
 });
+
