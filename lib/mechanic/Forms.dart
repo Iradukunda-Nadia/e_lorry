@@ -166,6 +166,17 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
+      setState(() {
+        _given = dg.text;
+        _nxt = nex.text;
+        _insurance = sInsu.text;
+        _inspection = sInsp.text;
+        _purchase = pd.text;
+        _speedGovernor = sge.text;
+
+
+
+      });
       _serviceDialog();
     }
   }
@@ -192,22 +203,22 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                     "Truck": widget.truckNumber,
                     "Driver": widget.driverName,
                     "Number": widget.driverNumber,
-                    "Inspection Expiry": sInsp,
-                    "Insurance Expiry": sInsu,
-                    "Speed Governor Expiry": sge,
+                    "Inspection Expiry": _inspection,
+                    "Insurance Expiry": _insurance,
+                    "Speed Governor Expiry":_speedGovernor,
                     "Back tyre serial number":_bktyre,
                     "Front tyre serial number": _frtyre,
                     "Spare tyre serial number": _sptyre,
                     "Battery warranty": _batwarranty,
-                    "Date purchased": pd,
+                    "Date purchased": _purchase,
                     "Battery serial number": _batserial,
-                    "Date Given": dg,
+                    "Date Given": _given,
                     "1st Tank": _first,
                     "2nd Tank": _second,
                     "Total litres": _ttliters,
                     "Average per kilometre": _avg,
                     "Current kilometres": _current,
-                    "Next service": nex,
+                    "Next service": _nxt,
                     "Km when Oil, Gearbox, and Diff oil changed": _oil,
                     "Grease frontwheel": _grease,
                     "timestamp" : DateFormat('MMM yyyy').format(DateTime.now()),
@@ -243,22 +254,22 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
         "Truck": widget.truckNumber,
         "Driver": widget.driverName,
         "Number": widget.driverNumber,
-        "Inspection Expiry": sInsp,
-        "Insurance Expiry": sInsu,
-        "Speed Governor Expiry": sge,
+        "Inspection Expiry": sInsp.text,
+        "Insurance Expiry": sInsu.text,
+        "Speed Governor Expiry": sge.text,
         "Back tyre serial number":_bktyre,
         "Front tyre serial number": _frtyre,
         "Spare tyre serial number": _sptyre,
         "Battery warranty": _batwarranty,
-        "Date purchased": pd,
+        "Date purchased": pd.text,
         "Battery serial number": _batserial,
-        "Date Given": dg,
+        "Date Given": dg.text,
         "1st Tank": _first,
         "2nd Tank": _second,
         "Total litres": _ttliters,
         "Average per kilometre": _avg,
         "Current kilometres": _current,
-        "Next service": nex,
+        "Next service": nex.text,
         "Km when Oil, Gearbox, and Diff oil changed": _oil,
         "Grease frontwheel": _grease,
         "timestamp" : DateFormat('MMM yyyy').format(DateTime.now()),
@@ -275,6 +286,13 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
     final form = formKey.currentState;
     if (form.validate()) {
       form.save();
+      setState(() {
+        _insu = pInsu.text;
+        _insp = pInsp.text;
+
+
+
+      });
       _showDialog();
     }
   }
@@ -326,8 +344,8 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
 
       await reference.add({
         "Truck": widget.truckNumber,
-        "Insurance Expiry": pInsu,
-        "Inspection": pInsp,
+        "Insurance Expiry": _insu,
+        "Inspection": _insp,
         "Greasing at KM": _greasing,
         "Comment": _comment,
         "timestamp" : DateFormat('dd MMM yyyy').format(DateTime.now()),
@@ -2810,6 +2828,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                           lastDate: DateTime(2100));
 
                       pInsu.text = DateFormat(' dd MMM yyyy').format(date);},),
+
                 ),
               ),
               Padding(
