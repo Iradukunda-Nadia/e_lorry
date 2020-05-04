@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -244,20 +247,34 @@ class _ReportState extends State<Report> {
     setState(() {
       _isLoading = false;
     });
+
   }
 
   Future<Uint8List> _getWidgetImage() async {
-    try {
-      RenderRepaintBoundary boundary =
-      _renderObjectKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData byteData =
-      await image.toByteData(format: ui.ImageByteFormat.png);
-      var pngBytes = byteData.buffer.asUint8List();
-      var bs64 = base64Encode(pngBytes);
-      debugPrint(bs64.length.toString());
-      return pngBytes;
-    } catch (exception) {}
+    final RenderRepaintBoundary boundary =
+    _renderObjectKey.currentContext.findRenderObject();
+    final ui.Image im = await boundary.toImage();
+    final ByteData bytes =
+    await im.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final file = bytes.buffer.asUint8List();
+
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child("elorry-report/$today");
+    StorageUploadTask upload = firebaseStorageRef.putData(file,);
+    StorageTaskSnapshot taskSnapshot=await upload.onComplete;
+    String fileUrl= await taskSnapshot.ref.getDownloadURL();
+
+    await Firestore.instance.runTransaction((Transaction transaction) async {
+      CollectionReference reference = Firestore.instance.collection(
+          'videos');
+
+      await reference.add({
+        "report": fileUrl,
+
+        "time": DateTime.now()
+      });
+
+});
+
   }
 
 
@@ -309,7 +326,13 @@ class _ReportState extends State<Report> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
+          onPressed: () {
+            _getWidgetImage();
+          },
+        ),
         body: new Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
@@ -2226,4 +2249,5 @@ class _ReportState extends State<Report> {
         )
     );
   }
+
 }

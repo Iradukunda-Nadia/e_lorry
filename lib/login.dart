@@ -2,6 +2,7 @@ import 'package:e_lorry/admin/adminHome.dart';
 import 'package:e_lorry/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'mechanic/vehicle.dart';
 import 'user/user.dart';
 import 'admin/Admin.dart';
 import 'manager/manager.dart';
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _messaging.subscribeToTopic('mech');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new Mech()
+                  builder: (BuildContext context) => new vehicleService()
               ));
 
             }

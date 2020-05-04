@@ -1,11 +1,25 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import * as nodemailer from 'nodemailer';
+
+const nodemailer = require('nodemailer');
+
 
 
 admin.initializeApp();
 
 const fcm = admin.messaging();
+
+
+
+var transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'elorry2020@gmail.com',
+        pass: 'elorry@2019'
+    }
+});
 
 
 
@@ -186,4 +200,58 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
         });
     });
 });
+
+exports.reportEnt = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const dated = moment();
+        const datedformat = dated.format(' DD MMM YYYY');
+        const pass = dated.format('DDMMYY');
+
+        admin.firestore().collection('report').add({
+        company: 'elorry',
+        date: datedformat,
+        email: 'adhiliftikharsaeed@gmail.com',
+        password: `${pass}el`,
+        }).then(writeResult => {
+            // write is complete here
+        });
+    });
+});
+
+
+exports.sendEmail = functions.firestore
+                      .document('report/{reportId}')
+                      .onCreate(async snapshot => {
+                        const newValue = snapshot.data();
+                        if (newValue) {
+                            const email = newValue.email;
+                            const password = newValue.password;
+
+
+                        const dayData = moment();
+                        const datedData = dayData.format(' DD MMM YYYY');
+
+
+                        const mailOptions = {
+                                from: `softauthor1@gmail.com`,
+                                to: email,
+                                subject: `Elorry report ${datedData}`,
+                                html: `<p>Click to view your report. Use the password provided as the key. </p>
+                                <h1><a href="e-lorry.web.app">Report</a></h1>
+                                 <p> <b> password: </b>${password} </p>`
+                            };
+
+
+                        return transporter.sendMail(mailOptions, (error, data) => {
+                                if (error) {
+                                    console.log(error)
+                                    return
+                                }
+                                console.log("Sent!")
+                            });
+
+                            };
+                      });
+
+
 

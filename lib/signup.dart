@@ -244,9 +244,7 @@ class _SignupState extends State<Signup> {
         padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
         child: CircleAvatar(
           radius: 60,
-          child: ClipOval(
-            child: Image.asset('assets/log.png'),
-          ),
+          child: Image.asset('assets/log.png'),
         ),
       ),
     );

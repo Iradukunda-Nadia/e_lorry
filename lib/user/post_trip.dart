@@ -327,6 +327,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.engine == null ? Container() :
                       new Flexible(
                     child: new ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                     itemCount: widget.engine.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -364,6 +365,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.electronics == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.electronics.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -401,6 +403,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.brakes == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.brakes.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -438,6 +441,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.frontSusp == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.frontSusp.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -475,6 +479,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.rearSusp == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.rearSusp.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -512,6 +517,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.wheelDetail == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.wheelDetail.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -549,6 +555,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.cabin == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.cabin.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -586,6 +593,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.body == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.body.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -623,6 +631,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.safety == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.safety.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -660,6 +669,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.frontWheels == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.frontWheels.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -697,6 +707,7 @@ class _PostDetailsState extends State<PostDetails> {
                       widget.backWheels == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.backWheels.length,
                           itemBuilder: (BuildContext context, int index) {

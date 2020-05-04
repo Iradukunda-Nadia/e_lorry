@@ -35,7 +35,7 @@ dependencies:
   path_provider: ^1.4.0
   printing: any
   mailer: any
-
+  flutter_plugin_pdf_viewer: any
 
 dev_dependencies:
   flutter_test:
