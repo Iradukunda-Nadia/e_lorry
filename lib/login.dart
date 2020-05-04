@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _messaging.subscribeToTopic('mech');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new vehicleService()
+                  builder: (BuildContext context) => new Mech()
               ));
 
             }
