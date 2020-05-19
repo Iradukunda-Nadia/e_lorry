@@ -71,7 +71,7 @@ const moment = require('moment');
 exports.sendDailyNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const now = moment();
-        const dateFormatted = now.format('MM/DD/YYYY');
+        const dateFormatted = now.add('days', 2).format('MM/DD/YYYY');
         admin.firestore()
             .collection("service").where("Next service", "==", dateFormatted)
             .get()
@@ -82,7 +82,7 @@ exports.sendDailyNotifications = functions.https.onRequest((request, response) =
                 const truck = doc.data().Truck;
                 const notificationContent = {
                     notification: {
-                        title: "Service is due",
+                        title: "Service is due in 48hrs",
                         body: truck,
                         icon: "default",
                         sound: "default"
@@ -105,7 +105,7 @@ exports.sendDailyNotifications = functions.https.onRequest((request, response) =
 exports.sendInspectionNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const today = moment();
-        const formattedDate = today.format('MM/DD/YYYY');
+        const formattedDate = today.add('days', 2).format('MM/DD/YYYY');
         admin.firestore()
             .collection("service").where("Inspection Expiry", "==", formattedDate)
             .get()
@@ -116,7 +116,7 @@ exports.sendInspectionNotifications = functions.https.onRequest((request, respon
                 const truckNumber = doc.data().Truck;
                 const inspectionNotification = {
                     notification: {
-                        title: "Inspection is due",
+                        title: "Inspection is due in 48hrs",
                         body: truckNumber,
                         icon: "default",
                         sound: "default"
@@ -138,7 +138,7 @@ exports.sendInspectionNotifications = functions.https.onRequest((request, respon
 exports.sendInsuranceNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const date = moment();
-        const formatted = date.format('MM/DD/YYYY');
+        const formatted = date.add('days', 2).format('MM/DD/YYYY');
         admin.firestore()
             .collection("service").where("Insurance Expiry", "==", formatted)
             .get()
@@ -149,7 +149,7 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
                 const plate = doc.data().Truck;
                 const insuranceNotification = {
                     notification: {
-                        title: "Inspection is due",
+                        title: "Insurance expires in 48hrs",
                         body: plate,
                         icon: "default",
                         sound: "default"
@@ -171,7 +171,7 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
 exports.sendSpeedNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const todate = moment();
-        const format = todate.format('MM/DD/YYYY');
+        const format = todate.add('days', 2).format('MM/DD/YYYY');
         admin.firestore()
             .collection("service").where("Speed Governor Expiry", "==", format)
             .get()
@@ -182,7 +182,7 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
                 const plateNo = doc.data().Truck;
                 const SpeedNotification = {
                     notification: {
-                        title: "Inspection is due",
+                        title: "Speed governor expires is due in 48hrs",
                         body: plateNo,
                         icon: "default",
                         sound: "default"
@@ -207,15 +207,31 @@ exports.reportEnt = functions.https.onRequest((request, response) => {
         const datedformat = dated.format(' DD MMM YYYY');
         const pass = dated.format('DDMMYY');
 
-        admin.firestore().collection('report').add({
-        company: 'elorry',
-        date: datedformat,
-        email: 'adhiliftikharsaeed@gmail.com',
-        password: `${pass}el`,
-        }).then(writeResult => {
-            // write is complete here
-        });
-    });
+         admin.firestore()
+                    .collection("emails")
+                    .get()
+                    .then(function(querySnapshot){
+                      querySnapshot.forEach(doc => {
+                                    const email = doc.data().email;
+                                    const company = doc.data().company;
+                                    const res = company.substring(0, 2);
+
+                                    admin.firestore().collection('report').add({
+                                                                            company: company,
+                                                                            date: datedformat,
+                                                                            email: email,
+                                                                            password: `${pass}${res}`,
+                                                                            }).then(writeResult => {
+                                                                                // write is complete here
+                                                                            });
+                                                                        });
+                                });
+
+
+
+                    });
+
+
 });
 
 

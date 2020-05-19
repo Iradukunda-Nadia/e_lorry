@@ -2,6 +2,7 @@ import 'package:e_lorry/admin/adminHome.dart';
 import 'package:e_lorry/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'mechanic/car.dart';
 import 'mechanic/vehicle.dart';
 import 'user/user.dart';
 import 'admin/Admin.dart';

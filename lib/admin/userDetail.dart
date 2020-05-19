@@ -95,7 +95,7 @@ class _userDetailsState extends State<userDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Truck Details"),
+        title: Text("User Details"),
       ),
       body: SingleChildScrollView(
         child: SafeArea(

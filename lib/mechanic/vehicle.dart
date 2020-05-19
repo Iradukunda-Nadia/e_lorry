@@ -36,6 +36,7 @@ class vehicleService extends StatefulWidget {
 
 class _vehicleServiceState extends State<vehicleService> {
   Map<String,dynamic> fields ;
+  Map<String,dynamic> filled ;
 
   ScrollController _scrollViewController;
   TabController _tabController;
@@ -111,6 +112,7 @@ class _vehicleServiceState extends State<vehicleService> {
   String _backLR;
   String _backRL;
   String _backRR;
+  String key;
 
 
 
@@ -444,6 +446,7 @@ class _vehicleServiceState extends State<vehicleService> {
 
   }
 
+
   void _showRequest() {
     // flutter defined function
     final form = formKey.currentState;
@@ -583,8 +586,6 @@ class _vehicleServiceState extends State<vehicleService> {
                               height: 10.0,
                             ),
 
-
-
                             new Flexible(
                               child: new FutureBuilder(
                                 future: getList(),
@@ -600,10 +601,11 @@ class _vehicleServiceState extends State<vehicleService> {
                                           shrinkWrap: true,
                                           itemCount: snapshot.data.length,
                                           itemBuilder: (context, index) {
+
                                             return DropDownFormField(
                                               titleText: snapshot.data[index],
                                               hintText: 'Pass/Fail',
-                                              value: _frenol,
+                                              value: filled != null ? '${filled[index][snapshot.data[index]]}' :  "",
                                               validator: (value) {
                                                 if (value == null) {
                                                   return 'Required';
@@ -611,12 +613,32 @@ class _vehicleServiceState extends State<vehicleService> {
                                               },
                                               onSaved: (value) {
                                                 setState(() {
-                                                  _frenol = value;
+                                                  filled = <String, dynamic>{
+                                                    "val": value,
+                                                  };
                                                 });
                                               },
                                               onChanged: (value) {
                                                 setState(() {
-                                                  _frenol = value;
+
+
+                                                  if (value == null) {
+
+                                                     setState(() {
+                                                       filled = <String, dynamic>{
+                                                         "val": "Required",
+                                                       };
+
+                                                     });
+                                                  } else{
+                                                    setState(() {
+                                                      filled = <String, dynamic>{
+                                                        "vall": value,
+                                                      };
+
+                                                    });
+                                                  }
+
                                                 });
                                               },
                                               dataSource: [

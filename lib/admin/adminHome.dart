@@ -3,6 +3,7 @@ import 'package:e_lorry/admin/appUsers.dart';
 import 'package:e_lorry/chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'emails.dart';
 
 class adminHome extends StatefulWidget {
   @override
@@ -121,6 +122,26 @@ class _adminHomeState extends State<adminHome> {
                           height: 10.0,
                         ),
                         new Text("Group chat"),
+                      ],
+                    ),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(new CupertinoPageRoute(
+                        builder: (context) => reportEmails()));
+                  },
+                  child: new CircleAvatar(
+                    maxRadius: 70.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(Icons.notifications_active),
+                        new SizedBox(
+                          height: 10.0,
+                        ),
+                        new Text("Emails"),
                       ],
                     ),
                   ),
