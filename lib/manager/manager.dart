@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_lorry/manager/report.dart';
+import 'package:e_lorry/manager/reporting/Reports.dart';
 import 'package:e_lorry/manager/reporting/report.dart';
 import 'package:e_lorry/user/document.dart';
 import 'package:e_lorry/user/post_trip.dart';
@@ -118,9 +119,9 @@ class _ManagerState extends State<Manager> {
                   size: 20.0,
                 ),
               ),
-              title: new Text("Daily Report"),
+              title: new Text("Report"),
               onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Report()));
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new repDiv()));
               },
             ),
 

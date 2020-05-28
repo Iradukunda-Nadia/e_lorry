@@ -63,6 +63,7 @@ flutter:
     - assets/log02.png
     - assets/log.png
     - assets/lo.png
+    - assets/rep.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

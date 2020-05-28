@@ -92,6 +92,13 @@ class _lpoFormState extends State<lpoForm> {
         .collection('requisition')
         .document(widget.docID)
         .updateData({'status': "LPO GENERATED"});
+    await Firestore.instance
+        .collection('requisition')
+        .document(widget.docID)
+        .updateData({
+          'lpoDate': DateFormat(' dd MMM yyyy').format(DateTime.now()),
+          "prepared by" : name,
+        });
   }
 
 
