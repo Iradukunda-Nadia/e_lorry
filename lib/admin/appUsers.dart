@@ -180,16 +180,16 @@ class _addUserState extends State<addUser> {
                             },
                             dataSource: [
                               {
-                                "display": "Manager",
-                                "value": "Manager",
+                                "display": "Fleet Manager",
+                                "value": "Fleet Manager",
                               },
                               {
                                 "display": "Accounts",
                                 "value": "Accounts",
                               },
                               {
-                                "display": "Mechanic",
-                                "value": "Mechanic",
+                                "display": "Chief Mechanic",
+                                "value": "Chief Mechanic",
                               },
 
                             ],

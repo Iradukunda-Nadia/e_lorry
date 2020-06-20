@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
 
 
-            if( id == "Manager" ) {
+            if( id == "Fleet Manager" ) {
               _messaging.subscribeToTopic('manager');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             }
 
-            if(id == "Mechanic" ) {
+            if(id == "Chief Mechanic" ) {
               _messaging.subscribeToTopic('mech');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             }
 
-            if(id == "Admin") {
+            if(id == "Administrator") {
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new adminHome()
               ));
