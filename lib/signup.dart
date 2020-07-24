@@ -67,7 +67,7 @@ class _SignupState extends State<Signup> {
         ..ccRecipients.addAll(['info@e-lorry.com', 'info@e-lorry.com'])
         ..subject = 'New Request :: 😀 :: ${DateTime.now()}'
         ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-        ..html = "<h1>Details</h1>\n<p>Name: ${_name} <br> Organization: ${_organization} <br> Email: ${_email} <br> Phone number: ${_organization} <br> Country: ${_country}</p>";
+        ..html = "<h1>Details</h1>\n<p>Name: ${_name} <br> Organization: ${_organization} <br> Email: ${_email} <br> Phone number: ${_phone} <br> Country: ${_country}</p>";
 
       try {
         final sendReport = await send(message, smtpServer);
@@ -91,7 +91,6 @@ class _SignupState extends State<Signup> {
           'companyName': _organization,
           'email': _email,
           'phone': _phone,
-          'company': userCompany,
         });
       });
 
