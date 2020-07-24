@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -91,7 +92,8 @@ class _SignupState extends State<Signup> {
           'companyName': _organization,
           'email': _email,
           'phone': _phone,
-          'status': 'pending'
+          'status': 'pending',
+          'reqDate' :  DateFormat(' dd MMM yyyy').format(DateTime.now()),
         });
       });
 
