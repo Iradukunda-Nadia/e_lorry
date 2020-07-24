@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefs.setString('compLogo', doc['logo']);
                 prefs.setString('compEmail', doc['email']);
                 prefs.setString('compPhone', doc['phone']);
+                prefs.setString('compName', doc['name']);
 
                 if( status != "Active" ) {
                   showDialog(

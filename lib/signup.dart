@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -20,6 +21,23 @@ class _SignupState extends State<Signup> {
   String _errorMessage;
   final _formKey = new GlobalKey<FormState>();
 
+  String userCompany;
+  String compPhone;
+  String compEmail;
+  String compLogo;
+  String compName;
+
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+      compPhone = prefs.getString('compPhone');
+      compEmail = prefs.getString('compEmail');
+      compLogo = prefs.getString('compLogo');
+      compName = prefs.getString('compName');
+    });
+
+  }
 
 
   bool validateAndSave() {
@@ -36,6 +54,7 @@ class _SignupState extends State<Signup> {
       _isLoading = true;
     });
     if (validateAndSave()) {
+
       String username = 'esthernadia70@gmail.com';
       String password = 'iradukunda1995';
 
@@ -63,6 +82,18 @@ class _SignupState extends State<Signup> {
 
       var connection = PersistentConnection(smtpServer);
       await connection.close();
+
+      Firestore.instance.runTransaction((Transaction transaction) async {
+        CollectionReference reference = Firestore.instance.collection('Applications');
+
+        await reference.add({
+          'person': _name,
+          'companyName': _organization,
+          'email': _email,
+          'phone': _phone,
+          'company': userCompany,
+        });
+      });
 
 
       showDialog(

@@ -127,6 +127,7 @@ class _lpoFormState extends State<lpoForm> {
   String compPhone;
   String compEmail;
   String compLogo;
+  String compName;
 
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -136,6 +137,7 @@ class _lpoFormState extends State<lpoForm> {
       compPhone = prefs.getString('compPhone');
       compEmail = prefs.getString('compEmail');
       compLogo = prefs.getString('compLogo');
+      compName = prefs.getString('compName');
     });
 
   }
