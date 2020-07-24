@@ -91,6 +91,7 @@ class _SignupState extends State<Signup> {
           'companyName': _organization,
           'email': _email,
           'phone': _phone,
+          'status': 'pending'
         });
       });
 
