@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:printing/printing.dart';
 
@@ -104,7 +105,7 @@ class _ReportState extends State<Report> {
   bool lData = false;
   String today = DateFormat(' dd MMM yyyy').format(DateTime.now()).toString();
   _postTrip() async {
-    var collectionReference = Firestore.instance.collection('posttrip');
+    var collectionReference = Firestore.instance.collection('posttrip').where('company', isEqualTo: userCompany);
     var query = collectionReference.where("date", isEqualTo: today );
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -147,7 +148,7 @@ class _ReportState extends State<Report> {
   }
 
   _lpoCheck() async {
-    var collectionReference = Firestore.instance.collection('lpo');
+    var collectionReference = Firestore.instance.collection('lpo').where('company', isEqualTo: userCompany);
     var query = collectionReference.where("date", isEqualTo: today );
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -176,7 +177,7 @@ class _ReportState extends State<Report> {
   }
 
   _serviceCheck() async {
-    var collectionReference = Firestore.instance.collection('service');
+    var collectionReference = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
     var query = collectionReference.where("todate", isEqualTo: today );
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -221,7 +222,7 @@ class _ReportState extends State<Report> {
   }
 
   _requestCheck() async {
-    var collectionReference = Firestore.instance.collection('request');
+    var collectionReference = Firestore.instance.collection('request').where('company', isEqualTo: userCompany);
     var query = collectionReference.where("date", isEqualTo: today );
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -318,9 +319,15 @@ class _ReportState extends State<Report> {
     super.initState();
     _isLoading = true;
     _postTrip();
+    getStringValue();
+  }
 
-
-
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
   }
   final _renderObjectKey = GlobalKey<ScaffoldState>();
   @override

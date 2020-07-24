@@ -24,7 +24,21 @@ class _prevLpoState extends State<prevLpo> {
   Firestore.instance.collection("lpo");
 
   DocumentSnapshot _currentDocument;
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
 
 
 
@@ -35,7 +49,7 @@ class _prevLpoState extends State<prevLpo> {
         title: Text("LPO"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.orderBy('date', descending: true).snapshots(),
+          stream: collectionReference.where('company', isEqualTo: userCompany).orderBy('date', descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -168,10 +182,12 @@ class _lpoDetailState extends State<lpoDetail> {
     );
   }
 
+String userCompany;
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       name = prefs.getString('user');
+      userCompany = prefs.getString('company');
     });
 
   }

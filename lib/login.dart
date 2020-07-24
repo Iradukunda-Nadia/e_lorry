@@ -11,6 +11,7 @@ import 'mechanic/mech.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -45,56 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
   String avatar;
   String id;
   String user;
+  String status;
 
 
 
-  Future getMechanic() async {
-    var snapshot = Firestore.instance.collection('users')
-        .document('user1')
-        .get();
-    snapshot.then((data) {
-      setState(() {
-        name1 = data['name'];
-        pw1 = data['password'];
-      });
-    });
-  }
 
-  Future getAccounts() async {
-    var snapshot = Firestore.instance.collection('users')
-        .document('user2')
-        .get();
-    snapshot.then((data) {
-      setState(() {
-        name2 = data['name'];
-        pw2 = data['password'];
-      });
-      print(user);
-    });
-  }
-  Future getManager() async {
-    var snapshot = Firestore.instance.collection('users')
-        .document('user3')
-        .get();
-    snapshot.then((data) {
-      setState(() {
-        name3 = data['name'];
-        pw3 = data['password'];
-      });
-    });
-  }
-
-  Future getAdmin() async {
-    var snapshot = Firestore.instance.collection('users')
-        .document('user4')
-        .get();
-    snapshot.then((data) {
-      setState(() {
-        name4 = data['name'];
-        pw4 = data['password'];
-      });
-    });
-  }
 
 
 
@@ -131,8 +87,48 @@ class _LoginScreenState extends State<LoginScreen> {
         querySnapshot.documents.forEach((document)
         async {
 
+          var newQuery = Firestore.instance.collection('companies').where("company", isEqualTo: document['company'] );
+          newQuery.getDocuments().then((querySnapshot) {
+            if (querySnapshot.documents.length != 0) {
+              querySnapshot.documents.forEach((doc)
+              async {
+                setState(() {
+                  status = doc['status'];
+
+                });
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('compLogo', doc['logo']);
+                prefs.setString('compEmail', doc['email']);
+                prefs.setString('compPhone', doc['phone']);
+
+                if( status != "Active" ) {
+                  showDialog(
+                      context: context, // user must tap button!
+                      builder: (BuildContext context) {
+                        return CupertinoAlertDialog(
+                          title: new Icon(Icons.error_outline, size: 50,),
+                          content: Text('Unfortunately Your account Status is currently Suspended \n Contact the system admin for more information.'),
+                          actions: <Widget>[
+                            CupertinoButton(
+                              child: Text("Okay"),
+                              onPressed: () async{
+                                    Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      }
+                  );
+                }
+
+              });
+
+            }
+          });
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('user', document['name']);
+            prefs.setString('company', document['company']);
+            prefs.setString('ref', document['ref']);
             setState(() {
               id = document['dept'];
 
@@ -159,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _messaging.subscribeToTopic('mech');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new Mech()
+                  builder: (BuildContext context) => new vehicleService()
               ));
 
             }
@@ -222,10 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     changeTheme();
-    getMechanic();
-    getAccounts();
-    getAdmin();
-    getManager();
     super.initState();
     _messaging.getToken().then((token) {
       print(token);
@@ -405,7 +397,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               borderRadius: BorderRadius.circular(10.0),
                                               borderSide: new BorderSide(color: Colors.white70),
                                             ),
-                                            labelText: 'Username',
+                                            labelText: 'UserID',
                                             prefixIcon: Icon(Icons.person_outline),
                                             labelStyle: TextStyle(
                                                 fontSize: 15

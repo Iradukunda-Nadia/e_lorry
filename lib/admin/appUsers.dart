@@ -3,6 +3,8 @@ import 'package:e_lorry/admin/userDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AppUsers extends StatefulWidget {
   @override
@@ -10,26 +12,40 @@ class AppUsers extends StatefulWidget {
 }
 
 class _AppUsersState extends State<AppUsers> {
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  String refNo;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+
+    });
+
+  }
   final db = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("App users")),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
-        onPressed: () {
-          Navigator.of(context).push(new CupertinoPageRoute(
-              builder: (BuildContext context) => new addUser()
-          ));
-        },
-      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new addUser()));
+          },
+          label: Text ("Add Users")),
       body: ListView(
         padding: EdgeInsets.all(12.0),
         children: <Widget>[
           SizedBox(height: 20.0),
           StreamBuilder<QuerySnapshot>(
-              stream: db.collection('userID').snapshots(),
+              stream: db.collection('userID').where('company', isEqualTo: userCompany).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(
@@ -68,6 +84,7 @@ class _AppUsersState extends State<AppUsers> {
 }
 
 class addUser extends StatefulWidget {
+
   @override
   _addUserState createState() => _addUserState();
 }
@@ -79,6 +96,23 @@ class _addUserState extends State<addUser> {
   String _uid;
   String _pw;
   String _dept;
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  String refNo;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+      refNo = prefs.getString('ref');
+    });
+
+  }
   void _submitCommand() {
     //get state of our Form
     final form = formKey.currentState;
@@ -106,6 +140,7 @@ class _addUserState extends State<addUser> {
         'uid': _uid,
         'dept': _dept,
         'pw': _pw,
+        'company': userCompany,
       });
     }).then((result) =>
 
@@ -113,10 +148,6 @@ class _addUserState extends State<addUser> {
   }
 
   void _showRequest() {
-    // flutter defined function
-    final form = formKey.currentState;
-    form.reset();
-    var context;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -136,6 +167,7 @@ class _addUserState extends State<addUser> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,13 +264,16 @@ class _addUserState extends State<addUser> {
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
                                     labelText: 'User ID',
+                                    prefixText: '$refNo-',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
                                 ),
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
-                                onSaved: (val) => _uid = val,
+                                onSaved: (String val) {
+                                  _uid = '$refNo-$val';
+                                },
                               ),
                             ),
                           ),
@@ -269,7 +304,7 @@ class _addUserState extends State<addUser> {
                             padding: EdgeInsets.fromLTRB(70, 10, 70, 0),
                             child: MaterialButton(
                               onPressed: _submitCommand,
-                              child: Text('Update',
+                              child: Text('Add User',
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'SFUIDisplay',

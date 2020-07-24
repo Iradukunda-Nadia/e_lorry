@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 var _scaffoldContext;
 var currentUserEmail;
 class Chat extends StatefulWidget {
+
   @override
   _ChatState createState() => _ChatState();
 }
@@ -16,6 +17,7 @@ class _ChatState extends State<Chat> {
 
   String name;
   String avatar;
+  String userCompany;
 
   @override
   initState() {
@@ -29,6 +31,7 @@ class _ChatState extends State<Chat> {
       name = prefs.getString('user');
       avatar = prefs.getString('avatar');
       currentUserEmail = prefs.getString('user');
+      userCompany= prefs.getString('company');
     });
 
   }
@@ -36,7 +39,6 @@ class _ChatState extends State<Chat> {
   final TextEditingController _textEditingController =
   new TextEditingController();
   bool _isComposingMessage = false;
-  final reference = Firestore.instance.collection('messages');
 
 
   @override
@@ -53,7 +55,7 @@ class _ChatState extends State<Chat> {
             children: <Widget>[
               new Flexible(
                 child: new StreamBuilder<QuerySnapshot> (
-                  stream: reference
+                  stream: Firestore.instance.collection('${userCompany}messages')
                       .orderBy('time').snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                     return snapshot.hasData ? new ListView(
@@ -154,7 +156,8 @@ class _ChatState extends State<Chat> {
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
-    reference.add({
+    Firestore.instance.collection('${userCompany}messages')
+        .add({
       'text': messageText,
       'imageUrl': imageUrl,
       'senderName': name,

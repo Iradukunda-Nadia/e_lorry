@@ -1,19 +1,18 @@
-
-import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:e_lorry/reuse.dart';
-class Admin extends StatefulWidget {
+
+class CarsList extends StatefulWidget {
   @override
-  _AdminState createState() => _AdminState();
+  _CarsListState createState() => _CarsListState();
 }
 
-class _AdminState extends State<Admin> {
+class _CarsListState extends State<CarsList> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).getDocuments();
     return qn.documents;
 
   }
@@ -39,15 +38,18 @@ class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Trucks List"),
-      ),
-        floatingActionButton: FloatingActionButton.extended(
-            onPressed: (){
-              Navigator.of(context).push(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new addTruck()));
-            },
-            label: Text ("Add new truck")),
+        appBar: AppBar(
+          title: Text("Cars List"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
+          onPressed: () {
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new addCar()
+            ));
+          },
+        ),
         body: Container(
           child: new Column(
             children: <Widget>[
@@ -62,20 +64,19 @@ class _AdminState extends State<Admin> {
                         );
                       }if (snapshot.data == null){
                         return Center(
-                          child: Text("The are no saved trucks"),);
+                          child: Text("The are no saved Cars"),);
                       }else{
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return new GestureDetector(
                               onTap: (){
-                                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckDetails(
+                                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new carDetails(
 
                                   truckNumber: snapshot.data[index].data["plate"],
                                   driverName: snapshot.data[index].data["driver"],
                                   driverNumber: snapshot.data[index].data["phone"],
                                   driverID: snapshot.data[index].data["ID"],
-                                  turnboy: snapshot.data[index].data["turnboy"],
                                   itemID: snapshot.data[index].documentID,
                                   truckType: snapshot.data[index].data["type"],
 
@@ -88,7 +89,7 @@ class _AdminState extends State<Admin> {
                                     new ListTile(
                                       leading: new CircleAvatar(
                                           backgroundColor: Colors.red[900],
-                                          child: new Icon(Icons.local_shipping)
+                                          child: new Icon(Icons.directions_car)
                                       ),
                                       title: new Text("${snapshot.data[index].data["plate"]}",
                                         style: new TextStyle(
@@ -119,17 +120,16 @@ class _AdminState extends State<Admin> {
   }
 }
 
-class TruckDetails extends StatefulWidget {
+class carDetails extends StatefulWidget {
   String itemID;
   String truckNumber;
   String driverName;
   String driverNumber;
   String driverID;
-  String turnboy;
   String itemDescription;
   String truckType;
 
-  TruckDetails({
+  carDetails({
 
     this.truckType,
     this.itemID,
@@ -137,20 +137,20 @@ class TruckDetails extends StatefulWidget {
     this.driverName,
     this.driverNumber,
     this.driverID,
-    this.turnboy,
     this.itemDescription
   });
+
   @override
-  _TruckDetailsState createState() => _TruckDetailsState();
+  _carDetailsState createState() => _carDetailsState();
 }
-class _TruckDetailsState extends State<TruckDetails> {
+
+class _carDetailsState extends State<carDetails> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _truck;
   String _driver;
   String _driverNo;
   String _driverID;
-  String _turnBoy;
   String _truckType;
 
 
@@ -182,13 +182,12 @@ class _TruckDetailsState extends State<TruckDetails> {
       'driver': _driver,
       'phone': _driverNo,
       'ID': _driverID,
-      'turnboy': _turnBoy,
+      'type': _truckType,
 
     }).then((result) =>
 
         _showPopUp());
   }
-
   void _showPopUp() {
     final form = formKey.currentState;
     form.reset();
@@ -212,11 +211,12 @@ class _TruckDetailsState extends State<TruckDetails> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Truck Details"),
+        title: Text("Car Details"),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -256,7 +256,7 @@ class _TruckDetailsState extends State<TruckDetails> {
                                     errorStyle: TextStyle(color: Colors.red),
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Truck Number Plate',
+                                    labelText: 'Number Plate',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
@@ -304,7 +304,7 @@ class _TruckDetailsState extends State<TruckDetails> {
                                     errorStyle: TextStyle(color: Colors.red),
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Driver Number',
+                                    labelText: 'Driver Phone Number',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
@@ -337,30 +337,6 @@ class _TruckDetailsState extends State<TruckDetails> {
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
                                 onSaved: (val) => _driverID = val,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                            child: Container(
-                              child: TextFormField(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'SFUIDisplay'
-                                ),
-                                decoration: InputDecoration(
-                                    errorStyle: TextStyle(color: Colors.red),
-                                    filled: true,
-                                    fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Turn Boy',
-                                    labelStyle: TextStyle(
-                                        fontSize: 11
-                                    )
-                                ),
-                                initialValue: widget.turnboy,
-                                validator: (val) =>
-                                val.isEmpty  ? null : null,
-                                onSaved: (val) => _turnBoy = val,
                               ),
                             ),
                           ),
@@ -406,12 +382,12 @@ class _TruckDetailsState extends State<TruckDetails> {
 }
 
 
-class addTruck extends StatefulWidget {
+class addCar extends StatefulWidget {
   @override
-  _addTruckState createState() => _addTruckState();
+  _addCarState createState() => _addCarState();
 }
 
-class _addTruckState extends State<addTruck> {
+class _addCarState extends State<addCar> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _truck2;
@@ -455,7 +431,7 @@ class _addTruckState extends State<addTruck> {
     final form = formKey.currentState;
 
     Firestore.instance.runTransaction((Transaction transaction) async {
-      CollectionReference reference = Firestore.instance.collection("trucks");
+      CollectionReference reference = Firestore.instance.collection("cars");
 
       await reference.add({
         'plate': _truck2,
@@ -496,7 +472,7 @@ class _addTruckState extends State<addTruck> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Truck"),
+        title: Text("Add Car"),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -527,7 +503,7 @@ class _addTruckState extends State<addTruck> {
                                     errorStyle: TextStyle(color: Colors.red),
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Truck Number Plate',
+                                    labelText: 'Number Plate',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
@@ -630,42 +606,34 @@ class _addTruckState extends State<addTruck> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 60.0,
-                            child:  new StreamBuilder<QuerySnapshot>(
-                                stream: Firestore.instance.collection("truckType").snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) return new Text("Please wait");
-                                  var length = snapshot.data.documents.length;
-                                  DocumentSnapshot ds = snapshot.data.documents[length - 1];
-                                  return new DropdownButton(
-                                    items: snapshot.data.documents.map((
-                                        DocumentSnapshot document) {
-                                      return DropdownMenuItem(
-                                          value: document.data["type"],
-                                          child: new Text(document.data["type"]));
-                                    }).toList(),
-                                    value: _truckType,
-                                    onChanged: (value) {
-                                      print(value);
-
-                                      setState(() {
-                                        _truckType = value;
-                                      });
-                                    },
-                                    hint: new Text("Select Item"),
-                                    style: TextStyle(color: Colors.black),
-
-                                  );
-                                }
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Type/Model',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? null : null,
+                                onSaved: (val) => _truckType = val,
+                              ),
                             ),
                           ),
-
                           Padding(
                             padding: EdgeInsets.fromLTRB(70, 10, 70, 0),
                             child: MaterialButton(
                               onPressed: _submitCommand,
-                              child: Text('Add Truck',
+                              child: Text('Update',
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'SFUIDisplay',
@@ -683,7 +651,6 @@ class _addTruckState extends State<addTruck> {
                             ),
                           ),
 
-
                         ],
                       ),
                     ),
@@ -698,9 +665,3 @@ class _addTruckState extends State<addTruck> {
     );
   }
 }
-
-
-
-
-
-

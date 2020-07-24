@@ -1,56 +1,53 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_formfield/dropdown_formfield.dart';
-import 'package:intl/intl.dart';
-import 'material_request.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'carFields.dart';
+import 'truckFields.dart';
+import 'truckServefields.dart';
+import 'package:flutter/cupertino.dart';
 
-import 'mech.dart';
+class fieldCats extends StatefulWidget {
+  String truckPostForm;
+  String carForm;
+  String truckSerForm;
 
+  fieldCats({
 
-class vehicleService extends StatefulWidget {
+    this.truckPostForm,
+    this.carForm,
+    this.truckSerForm,
+  });
   @override
-  _vehicleServiceState createState() => _vehicleServiceState();
+  _fieldCatsState createState() => _fieldCatsState();
 }
 
-class _vehicleServiceState extends State<vehicleService> {
-  initState() {
-    // TODO: implement initState
-    super.initState();
-    getStringValue();
-
-  }
-
-  String userCompany;
-  getStringValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userCompany = prefs.getString('company');
-    });
-  }
+class _fieldCatsState extends State<fieldCats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red[900],
+      backgroundColor: const Color(0xff016836),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new Text("Vehicle Type", style: new TextStyle(
-        color: Colors.white, fontSize: 30.0),),
+            new CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 60.0,
+              child: new Icon(Icons.assignment,
+                color: const Color(0xff016836),
+                size: 50.0,
+              ),
+            ),
             new SizedBox(
               height: 10.0,
             ),
+            widget.carForm == "created" ? new Offstage():
             Padding(
               padding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
               child: new InkWell(
                 onTap: () {
                   Navigator.of(context).push(new CupertinoPageRoute(
-                      builder: (BuildContext context) => new Mech()
+                      builder: (BuildContext context) => new carFields()
                   ));
                 },
                 child: new Container(
@@ -68,9 +65,9 @@ class _vehicleServiceState extends State<vehicleService> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Trucks",
+                            "Car Inspection Form",
                             style: new TextStyle(
-                                color: Colors.red[900], fontSize: 20.0),
+                                color: const Color(0xff016836), fontSize: 20.0),
                           )),
                     ),
                   ),
@@ -79,13 +76,14 @@ class _vehicleServiceState extends State<vehicleService> {
 
             ),
 
+            widget.truckPostForm == "created" ? new  Offstage():
             Padding(
               padding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
               child: new InkWell(
                 onTap: () {
                   Navigator.of(context).push(new CupertinoPageRoute(
-                      builder: (BuildContext context) => new carsList()
+                      builder: (BuildContext context) => new truckPostFields()
                   ));
                 },
                 child: new Container(
@@ -103,15 +101,52 @@ class _vehicleServiceState extends State<vehicleService> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Cars",
+                            "Truck Posttrip Form",
                             style: new TextStyle(
-                                color: Colors.red[900], fontSize: 20.0),
+                                color: const Color(0xff016836), fontSize: 20.0),
                           )),
                     ),
                   ),
                 ),
+
               ),
             ),
+            widget.truckSerForm == "created" ? new  Offstage():
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
+              child: new InkWell(
+                onTap: () {
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new truckSerFields()
+                  ));
+                },
+                child: new Container(
+                  height: 60.0,
+                  margin: new EdgeInsets.only(top: 5.0),
+                  child: new Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: new Container(
+                      margin: new EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 2.0),
+                      height: 60.0,
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.all(
+                              new Radius.circular(20.0))),
+                      child: new Center(
+                          child: new Text(
+                            "Truck Service Form",
+                            style: new TextStyle(
+                                color: const Color(0xff016836), fontSize: 20.0),
+                          )),
+                    ),
+                  ),
+                ),
+
+              ),
+            ),
+
           ],
         ),
       ),

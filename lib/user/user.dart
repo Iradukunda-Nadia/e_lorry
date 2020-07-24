@@ -10,6 +10,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:e_lorry/login.dart';
 
 import '../chat.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class User extends StatefulWidget {
   @override
@@ -17,6 +18,20 @@ class User extends StatefulWidget {
 }
 
 class _UserState extends State<User> {
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +161,21 @@ class Items extends StatefulWidget {
 
 
 class _ItemsState extends State<Items> {
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
 
   CollectionReference collectionReference =
   Firestore.instance.collection("request");
@@ -165,7 +194,7 @@ class _ItemsState extends State<Items> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.orderBy("date", descending: true).snapshots(),
+          stream: collectionReference.where('company', isEqualTo: userCompany).orderBy("date", descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -204,6 +233,7 @@ class _ItemsState extends State<Items> {
                               itemQuantity: doc.data["Quantity"],
                               itemNumber: doc.data["Truck"],
                               truckType: doc.data["tType"],
+                              company: userCompany,
 
 
                             )));
@@ -228,11 +258,13 @@ class Requests extends StatefulWidget {
   String itemQuantity;
   String itemNumber;
   String truckType;
+  String company;
 
 
   Requests({
 
     this.truckType,
+    this.company,
     this.itemName,
     this.itemQuantity,
     this.itemNumber,
@@ -294,6 +326,7 @@ class _RequestsState extends State<Requests> {
         "supplier" : _supplier,
         "reqDate" : _date,
         "status" : "pending",
+        "company": widget.company,
       });
     }).then((result) =>
 
@@ -330,7 +363,7 @@ class _RequestsState extends State<Requests> {
 
   _getPrevPrice() async {
 
-    var query = Firestore.instance.collection("consumable").where("type", isEqualTo: widget.truckType ).where("item", isEqualTo: widget.itemName );
+    var query = Firestore.instance.collection("consumable").where('company', isEqualTo: widget.company).where("type", isEqualTo: widget.truckType ).where("item", isEqualTo: widget.itemName );
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length == 0) {
         final snack = SnackBar(

@@ -3,6 +3,7 @@ import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:e_lorry/admin/appUsers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class userDetails extends StatefulWidget {
   String name;
@@ -70,7 +71,6 @@ class _userDetailsState extends State<userDetails> {
     // flutter defined function
     final form = formKey.currentState;
     form.reset();
-    var context;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -89,6 +89,21 @@ class _userDetailsState extends State<userDetails> {
         );
       },
     );
+  }
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
   }
 
   @override

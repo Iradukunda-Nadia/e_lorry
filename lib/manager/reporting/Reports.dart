@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +18,11 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/rendering.dart';import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 
+import 'package:json_table/json_table.dart';
 
 class pTrip extends StatefulWidget {
   @override
@@ -26,6 +30,7 @@ class pTrip extends StatefulWidget {
 }
 
 class _pTripState extends State<pTrip> {
+  String filePath;
   Map<String,dynamic> engine ;
   Map<String,dynamic> electronics;
   Map<String,dynamic> brakes;
@@ -78,8 +83,21 @@ class _pTripState extends State<pTrip> {
   int servicelength;
   bool sData = false;
 
+  Future<String> get _localPath async {
+    final directory = await getApplicationSupportDirectory();
+    return directory.absolute.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    filePath = '$path/data.csv';
+    return File('$path/data.csv').create();
+  }
+
+
+
   _postTrip() async {
-    var collectionReference = Firestore.instance.collection('posttrip');
+    var collectionReference = Firestore.instance.collection('posttrip').where('company', isEqualTo: userCompany);
     var query = collectionReference;
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -124,7 +142,7 @@ class _pTripState extends State<pTrip> {
 
 
   _serviceCheck() async {
-    var collectionReference = Firestore.instance.collection('service');
+    var collectionReference = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
     var query = collectionReference;
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length > 0) {
@@ -180,7 +198,20 @@ class _pTripState extends State<pTrip> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
+
     ]);
+    getStringValue();
+    getService();
+  }
+  bool toggle = true;
+
+  String jsonFile;
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
 
   }
 
@@ -231,174 +262,114 @@ class _pTripState extends State<pTrip> {
 
   }
 
+  String fileP;
+
+  Future<String> get _localP async {
+    final directory = await getApplicationSupportDirectory();
+    return directory.absolute.path;
+  }
+
+  Future<File> get _localF async {
+    final path = await _localP;
+    fileP = '$path/data.csv';
+    return File('$path/data.csv').create();
+  }
+  List<Map<dynamic, dynamic>> list = new List();
+
+  Future <List<Map<dynamic, dynamic>>> getService() async{
+    List<DocumentSnapshot> templist;
+
+
+    CollectionReference collectionRef = Firestore.instance.collection("service");
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    templist = collectionSnapshot.documents; // <--- ERROR
+
+    list = templist.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data;
+    }).toList();
+
+    setState(() {
+      jsonFile = jsonEncode(list);
+
+    });
+
+    return list;
+
+  }
+
+  getCsv() async {
+
+    List<List<dynamic>> listGen = new List();
+    List<DocumentSnapshot> temp;
+
+
+    CollectionReference collectionRef = Firestore.instance.collection("service");
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    temp = collectionSnapshot.documents; // <--- ERROR
+
+    listGen = List<List<dynamic>>.from(
+      temp.map<dynamic>(
+            (dynamic item) => item,
+      ),
+    );
+
+    File f = await _localF;
+    var csv = const ListToCsvConverter().convert(listGen);
+    f.writeAsString(csv);
+
+    return listGen;
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
+    var json = jsonDecode(jsonFile);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.print),
         //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
         onPressed: () {
-          _printScreen();
+          getCsv();
         },
       ),
-      body: new Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          SingleChildScrollView(
-            child: RepaintBoundary(
-              key: _renderObjectKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  new SizedBox(
-                    height: 50.0,
-                  ),
-                  new Card(
-                    child: new Container(
-                      margin: new EdgeInsets.only(left: 5.0, right: 5.0),
-                      child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new SizedBox(
-                            height: 10.0,
-                          ),
-                          Center(
-                            child: Column(
-                              children: <Widget>[
-                                new Text(
-                                  "Service report as at: ${DateFormat(' dd MMM yyyy').format(DateTime.now())}",
-                                  style: new TextStyle(
-                                      fontSize: 12.0, fontWeight: FontWeight.w700),
-                                ),
-
-
-
-                              ],
-                            ),
-                          ),
-                          new SizedBox(
-                            height: 10.0,
-                          ),
-
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  new Card(
-                    child: Column(
-                      mainAxisSize:MainAxisSize.min,
-                      children: <Widget>[
-                        new StreamBuilder(
-                          stream: Firestore.instance.collection('service').snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) return new Text('Loading...');
-                            return new FittedBox(
-                              child: DataTable(
-                                columnSpacing: 8,
-                                columns: <DataColumn>[
-
-                                  new DataColumn(label: Text('Truck',style: new TextStyle(fontSize: 8, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Inspection \n Date',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Inspection \n Expiry',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Insurance \n Expiry',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Speed \n Gov \n Expiry',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Back tyre \n serial',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Front tyre \n serial',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('spare tyre \n serial',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Battery \n serial \n number',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Date \n purchased',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Battery \n warranty',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Date \n Given',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('1st Tank',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('2nd Tank',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Total litres',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Average \n per km',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Current \n kilometres',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                  new DataColumn(label: Text('Km \n Oil \n changed',style: new TextStyle(fontSize: 8.0, fontWeight: FontWeight.bold))),
-                                ],
-                                rows: _createRows(snapshot.data),
-
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-
-                  )
-
-                ],
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Container(
+          child: Column(
+            children: [
+              JsonTable(
+                json,
+                showColumnToggle: true,
+                allowRowHighlight: true,
+                rowHighlightColor: Colors.yellow[500].withOpacity(0.7),
+                paginationRowCount: 10,
+                onRowSelect: (index, map) {
+                  print(index);
+                  print(map);
+                },
               ),
-            ),
+              SizedBox(
+                height: 40.0,
+              ),
+              Text("Elorry Service report")
+            ],
           ),
-
-          _isLoading ? WillPopScope(
-            onWillPop: () async => false,
-            child: AlertDialog(
-              title: Text("Loading ... please wait"),
-              content: CircularProgressIndicator(),
-              actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-
-              ],
-            ),
-          ): new Container(
-            height: 0.0,
-            width: 0.0,
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  List<DataRow> _createRows(QuerySnapshot snapshot) {
-
-    List<DataRow> newList = snapshot.documents.map((doc) {
-      return new DataRow(
-          cells: [
-            DataCell(Text(doc.data["Truck"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["timestamp"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Inspection Expiry"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Insurance Expiry"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Speed Governor Expiry"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Back tyre serial number"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Front tyre serial number"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Spare tyre serial number"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Battery serial number"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Date purchased"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Battery warranty"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Date Given"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["1st Tank"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["2nd Tank"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Total litres"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Average per kilometre"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Current kilometres"],
-              style: new TextStyle(fontSize: 10.0),)),
-            DataCell(Text(doc.data["Km when Oil, Gearbox, and Diff oil changed"],
-              style: new TextStyle(fontSize: 10.0),)),
-          ]);}).toList();
-
-    return newList;
+  String getPrettyJSONString(jsonObject) {
+    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String jsonString = encoder.convert(json.decode(jsonObject));
+    return jsonString;
   }
-
 }
+
+
 
 
 class matReport extends StatefulWidget {
@@ -409,6 +380,21 @@ class matReport extends StatefulWidget {
 class _matReportState extends State<matReport> {
 
   final _renderObjectKey = GlobalKey<ScaffoldState>();
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
 
   Future<void> _printScreen() async {
     final RenderRepaintBoundary boundary =
@@ -503,7 +489,7 @@ class _matReportState extends State<matReport> {
                       mainAxisSize:MainAxisSize.min,
                       children: <Widget>[
                         new StreamBuilder(
-                          stream: Firestore.instance.collection('requisition').where("status", isEqualTo: "LPO GENERATED" ).snapshots(),
+                          stream: Firestore.instance.collection('requisition').where("status", isEqualTo: "LPO GENERATED" ).where('company', isEqualTo: userCompany).snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) return new Text('Loading...');
                             return new FittedBox(

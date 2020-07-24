@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class matRequest extends StatefulWidget {
 
@@ -62,6 +63,7 @@ class _matRequestState extends State<matRequest> {
         "tType": widget.truckType,
         "status": "pending",
         "date" : DateFormat(' dd MMM yyyy').format(DateTime.now()),
+        "company": userCompany,
       });
     }).then((result) =>
 
@@ -108,7 +110,16 @@ class _matRequestState extends State<matRequest> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
   }
 
   List<DropdownMenuItem<String>> dropDownItems;
@@ -143,6 +154,7 @@ class _matRequestState extends State<matRequest> {
       selectedItem = selectedSize;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

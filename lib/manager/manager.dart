@@ -23,7 +23,21 @@ class _ManagerState extends State<Manager> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
 //We have two private fields here
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +174,21 @@ class Items extends StatefulWidget {
 
 class _ItemsState extends State<Items> {
 
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
   CollectionReference collectionReference =
   Firestore.instance.collection("requisition");
 
@@ -178,7 +206,7 @@ class _ItemsState extends State<Items> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.snapshots(),
+          stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

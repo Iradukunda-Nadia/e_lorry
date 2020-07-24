@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class reportEmails extends StatefulWidget {
   @override
   _reportEmailsState createState() => _reportEmailsState();
@@ -10,6 +10,21 @@ class reportEmails extends StatefulWidget {
 class _reportEmailsState extends State<reportEmails> {
   final db = Firestore.instance;
   var reason = TextEditingController();
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +44,7 @@ class _reportEmailsState extends State<reportEmails> {
         children: <Widget>[
           SizedBox(height: 20.0),
           StreamBuilder<QuerySnapshot>(
-              stream: db.collection('emails').snapshots(),
+              stream: db.collection('emails').where('company', isEqualTo: userCompany).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(
@@ -107,6 +122,21 @@ class addEmail extends StatefulWidget {
 class _addEmailState extends State<addEmail> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
 
   String _email;
   void _submitCommand() {
@@ -133,7 +163,7 @@ class _addEmailState extends State<addEmail> {
 
       await reference.add({
         'email': _email,
-        'company': "elorry",
+        'company': userCompany,
 
       });
     }).then((result) =>

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_lorry/lpo.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Requisition extends StatefulWidget {
   @override
@@ -8,6 +9,20 @@ class Requisition extends StatefulWidget {
 }
 
 class _RequisitionState extends State<Requisition> {
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+  }
 
   CollectionReference collectionReference =
   Firestore.instance.collection("requisition");
@@ -26,7 +41,7 @@ class _RequisitionState extends State<Requisition> {
 
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
-            stream: collectionReference.snapshots(),
+            stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
             builder: (context, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Post extends StatefulWidget {
   @override
@@ -9,12 +10,25 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").getDocuments();
+    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
     return qn.documents;
 
   }
 
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
 
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,19 +174,19 @@ class _PostDatesState extends State<PostDates> {
                               evaluationDate: doc.data["date"],
                               inspection: doc.data["Inspection"],
                               insurance: doc.data["Insurance Expiry"],
-                              greasing: doc.data["Greasing at KM"],
-                              comment: doc.data["Comment"],
-                              engine: Map<String, dynamic>.from(doc.data["engine"]),
-                              electronics: Map<String, dynamic>.from(doc.data["electronics"]),
-                              brakes: Map<String, dynamic>.from(doc.data["brakes"]),
-                              frontSusp: Map<String, dynamic>.from(doc.data["front suspension"]),
-                              rearSusp: Map<String, dynamic>.from(doc.data["rear suspension"]),
-                              wheelDetail: Map<String, dynamic>.from(doc.data["wheel details"]),
-                              cabin: Map<String, dynamic>.from(doc.data["cabin"]),
-                              body: Map<String, dynamic>.from(doc.data["body"]),
-                              safety: Map<String, dynamic>.from(doc.data["safety"]),
-                              frontWheels: Map<String, dynamic>.from(doc.data["frontWheels"]),
-                              backWheels: Map<String, dynamic>.from(doc.data["backWheels"]),
+                              dates: Map<String, dynamic>.from(doc.data["dates"]),
+                              comment:(doc.data["Comment"]["Comment"]),
+                              engine: Map<String, dynamic>.from(doc.data["Engine"]),
+                              electronics: Map<String, dynamic>.from(doc.data["Electronics"]),
+                              brakes: Map<String, dynamic>.from(doc.data["Brakes"]),
+                              frontSusp: Map<String, dynamic>.from(doc.data["Front suspension"]),
+                              rearSusp: Map<String, dynamic>.from(doc.data["Rear suspension"]),
+                              wheelDetail: Map<String, dynamic>.from(doc.data["Wheel Details"]),
+                              cabin: Map<String, dynamic>.from(doc.data["Cabin"]),
+                              body: Map<String, dynamic>.from(doc.data["Body"]),
+                              safety: Map<String, dynamic>.from(doc.data["Safety"]),
+                              wheels: Map<String, dynamic>.from(doc.data["Wheels"]),
+                              other: Map<String, dynamic>.from(doc.data["Other"]),
 
 
 
@@ -203,14 +217,15 @@ class PostDetails extends StatefulWidget {
   final Map<String,dynamic> cabin;
   final Map<String,dynamic> body;
   final Map<String,dynamic> safety;
-  final Map<String,dynamic> frontWheels;
-  final Map<String,dynamic> backWheels;
+  final Map<String,dynamic> wheels;
+  final Map<String,dynamic> other;
+  final Map<String,dynamic> dates;
   String truckNo;
   String evaluationDate;
   String inspection;
+  String comment;
   String insurance;
   String greasing;
-  String comment;
   String gasket;
   String hosepipe;
   String engineMounts;
@@ -230,8 +245,9 @@ class PostDetails extends StatefulWidget {
     this.cabin,
     this.body,
     this.safety,
-    this.frontWheels,
-    this.backWheels,
+    this.wheels,
+    this.other,
+    this.dates,
     this.truckNo,
     this.evaluationDate,
     this.insurance,
@@ -661,25 +677,25 @@ class _PostDetailsState extends State<PostDetails> {
                     children: <Widget>[
                       Center(
                         child: new Text(
-                          "FRONT WHEELS",
+                          "WHEELS",
                           style: new TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      widget.frontWheels == null ? Container() :
+                      widget.wheels == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: widget.frontWheels.length,
+                          itemCount: widget.wheels.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String key = widget.frontWheels.keys.elementAt(index);
+                            String key = widget.wheels.keys.elementAt(index);
                             return new Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 new ListTile(
                                   title: new Text("$key"),
-                                  subtitle: new Text("${widget.frontWheels[key]}"),
+                                  subtitle: new Text("${widget.wheels[key]}"),
                                 ),
                                 new Divider(
                                   height: 2.0,
@@ -692,6 +708,7 @@ class _PostDetailsState extends State<PostDetails> {
                     ],
                   ),
                 ),),
+
                 new Card(child: new Container(
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -699,25 +716,64 @@ class _PostDetailsState extends State<PostDetails> {
                     children: <Widget>[
                       Center(
                         child: new Text(
-                          "BACK WHEELS",
+                          "Dates",
                           style: new TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      widget.backWheels == null ? Container() :
+                      widget.dates== null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: widget.backWheels.length,
+                          itemCount: widget.dates.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String key = widget.backWheels.keys.elementAt(index);
+                            String key = widget.dates.keys.elementAt(index);
                             return new Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 new ListTile(
                                   title: new Text("$key"),
-                                  subtitle: new Text("${widget.backWheels[key]}"),
+                                  subtitle: new Text("${widget.dates[key]}"),
+                                ),
+                                new Divider(
+                                  height: 2.0,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),),
+
+                new Card(child: new Container(
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize:MainAxisSize.min,
+                    children: <Widget>[
+                      Center(
+                        child: new Text(
+                          "Other",
+                          style: new TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      widget.other == null ? Container() :
+                      new Flexible(
+                        child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: widget.other.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String key = widget.other.keys.elementAt(index);
+                            return new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new ListTile(
+                                  title: new Text("$key"),
+                                  subtitle: new Text("${widget.other[key]}"),
                                 ),
                                 new Divider(
                                   height: 2.0,
@@ -795,60 +851,6 @@ class _PostDetailsState extends State<PostDetails> {
 
                         new SizedBox(
                           height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Insurance Expiry",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.insurance,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Greasing@KM",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.greasing,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
                         ),
 
                         widget.comment != null?

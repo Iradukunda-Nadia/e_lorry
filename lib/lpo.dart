@@ -17,6 +17,7 @@ import 'dart:ui' as ui;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const directoryName = 'lpo';
 
@@ -87,6 +88,7 @@ class _lpoFormState extends State<lpoForm> {
 
   DocumentSnapshot _currentDocument;
 
+
   _updateData() async {
     await Firestore.instance
         .collection('requisition')
@@ -104,7 +106,7 @@ class _lpoFormState extends State<lpoForm> {
 
 
   Future getAccounts() async {
-   Firestore.instance.collection('lpo')
+   Firestore.instance.collection('lpo').where('company', isEqualTo: userCompany)
         .orderBy("date", descending: true).limit(1) // new entries first, date is one the entries btw
         .snapshots()
        .listen((QuerySnapshot querySnapshot){
@@ -121,10 +123,19 @@ class _lpoFormState extends State<lpoForm> {
     );
   }
 
+  String userCompany;
+  String compPhone;
+  String compEmail;
+  String compLogo;
+
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       name = prefs.getString('user');
+      userCompany = prefs.getString('company');
+      compPhone = prefs.getString('compPhone');
+      compEmail = prefs.getString('compEmail');
+      compLogo = prefs.getString('compLogo');
     });
 
   }
@@ -158,6 +169,7 @@ class _lpoFormState extends State<lpoForm> {
         "prepared by" : name,
         "Approved by" : widget.appby,
         "Supplier" : widget.reqSupplier,
+        "company" : userCompany,
 
       });
     });
@@ -311,8 +323,8 @@ class _lpoFormState extends State<lpoForm> {
                                   new SizedBox(
                                     width: 5.0,
                                   ),
-                                  new Image.asset(
-                                    'assets/elog.jpg',
+                                  new Image.network(
+                                    compLogo,
                                     fit: BoxFit.contain,
                                     height: 30.0,
                                     width: 70.0,
@@ -322,13 +334,13 @@ class _lpoFormState extends State<lpoForm> {
                               Column(
                                 children: <Widget>[
                                   new Text(
-                                    "Cell: +254-705-617118",
+                                    "Cell: $compPhone",
                                     style: new TextStyle(
                                         fontSize: 11.0,
                                         fontWeight: FontWeight.w700),
                                   ),
                                   new Text(
-                                    "Email: info@elogisticsltd.com",
+                                    "Email: $compEmail",
                                     style: new TextStyle(
                                         fontSize: 11.0,
                                         fontWeight: FontWeight.w700),

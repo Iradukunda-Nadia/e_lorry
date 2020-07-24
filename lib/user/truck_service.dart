@@ -1,19 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class truckService extends StatefulWidget {
   @override
   _truckServiceState createState() => _truckServiceState();
 }
 
-Future getUsers() async{
-  var firestore = Firestore.instance;
-  QuerySnapshot qn = await firestore.collection("trucks").getDocuments();
-  return qn.documents;
 
-}
+
+
 
 class _truckServiceState extends State<truckService> {
+  Future getUsers() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    return qn.documents;
+
+  }
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +64,7 @@ class _truckServiceState extends State<truckService> {
                                   driverNumber: snapshot.data[index].data["phone"],
                                   driverID: snapshot.data[index].data["ID"],
                                   turnboy: snapshot.data[index].data["turnboy"],
+
 
 
                                 )));
@@ -139,8 +157,7 @@ class _SeviceDatesState extends State<SeviceDates> {
                   var doc = snapshot.data.documents[index];
                       return Card(
                         child: ListTile(
-                          title: Text("Date: ${doc.data['timestamp'].toString()}"),
-                          subtitle: Text("Next service: ${doc.data['Next service']}"),
+                          title: Text("Service Date: ${doc.data['timestamp'].toString()}"),
 
                           onTap: () async {
 
@@ -169,6 +186,7 @@ class _SeviceDatesState extends State<SeviceDates> {
                               greasefrontwheel: doc.data["Battery warranty"],
                               date: doc.data["Battery warranty"],
                               Mechanic: doc.data["Battery warranty"],
+                              details: Map<String, dynamic>.from(doc.data)
 
 
                             )));
@@ -211,10 +229,12 @@ class FormDetails extends StatefulWidget {
   String greasefrontwheel;
   String date;
   String Mechanic;
+  final Map<String,dynamic> details;
 
   FormDetails({
 
     this.truckNo,
+    this.details,
     this.truckDriver,
     this.driverNumber,
     this.truckExpiry,
@@ -301,318 +321,38 @@ class _FormDetailsState extends State<FormDetails> {
                     ),
                   ),
                 ),
-                new Card(
-                  child: new Container(
-                    margin: new EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new SizedBox(
-                          height: 5.0,
-                        ),
+                new Card(child: new Container(
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize:MainAxisSize.min,
+                    children: <Widget>[
 
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      widget.details == null ? Container() :
+                      new Flexible(
+                        child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: widget.details.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String key = widget.details.keys.elementAt(index);
+                            return new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
+                                new ListTile(
+                                  title: new Text("$key"),
+                                  subtitle: new Text("${widget.details[key].toString()}"),
                                 ),
-                                new Text(
-                                  "Truck",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.truckNo,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
+                                new Divider(
+                                  height: 2.0,
                                 ),
-                                new Text(
-                                  "Driver",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
                               ],
-                            ),
-                            new Text(
-                              widget.truckDriver,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
+                            );
+                          },
                         ),
-
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Driver number",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.driverNumber,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Inspection Expiry",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.truckExpiry,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-
-
-
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Insurance Expiry",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.truckInsurance,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Speed Governor Expiry",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.speedGov,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Back tyre serial number",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.backTyre,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Front tyre serial number",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.frontTyre,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Spare tyre serial number",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.spareTyre,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Battery warranty",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.batWarranty,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-
-
-
-
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-
-
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                ),),
 
               ],
             ),
