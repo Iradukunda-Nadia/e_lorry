@@ -1810,7 +1810,9 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
 
                             map.addAll(
                                 {
-                                  'timestamp' : DateFormat('MMM yyyy').format(DateTime.now()),
+
+                                  'timestamp' : DateFormat('dd MMM yyyy').format(DateTime.now()),
+                                  'month' : DateFormat('MMM').format(DateTime.now()),
                                   'Truck': widget.truckNumber,
                                   'Driver': widget.driverName,
                                   'Number': widget.driverNumber,

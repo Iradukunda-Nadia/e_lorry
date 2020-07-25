@@ -2,6 +2,7 @@ import 'package:e_lorry/admin/adminHome.dart';
 import 'package:e_lorry/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'mechanic/car.dart';
 import 'mechanic/vehicle.dart';
 import 'user/user.dart';
@@ -106,17 +107,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   showDialog(
                       context: context, // user must tap button!
                       builder: (BuildContext context) {
-                        return CupertinoAlertDialog(
-                          title: new Icon(Icons.error_outline, size: 50,),
-                          content: Text('Unfortunately Your account Status is currently Suspended \n Contact the system admin for more information.'),
-                          actions: <Widget>[
-                            CupertinoButton(
-                              child: Text("Okay"),
-                              onPressed: () async{
-                                    Navigator.of(context).pop();
-                              },
-                            )
-                          ],
+                        return WillPopScope(
+                          onWillPop: () async =>false,
+                          child: CupertinoAlertDialog(
+                            title: new Icon(Icons.error_outline, size: 50,),
+                            content: Text('Unfortunately Your account Status is currently Suspended \n Contact the system admin for more information.'),
+                            actions: <Widget>[
+                              CupertinoButton(
+                                child: Text("Okay"),
+                                onPressed: () async{
+                                  SystemNavigator.pop();
+                                },
+                              )
+                            ],
+                          ),
                         );
                       }
                   );

@@ -174,7 +174,7 @@ class _PostDatesState extends State<PostDates> {
                               evaluationDate: doc.data["date"],
                               inspection: doc.data["Inspection"],
                               insurance: doc.data["Insurance Expiry"],
-                              dates: Map<String, dynamic>.from(doc.data["dates"]),
+                              dates: Map<String, dynamic>.from(doc.data["Dates"]),
                               comment:(doc.data["Comment"]["Comment"]),
                               engine: Map<String, dynamic>.from(doc.data["Engine"]),
                               electronics: Map<String, dynamic>.from(doc.data["Electronics"]),

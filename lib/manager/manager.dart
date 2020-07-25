@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_lorry/manager/carService.dart';
 import 'package:e_lorry/manager/report.dart';
 import 'package:e_lorry/manager/reporting/Reports.dart';
 import 'package:e_lorry/manager/reporting/report.dart';
@@ -89,7 +90,7 @@ class _ManagerState extends State<Manager> {
                   size: 20.0,
                 ),
               ),
-              title: new Text("Post Trip"),
+              title: new Text("Truck Post Trip"),
               onTap: (){
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Post()));
               },
@@ -103,9 +104,22 @@ class _ManagerState extends State<Manager> {
                   size: 20.0,
                 ),
               ),
-              title: new Text("Service"),
+              title: new Text("Truck Service"),
               onTap: (){
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new truckService()));
+              },
+            ),
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.directions_car,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Car Sevice"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new carService()));
               },
             ),
 

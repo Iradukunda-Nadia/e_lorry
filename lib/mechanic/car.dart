@@ -689,7 +689,7 @@ class _CarState extends State<Car> {
                               "Wheels": _wKey.currentState.value,
                               "Other": _oKey.currentState.value,
                               "Dates": _Key.currentState.value,
-                              "company": userCompany,
+                              'Inspection Date': DateFormat('MMM yyyy').format(DateTime.now()),
 
 
 

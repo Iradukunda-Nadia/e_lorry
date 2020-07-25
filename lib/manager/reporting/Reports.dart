@@ -22,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 
+
 import 'package:json_table/json_table.dart';
 
 class pTrip extends StatefulWidget {
@@ -31,170 +32,11 @@ class pTrip extends StatefulWidget {
 
 class _pTripState extends State<pTrip> {
   String filePath;
-  Map<String,dynamic> engine ;
-  Map<String,dynamic> electronics;
-  Map<String,dynamic> brakes;
-  Map<String,dynamic> frontSusp;
-  Map<String,dynamic> rearSusp;
-  Map<String,dynamic> wheelDetail;
-  Map<String,dynamic> cabin;
-  Map<String,dynamic> body;
-  Map<String,dynamic> safety;
-  Map<String,dynamic> frontWheels;
-  Map<String,dynamic> backWheels;
-  String truckNo;
-  String evaluationDate;
-  String inspection;
-  String insurance;
-  String greasing;
-  String comment;
-  String gasket;
-  String hosepipe;
-  String engineMounts;
-  String fanBelt;
-  String  radiator;
-  String  injectorPump;
-  int ptlength;
-  bool _isLoading;
-
-  String truck;
-  String truckDriver;
-  String driverNumber;
-  String truckExpiry;
-  String truckInsurance;
-  String speedGov;
-  String backTyre;
-  String frontTyre;
-  String spareTyre;
-  String batWarranty;
-  String datePurchased;
-  String batterySerial;
-  String dateGiven;
-  String firstTank;
-  String secondTank;
-  String totalLitres;
-  String averageKm;
-  String currentKm;
-  String nxtService;
-  String kmOil;
-  String greasefrontwheel;
-  String date;
-  String Mechanic;
-  int servicelength;
-  bool sData = false;
-
-  Future<String> get _localPath async {
-    final directory = await getApplicationSupportDirectory();
-    return directory.absolute.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    filePath = '$path/data.csv';
-    return File('$path/data.csv').create();
-  }
-
-
-
-  _postTrip() async {
-    var collectionReference = Firestore.instance.collection('posttrip').where('company', isEqualTo: userCompany);
-    var query = collectionReference;
-    query.getDocuments().then((querySnapshot) {
-      if (querySnapshot.documents.length > 0) {
-        querySnapshot.documents.forEach((document)
-        async {
-          setState(() {
-            engine = Map<String, dynamic>.from(document["engine"]);
-            electronics = Map<String, dynamic>.from(document["electronics"]);
-            brakes = Map<String, dynamic>.from(document["brakes"]);
-            frontSusp = Map<String, dynamic>.from(document["front suspension"]);
-            rearSusp = Map<String, dynamic>.from(document["rear suspension"]);
-            wheelDetail = Map<String, dynamic>.from(document["wheel details"]);
-            cabin = Map<String, dynamic>.from(document["cabin"]);
-            body = Map<String, dynamic>.from(document["body"]);
-            safety = Map<String, dynamic>.from(document["safety"]);
-            frontWheels = Map<String, dynamic>.from(document["frontWheels"]);
-            backWheels = Map<String, dynamic>.from(document["backWheels"]);
-            truckNo = document["Truck"];
-            gasket = document["Gasket"];
-            hosepipe = document["Hose pipe"];
-            engineMounts = document["Engine Mounts"];
-            fanBelt = document["Fan belt and blades"];
-            radiator = document["Radiator"];
-            injectorPump = document["Injector Pump"];
-            evaluationDate = document["date"];
-            inspection = document["Inspection"];
-            insurance = document["Insurance Expiry"];
-            greasing = document["Greasing at KM"];
-            comment = document["Comment"];
-            ptlength = querySnapshot.documents.length;
-
-          });
-          setState(() {
-            _isLoading = false;
-          });
-
-
-        });
-      }
-    });
-  }
-
-
-  _serviceCheck() async {
-    var collectionReference = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
-    var query = collectionReference;
-    query.getDocuments().then((querySnapshot) {
-      if (querySnapshot.documents.length > 0) {
-        querySnapshot.documents.forEach((document)
-        async {
-          setState(() {
-            truck  = document["Truck"];
-            truckDriver = document["Driver"];
-            driverNumber = document["Number"];
-            truckExpiry = document["Inspection Expiry"];
-            truckInsurance = document["Insurance Expiry"];
-            speedGov = document["Speed Governor Expiry"];
-            backTyre = document["Back tyre serial number"];
-            frontTyre = document["Front tyre serial number"];
-            spareTyre = document["Spare tyre serial number"];
-            batWarranty = document["Battery warranty"];
-            datePurchased = document["Date purchased"];
-            batterySerial = document["Battery serial number"];
-            dateGiven = document["Date Given"];
-            firstTank = document["1st Tank"];
-            secondTank = document["2nd Tank"];
-            totalLitres = document["Total litres"];
-            averageKm = document["Average per kilometre"];
-            currentKm = document["Current kilometres"];
-            nxtService = document["Next service"];
-            kmOil = document["Km when Oil, Gearbox, and Diff oil changed"];
-            greasefrontwheel = document["Grease frontwheel"];
-            date = document["todate"];
-            Mechanic = document["Service by"];
-
-            servicelength = querySnapshot.documents.length;
-
-            sData = true;
-
-          });
-
-          setState(() {
-            _isLoading = false;
-          });
-
-
-        });
-      }
-    });
-  }
 
   @override
   initState() {
     // TODO: implement initState
     super.initState();
-    _isLoading = true;
-    _serviceCheck();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -228,51 +70,19 @@ class _pTripState extends State<pTrip> {
 
   final _renderObjectKey = GlobalKey<ScaffoldState>();
 
-  Future<void> _printScreen() async {
-    final RenderRepaintBoundary boundary =
-    _renderObjectKey.currentContext.findRenderObject();
-    final ui.Image im = await boundary.toImage();
-    final ByteData bytes =
-    await im.toByteData(format: ui.ImageByteFormat.rawRgba);
-    print('Print Screen ${im.width}x${im.height} ...');
 
-
-
-    final bool result =
-    await Printing.layoutPdf(onLayout: (PdfPageFormat format) {
-      final pdf.Document document = pdf.Document();
-
-      final PdfImage image = PdfImage(document.document,
-          image: bytes.buffer.asUint8List(),
-          width: im.width,
-          height: im.height);
-
-      document.addPage(pdf.Page(
-          pageFormat: format,
-          build: (pdf.Context context) {
-            return pdf.Center(
-              child: pdf.Expanded(
-                child: pdf.Image(image),
-              ),
-            ); // Center
-          })); // Page
-
-      return document.save();
-    });
-
-  }
 
   String fileP;
 
   Future<String> get _localP async {
-    final directory = await getApplicationSupportDirectory();
+    final directory = await getExternalStorageDirectory();
     return directory.absolute.path;
   }
 
   Future<File> get _localF async {
     final path = await _localP;
     fileP = '$path/data.csv';
-    return File('$path/data.csv').create();
+    return File('$path/${DateFormat('MMM yyyy').format(DateTime.now())}Service.csv').create();
   }
   List<Map<dynamic, dynamic>> list = new List();
 
@@ -280,7 +90,7 @@ class _pTripState extends State<pTrip> {
     List<DocumentSnapshot> templist;
 
 
-    CollectionReference collectionRef = Firestore.instance.collection("service");
+    Query collectionRef = Firestore.instance.collection("service").where('company', isEqualTo: userCompany);
     QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
 
     templist = collectionSnapshot.documents; // <--- ERROR
@@ -298,38 +108,101 @@ class _pTripState extends State<pTrip> {
 
   }
 
+
   getCsv() async {
+    List<Map<String, dynamic>> dlist = new List();
 
     List<List<dynamic>> listGen = new List();
     List<DocumentSnapshot> temp;
 
 
-    CollectionReference collectionRef = Firestore.instance.collection("service");
+    CollectionReference collectionRef = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
     QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
 
     temp = collectionSnapshot.documents; // <--- ERROR
 
-    listGen = List<List<dynamic>>.from(
-      temp.map<dynamic>(
-            (dynamic item) => item,
-      ),
-    );
+    dlist = temp.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data;
+    }).toList();
 
     File f = await _localF;
-    var csv = const ListToCsvConverter().convert(listGen);
+    var csv = mapListToCsv(dlist);
     f.writeAsString(csv);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          title: new Text("File downloaded Succefully"),
+          content: new Text("It is located in the Elorry app folder"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-    return listGen;
+  String mapListToCsv(List<Map<String, dynamic>> mapList,
+      {ListToCsvConverter converter}) {
+    if (mapList == null) {
+      return null;
+    }
+    converter ??= const ListToCsvConverter();
+    var data = <List>[];
+    var keys = <String>[];
+    var keyIndexMap = <String, int>{};
 
+    // Add the key and fix previous records
+    int _addKey(String key) {
+      var index = keys.length;
+      keyIndexMap[key] = index;
+      keys.add(key);
+      for (var dataRow in data) {
+        dataRow.add(null);
+      }
+      return index;
+    }
 
+    for (var map in mapList) {
+      // This list might grow if a new key is found
+      var dataRow = List(keyIndexMap.length);
+      // Fix missing key
+      map.forEach((key, value) {
+        var keyIndex = keyIndexMap[key];
+        if (keyIndex == null) {
+          // New key is found
+          // Add it and fix previous data
+          keyIndex = _addKey(key);
+          // grow our list
+          dataRow = List.from(dataRow, growable: true)..add(value);
+        } else {
+          dataRow[keyIndex] = value;
+        }
+      });
+      data.add(dataRow);
+    }
+    return converter.convert(<List>[]
+      ..add(keys)
+      ..addAll(data));
   }
 
   @override
   Widget build(BuildContext context) {
     var json = jsonDecode(jsonFile);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.print),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Row(children: [
+          new Icon(Icons.file_download),
+          SizedBox(width: 5.0,),
+          new Text('Download Report')
+        ],),
         //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
         onPressed: () {
           getCsv();
@@ -368,8 +241,6 @@ class _pTripState extends State<pTrip> {
     return jsonString;
   }
 }
-
-
 
 
 class matReport extends StatefulWidget {
@@ -430,14 +301,113 @@ class _matReportState extends State<matReport> {
 
   }
 
+  String fileP;
+
+  Future<String> get _localP async {
+    final directory = await getExternalStorageDirectory();
+    return directory.absolute.path;
+  }
+  Future<File> get _localF async {
+    final path = await _localP;
+    fileP = '$path/data.csv';
+    return File('$path/${DateFormat('MMM yyyy').format(DateTime.now())}MatRequest.csv').create();
+  }
+
+  getCsv() async {
+    List<Map<String, dynamic>> dlist = new List();
+
+    List<List<dynamic>> listGen = new List();
+    List<DocumentSnapshot> temp;
+
+
+    Query collectionRef = Firestore.instance.collection('requisition').where("status", isEqualTo: "LPO GENERATED" ).where('company', isEqualTo: userCompany);
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    temp = collectionSnapshot.documents; // <--- ERROR
+
+    dlist = temp.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data;
+    }).toList();
+
+    File f = await _localF;
+    var csv = mapListToCsv(dlist);
+    f.writeAsString(csv);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          title: new Text("File downloaded Succefully"),
+          content: new Text("It is located in the Elorry app folder"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String mapListToCsv(List<Map<String, dynamic>> mapList,
+      {ListToCsvConverter converter}) {
+    if (mapList == null) {
+      return null;
+    }
+    converter ??= const ListToCsvConverter();
+    var data = <List>[];
+    var keys = <String>[];
+    var keyIndexMap = <String, int>{};
+
+    // Add the key and fix previous records
+    int _addKey(String key) {
+      var index = keys.length;
+      keyIndexMap[key] = index;
+      keys.add(key);
+      for (var dataRow in data) {
+        dataRow.add(null);
+      }
+      return index;
+    }
+
+    for (var map in mapList) {
+      // This list might grow if a new key is found
+      var dataRow = List(keyIndexMap.length);
+      // Fix missing key
+      map.forEach((key, value) {
+        var keyIndex = keyIndexMap[key];
+        if (keyIndex == null) {
+          // New key is found
+          // Add it and fix previous data
+          keyIndex = _addKey(key);
+          // grow our list
+          dataRow = List.from(dataRow, growable: true)..add(value);
+        } else {
+          dataRow[keyIndex] = value;
+        }
+      });
+      data.add(dataRow);
+    }
+    return converter.convert(<List>[]
+      ..add(keys)
+      ..addAll(data));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.print),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Row(children: [
+          new Icon(Icons.file_download),
+          SizedBox(width: 5.0,),
+          new Text('Download Report')
+        ],),
         //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
         onPressed: () {
-          _printScreen();
+          getCsv();
         },
       ),
       body: new Stack(

@@ -81,7 +81,7 @@ class _adminHomeState extends State<adminHome> {
     return Scaffold(
       backgroundColor: const Color(0xff016836),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _created ?
+      floatingActionButton: _created == true ?
       Offstage(): FloatingActionButton.extended(
           onPressed: (){
             Navigator.of(context).push(new CupertinoPageRoute(

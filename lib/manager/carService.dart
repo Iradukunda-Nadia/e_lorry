@@ -2,19 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class truckService extends StatefulWidget {
+class carService extends StatefulWidget {
   @override
-  _truckServiceState createState() => _truckServiceState();
+  _carServiceState createState() => _carServiceState();
 }
 
-
-
-
-
-class _truckServiceState extends State<truckService> {
+class _carServiceState extends State<carService> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).getDocuments();
     return qn.documents;
 
   }
@@ -34,10 +30,10 @@ class _truckServiceState extends State<truckService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("SELECT TRUCK"),
-        backgroundColor: Colors.red[900],
-      ),
+        appBar: AppBar(
+          title: Text("SELECT CAR"),
+          backgroundColor: Colors.red[900],
+        ),
 
         body: Container(
           child: new Column(
@@ -63,8 +59,6 @@ class _truckServiceState extends State<truckService> {
                                   driverName: snapshot.data[index].data["driver"],
                                   driverNumber: snapshot.data[index].data["phone"],
                                   driverID: snapshot.data[index].data["ID"],
-                                  turnboy: snapshot.data[index].data["turnboy"],
-
 
 
                                 )));
@@ -76,7 +70,7 @@ class _truckServiceState extends State<truckService> {
                                     new ListTile(
                                       leading: new CircleAvatar(
                                           backgroundColor: Colors.red[900],
-                                          child: new Icon(Icons.local_shipping)
+                                          child: new Icon(Icons.directions_car)
                                       ),
                                       title: new Text("${snapshot.data[index].data["plate"]}",
                                         style: new TextStyle(
@@ -114,7 +108,6 @@ class SeviceDates extends StatefulWidget {
   String driverName;
   String driverNumber;
   String driverID;
-  String turnboy;
   String itemDescription;
 
   SeviceDates({
@@ -123,7 +116,6 @@ class SeviceDates extends StatefulWidget {
     this.driverName,
     this.driverNumber,
     this.driverID,
-    this.turnboy,
     this.itemDescription
   });
 
@@ -132,7 +124,7 @@ class SeviceDates extends StatefulWidget {
 }
 
 CollectionReference collectionReference =
-Firestore.instance.collection("service");
+Firestore.instance.collection("carService");
 
 class _SeviceDatesState extends State<SeviceDates> {
   @override
@@ -140,7 +132,7 @@ class _SeviceDatesState extends State<SeviceDates> {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.red[900],),
       body: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.where("Truck", isEqualTo:
+          stream: collectionReference.where("plate", isEqualTo:
           widget.truckNumber).orderBy("timestamp", descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -155,44 +147,22 @@ class _SeviceDatesState extends State<SeviceDates> {
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   var doc = snapshot.data.documents[index];
-                      return Card(
-                        child: ListTile(
-                          title: Text("Service Date: ${doc.data['timestamp'].toString()}"),
+                  return Card(
+                    child: ListTile(
+                      title: Text("Service Date: ${doc.data['timestamp'].toString()}"),
 
-                          onTap: () async {
+                      onTap: () async {
 
-                            Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FormDetails(
-
-                              truckNo: doc.data["Truck"],
-                              truckDriver: doc.data["Driver"],
-                              driverNumber: doc.data["Number"],
-                              truckExpiry: doc.data["Inspection Expiry"],
-                              truckInsurance: doc.data["Insurance Expiry"],
-                              speedGov: doc.data["Speed Governor Expiry"],
-                              backTyre: doc.data["Back tyre serial number"],
-                              frontTyre: doc.data["Front tyre serial number"],
-                              spareTyre: doc.data["Spare tyre serial number"],
-                              batWarranty: doc.data["Battery warranty"],
-                              datePurchased: doc.data["Battery warranty"],
-                              batterySerial: doc.data["Battery warranty"],
-                              dateGiven: doc.data["Battery warranty"],
-                              firstTank: doc.data["Battery warranty"],
-                              secondTank: doc.data["Battery warranty"],
-                              totalLitres: doc.data["Battery warranty"],
-                              averageKm: doc.data["Battery warranty"],
-                              currentKm: doc.data["Battery warranty"],
-                              nxtService: doc.data["Battery warranty"],
-                              kmOil: doc.data["Battery warranty"],
-                              greasefrontwheel: doc.data["Battery warranty"],
-                              date: doc.data["Battery warranty"],
-                              Mechanic: doc.data["Battery warranty"],
-                              details: Map<String, dynamic>.from(doc.data)
+                        Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FormDetails(
 
 
-                            )));
-                          },
-                        ),
-                      );
+                            details: Map<String, dynamic>.from(doc.data)
+
+
+                        )));
+                      },
+                    ),
+                  );
 
                 },
               );
@@ -206,57 +176,11 @@ class _SeviceDatesState extends State<SeviceDates> {
 
 class FormDetails extends StatefulWidget {
 
-  String truckNo;
-  String truckDriver;
-  String driverNumber;
-  String truckExpiry;
-  String truckInsurance;
-  String speedGov;
-  String backTyre;
-  String frontTyre;
-  String spareTyre;
-  String batWarranty;
-  String datePurchased;
-  String batterySerial;
-  String dateGiven;
-  String firstTank;
-  String secondTank;
-  String totalLitres;
-  String averageKm;
-  String currentKm;
-  String nxtService;
-  String kmOil;
-  String greasefrontwheel;
-  String date;
-  String Mechanic;
+
   final Map<String,dynamic> details;
 
   FormDetails({
-
-    this.truckNo,
     this.details,
-    this.truckDriver,
-    this.driverNumber,
-    this.truckExpiry,
-    this.truckInsurance,
-    this.speedGov,
-    this.backTyre,
-    this.frontTyre,
-    this.spareTyre,
-    this.batWarranty,
-    this.datePurchased,
-    this.batterySerial,
-    this.dateGiven,
-    this.firstTank,
-    this.secondTank,
-    this.totalLitres,
-    this.averageKm,
-    this.currentKm,
-    this.nxtService,
-    this.date,
-    this.Mechanic,
-    this.kmOil,
-    this.greasefrontwheel,
 
   });
 
@@ -362,4 +286,3 @@ class _FormDetailsState extends State<FormDetails> {
     );
   }
 }
-

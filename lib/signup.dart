@@ -93,7 +93,7 @@ class _SignupState extends State<Signup> {
           'email': _email,
           'phone': _phone,
           'status': 'pending',
-          'reqDate' :  DateFormat(' dd MMM yyyy').format(DateTime.now()),
+          'reqDate' :  DateFormat(' dd MMM yyyy').format(DateTime.now())
         });
       });
 
