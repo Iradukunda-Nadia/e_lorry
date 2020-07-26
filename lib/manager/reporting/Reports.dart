@@ -796,13 +796,13 @@ class _repDivState extends State<repDiv> {
             new SizedBox(
               height: 10.0,
             ),
-            tServe == false ? new Offstage() :Padding(
+            cServe == false ? new Offstage() :Padding(
               padding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
               child: new InkWell(
                 onTap: () {
                   Navigator.of(context).push(new CupertinoPageRoute(
-                      builder: (BuildContext context) => new pTrip()
+                      builder: (BuildContext context) => new cService()
                   ));
                 },
                 child: new Container(
