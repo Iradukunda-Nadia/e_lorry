@@ -20,6 +20,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/rendering.dart';import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 
@@ -116,7 +117,7 @@ class _pTripState extends State<pTrip> {
     List<DocumentSnapshot> temp;
 
 
-    CollectionReference collectionRef = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
+    Query collectionRef = Firestore.instance.collection('service').where('company', isEqualTo: userCompany);
     QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
 
     temp = collectionSnapshot.documents; // <--- ERROR
@@ -124,6 +125,8 @@ class _pTripState extends State<pTrip> {
     dlist = temp.map((DocumentSnapshot docSnapshot){
       return docSnapshot.data;
     }).toList();
+
+    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
 
     File f = await _localF;
     var csv = mapListToCsv(dlist);
@@ -328,6 +331,8 @@ class _matReportState extends State<matReport> {
     dlist = temp.map((DocumentSnapshot docSnapshot){
       return docSnapshot.data;
     }).toList();
+
+    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
 
     File f = await _localF;
     var csv = mapListToCsv(dlist);
