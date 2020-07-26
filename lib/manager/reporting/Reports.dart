@@ -82,8 +82,8 @@ class _pTripState extends State<pTrip> {
 
   Future<File> get _localF async {
     final path = await _localP;
-    fileP = '$path/data.csv';
-    return File('$path/${DateFormat('MMM yyyy').format(DateTime.now())}Service.csv').create();
+    fileP = '/storage/emulated/0/Download/data.csv';
+    return File('/storage/emulated/0/Download/${DateFormat('MMM yyyy').format(DateTime.now())}Service.csv').create();
   }
   List<Map<dynamic, dynamic>> list = new List();
 
@@ -110,6 +110,7 @@ class _pTripState extends State<pTrip> {
   }
 
 
+
   getCsv() async {
     List<Map<String, dynamic>> dlist = new List();
 
@@ -126,7 +127,7 @@ class _pTripState extends State<pTrip> {
       return docSnapshot.data;
     }).toList();
 
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    await Permission.storage.request().isGranted;
 
     File f = await _localF;
     var csv = mapListToCsv(dlist);
@@ -312,8 +313,8 @@ class _matReportState extends State<matReport> {
   }
   Future<File> get _localF async {
     final path = await _localP;
-    fileP = '$path/data.csv';
-    return File('$path/${DateFormat('MMM yyyy').format(DateTime.now())}MatRequest.csv').create();
+    fileP = '/storage/emulated/0/Download/data.csv';
+    return File('/storage/emulated/0/Download/${DateFormat('MMM yyyy').format(DateTime.now())}MatRequest.csv').create();
   }
 
   getCsv() async {
@@ -332,7 +333,7 @@ class _matReportState extends State<matReport> {
       return docSnapshot.data;
     }).toList();
 
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    await Permission.storage.request().isGranted;
 
     File f = await _localF;
     var csv = mapListToCsv(dlist);

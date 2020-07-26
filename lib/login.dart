@@ -141,14 +141,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
             if( id == "Fleet Manager" ) {
-              _messaging.subscribeToTopic('manager');
+              _messaging.subscribeToTopic('manager ${document['company']}');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new Manager()
               ));
             }
             if(id == "Accounts" ) {
-              _messaging.subscribeToTopic('puppies');
+              _messaging.subscribeToTopic('puppies ${document['company']}');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new User()
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
 
             if(id == "Chief Mechanic" ) {
-              _messaging.subscribeToTopic('mech');
+              _messaging.subscribeToTopic('mech ${document['company']}');
               _messaging.subscribeToTopic('all');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new vehicleService()

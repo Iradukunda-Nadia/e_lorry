@@ -55,7 +55,7 @@ class _ChatState extends State<Chat> {
             children: <Widget>[
               new Flexible(
                 child: new StreamBuilder<QuerySnapshot> (
-                  stream: Firestore.instance.collection('${userCompany}messages')
+                  stream: Firestore.instance.collection('messages').where('company', isEqualTo: userCompany)
                       .orderBy('time').snapshots(),
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                     return snapshot.hasData ? new ListView(
@@ -156,13 +156,14 @@ class _ChatState extends State<Chat> {
   }
 
   void _sendMessage({String messageText, String imageUrl}) {
-    Firestore.instance.collection('${userCompany}messages')
+    Firestore.instance.collection('messages')
         .add({
       'text': messageText,
       'imageUrl': imageUrl,
       'senderName': name,
       'senderPhotoUrl': avatar,
       'time': DateTime.now(),
+      'company': userCompany,
     });
   }
 }
