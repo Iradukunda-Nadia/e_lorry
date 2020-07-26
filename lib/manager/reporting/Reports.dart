@@ -138,7 +138,7 @@ class _pTripState extends State<pTrip> {
         // return object of type Dialog
         return CupertinoAlertDialog(
           title: new Text("File downloaded Succefully"),
-          content: new Text("It is located in the Elorry app folder"),
+          content: new Text("It is located in the Download folder"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -344,7 +344,7 @@ class _matReportState extends State<matReport> {
         // return object of type Dialog
         return CupertinoAlertDialog(
           title: new Text("File downloaded Succefully"),
-          content: new Text("It is located in the Elorry app folder"),
+          content: new Text("It is located in the Download folder"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
