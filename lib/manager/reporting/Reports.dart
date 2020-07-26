@@ -222,7 +222,7 @@ class _pTripState extends State<pTrip> {
                 showColumnToggle: true,
                 allowRowHighlight: true,
                 rowHighlightColor: Colors.yellow[500].withOpacity(0.7),
-                paginationRowCount: 10,
+                paginationRowCount: 8,
                 onRowSelect: (index, map) {
                   print(index);
                   print(map);
@@ -247,6 +247,228 @@ class _pTripState extends State<pTrip> {
 }
 
 
+class cService extends StatefulWidget {
+  @override
+  _cServiceState createState() => _cServiceState();
+}
+
+class _cServiceState extends State<cService> {
+  String filePath;
+
+  @override
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+
+    ]);
+    getStringValue();
+    getService();
+  }
+  bool toggle = true;
+
+  String jsonFile;
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
+
+  @override
+  dispose(){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  final _renderObjectKey = GlobalKey<ScaffoldState>();
+
+
+
+  String fileP;
+
+  Future<String> get _localP async {
+    final directory = await getExternalStorageDirectory();
+    return directory.absolute.path;
+  }
+
+  Future<File> get _localF async {
+    final path = await _localP;
+    fileP = '/storage/emulated/0/Download/data.csv';
+    return File('/storage/emulated/0/Download/${DateFormat('MMM yyyy').format(DateTime.now())}carService.csv').create();
+  }
+  List<Map<dynamic, dynamic>> list = new List();
+
+  Future <List<Map<dynamic, dynamic>>> getService() async{
+    List<DocumentSnapshot> templist;
+
+
+    Query collectionRef = Firestore.instance.collection("carService").where('company', isEqualTo: userCompany);
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    templist = collectionSnapshot.documents; // <--- ERROR
+
+    list = templist.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data;
+    }).toList();
+
+    setState(() {
+      jsonFile = jsonEncode(list);
+
+    });
+
+    return list;
+
+  }
+
+
+
+  getCsv() async {
+    List<Map<String, dynamic>> dlist = new List();
+
+    List<List<dynamic>> listGen = new List();
+    List<DocumentSnapshot> temp;
+
+
+    Query collectionRef = Firestore.instance.collection('carService').where('company', isEqualTo: userCompany);
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    temp = collectionSnapshot.documents; // <--- ERROR
+
+    dlist = temp.map((DocumentSnapshot docSnapshot){
+      return docSnapshot.data;
+    }).toList();
+
+    await Permission.storage.request().isGranted;
+
+    File f = await _localF;
+    var csv = mapListToCsv(dlist);
+    f.writeAsString(csv);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return CupertinoAlertDialog(
+          title: new Text("File downloaded Succefully"),
+          content: new Text("It is located in the Download folder"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String mapListToCsv(List<Map<String, dynamic>> mapList,
+      {ListToCsvConverter converter}) {
+    if (mapList == null) {
+      return null;
+    }
+    converter ??= const ListToCsvConverter();
+    var data = <List>[];
+    var keys = <String>[];
+    var keyIndexMap = <String, int>{};
+
+    // Add the key and fix previous records
+    int _addKey(String key) {
+      var index = keys.length;
+      keyIndexMap[key] = index;
+      keys.add(key);
+      for (var dataRow in data) {
+        dataRow.add(null);
+      }
+      return index;
+    }
+
+    for (var map in mapList) {
+      // This list might grow if a new key is found
+      var dataRow = List(keyIndexMap.length);
+      // Fix missing key
+      map.forEach((key, value) {
+        var keyIndex = keyIndexMap[key];
+        if (keyIndex == null) {
+          // New key is found
+          // Add it and fix previous data
+          keyIndex = _addKey(key);
+          // grow our list
+          dataRow = List.from(dataRow, growable: true)..add(value);
+        } else {
+          dataRow[keyIndex] = value;
+        }
+      });
+      data.add(dataRow);
+    }
+    return converter.convert(<List>[]
+      ..add(keys)
+      ..addAll(data));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var json = jsonDecode(jsonFile);
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: Row(children: [
+          new Icon(Icons.file_download),
+          SizedBox(width: 5.0,),
+          new Text('Download Report')
+        ],),
+        //Widget to display inside Floating Action Button, can be `Text`, `Icon` or any widget.
+        onPressed: () {
+          getCsv();
+        },
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Container(
+          child: Column(
+            children: [
+              JsonTable(
+                json,
+                showColumnToggle: true,
+                allowRowHighlight: true,
+                rowHighlightColor: Colors.yellow[500].withOpacity(0.7),
+                paginationRowCount: 8,
+                onRowSelect: (index, map) {
+                  print(index);
+                  print(map);
+                },
+              ),
+              SizedBox(
+                height: 40.0,
+              ),
+              Text("Elorry Car Service report")
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String getPrettyJSONString(jsonObject) {
+    JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+    String jsonString = encoder.convert(json.decode(jsonObject));
+    return jsonString;
+  }
+}
+
+
+
 class matReport extends StatefulWidget {
   @override
   _matReportState createState() => _matReportState();
@@ -267,40 +489,6 @@ class _matReportState extends State<matReport> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userCompany = prefs.getString('company');
-    });
-
-  }
-
-  Future<void> _printScreen() async {
-    final RenderRepaintBoundary boundary =
-    _renderObjectKey.currentContext.findRenderObject();
-    final ui.Image im = await boundary.toImage();
-    final ByteData bytes =
-    await im.toByteData(format: ui.ImageByteFormat.rawRgba);
-    print('Print Screen ${im.width}x${im.height} ...');
-
-
-
-    final bool result =
-    await Printing.layoutPdf(onLayout: (PdfPageFormat format) {
-      final pdf.Document document = pdf.Document();
-
-      final PdfImage image = PdfImage(document.document,
-          image: bytes.buffer.asUint8List(),
-          width: im.width,
-          height: im.height);
-
-      document.addPage(pdf.Page(
-          pageFormat: format,
-          build: (pdf.Context context) {
-            return pdf.Center(
-              child: pdf.Expanded(
-                child: pdf.Image(image),
-              ),
-            ); // Center
-          })); // Page
-
-      return document.save();
     });
 
   }
@@ -538,6 +726,56 @@ class repDiv extends StatefulWidget {
 }
 
 class _repDivState extends State<repDiv> {
+
+  initState() {
+    // TODO: implement initState
+    super.initState();
+    getStringValue();
+    getCserv ();
+    getTserv();
+
+  }
+
+  String userCompany;
+  getStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userCompany = prefs.getString('company');
+    });
+
+  }
+
+  bool tServe = false;
+  bool cServe = false;
+
+  getTserv () async{
+  final CollectionReference dbtServe = Firestore.instance.collection('service');
+
+  QuerySnapshot _query = await dbtServe
+      .where('company', isEqualTo: userCompany)
+      .getDocuments();
+
+  if (_query.documents.length > 0) {
+  setState(() {
+    tServe = true;
+  });
+  }
+}
+
+  getCserv () async{
+    final CollectionReference dbcServe = Firestore.instance.collection('carService');
+
+    QuerySnapshot _query = await dbcServe
+        .where('company', isEqualTo: userCompany)
+        .getDocuments();
+
+    if (_query.documents.length > 0) {
+      setState(() {
+        cServe = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -558,7 +796,7 @@ class _repDivState extends State<repDiv> {
             new SizedBox(
               height: 10.0,
             ),
-            Padding(
+            tServe == false ? new Offstage() :Padding(
               padding:
               const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
               child: new InkWell(
@@ -582,7 +820,41 @@ class _repDivState extends State<repDiv> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Service",
+                            "Car Service",
+                            style: new TextStyle(
+                                color: const Color(0xff016836), fontSize: 20.0),
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+
+            ),
+            tServe == false ? new Offstage() :Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
+              child: new InkWell(
+                onTap: () {
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new pTrip()
+                  ));
+                },
+                child: new Container(
+                  height: 60.0,
+                  margin: new EdgeInsets.only(top: 5.0),
+                  child: new Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: new Container(
+                      margin: new EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 2.0),
+                      height: 60.0,
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.all(
+                              new Radius.circular(20.0))),
+                      child: new Center(
+                          child: new Text(
+                            "Truck Service",
                             style: new TextStyle(
                                 color: const Color(0xff016836), fontSize: 20.0),
                           )),
