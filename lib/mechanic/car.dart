@@ -629,6 +629,7 @@ class _CarState extends State<Car> {
                                                 itemBuilder: (context, index) {
 
                                                   return FormBuilderDateTimePicker(
+                                                    initialEntryMode: DatePickerEntryMode.calendar,
                                                     attribute: snapshot.data[index],
                                                     inputType: InputType.date,
                                                     format: DateFormat("yyyy-MM-dd"),

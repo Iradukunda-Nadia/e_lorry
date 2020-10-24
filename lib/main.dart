@@ -9,8 +9,17 @@ import 'mechanic/mech.dart';
 import 'package:e_lorry/user/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'admin/fields/carFields.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() => runApp(MyApp());
+void main() {
+
+  Crashlytics.instance.enableInDevMode = true;
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

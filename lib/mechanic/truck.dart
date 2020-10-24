@@ -1356,6 +1356,7 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
                                                   itemBuilder: (context, index) {
 
                                                     return FormBuilderDateTimePicker(
+                                                      initialEntryMode: DatePickerEntryMode.calendar,
                                                       attribute: snapshot.data[index],
                                                       inputType: InputType.date,
                                                       format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
@@ -1526,6 +1527,7 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
                                                       inputType: InputType.date,
                                                       format: DateFormat("dd-MMM-yyyy"),
                                                       firstDate: DateTime.now(),
+                                                      initialEntryMode: DatePickerEntryMode.calendar,
                                                       valueTransformer: (value) {
                                                         return value.toString().substring(0,10);
                                                       },

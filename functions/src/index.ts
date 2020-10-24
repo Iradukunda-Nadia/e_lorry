@@ -26,7 +26,8 @@ var transporter = nodemailer.createTransport({
 export const sendToTopic = functions.firestore
        .document('request/{Item}')
        .onCreate(async snapshot => {
-
+       let comp = snapshot.get('company');
+       let uTopic = `puppies ${comp}`;
          const message: admin.messaging.MessagingPayload = {
            notification: {
              title: 'New Request!',
@@ -34,12 +35,14 @@ export const sendToTopic = functions.firestore
            }
          };
 
-         return fcm.sendToTopic('puppies', message);
+         return fcm.sendToTopic(uTopic, message);
        });
 
 export const sendToManager = functions.firestore
   .document('requisition/{Item}')
   .onCreate(async snapshot => {
+  let comp = snapshot.get('company');
+  let mTopic = `manager ${comp}`;
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
@@ -48,13 +51,15 @@ export const sendToManager = functions.firestore
       }
     };
 
-    return fcm.sendToTopic('manager', message);
+    return fcm.sendToTopic(mTopic, message);
   });
 
 
 export const newMessage = functions.firestore
   .document('messages/{Item}')
   .onCreate(async snapshot => {
+  let company = snapshot.get('company');
+  let allTopic = `all ${company}`;
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
@@ -63,7 +68,7 @@ export const newMessage = functions.firestore
       }
     };
 
-    return fcm.sendToTopic('all', message);
+    return fcm.sendToTopic(allTopic, message);
   });
 
 const cors = require('cors')({ origin: true });
@@ -80,6 +85,8 @@ exports.sendDailyNotifications = functions.https.onRequest((request, response) =
 
             querySnapshot.forEach(doc => {
                 const truck = doc.data().Truck;
+                let managerTopic = 'manager ${doc.data().company}';
+                let userTopic = 'puppies ${doc.data().company}';
                 const notificationContent = {
                     notification: {
                         title: "Service is due in 48hrs",
@@ -89,7 +96,7 @@ exports.sendDailyNotifications = functions.https.onRequest((request, response) =
                     }
                 };
                 promises
-                    .push(admin.messaging().sendToTopic('manager' || 'puppies', notificationContent));
+                    .push(admin.messaging().sendToTopic(managerTopic || userTopic, notificationContent));
             });
             return Promise.all(promises);
         })
@@ -114,6 +121,8 @@ exports.sendInspectionNotifications = functions.https.onRequest((request, respon
 
             querySnapshot.forEach(doc => {
                 const truckNumber = doc.data().Truck;
+                let managersTopic = 'manager ${doc.data().company}';
+                let usersTopic = 'puppies ${doc.data().company}';
                 const inspectionNotification = {
                     notification: {
                         title: "Inspection is due in 48hrs",
@@ -123,7 +132,7 @@ exports.sendInspectionNotifications = functions.https.onRequest((request, respon
                     }
                 };
                 promises
-                    .push(admin.messaging().sendToTopic('manager' || 'user', inspectionNotification));
+                    .push(admin.messaging().sendToTopic(managersTopic || usersTopic, inspectionNotification));
             });
             return Promise.all(promises);
         })
@@ -147,6 +156,8 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
 
             querySnapshot.forEach(doc => {
                 const plate = doc.data().Truck;
+                let manTopic = 'manager ${doc.data().company}';
+                let useTopic = 'puppies ${doc.data().company}';
                 const insuranceNotification = {
                     notification: {
                         title: "Insurance expires in 48hrs",
@@ -156,7 +167,7 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
                     }
                 };
                 promises
-                    .push(admin.messaging().sendToTopic('manager' || 'user', insuranceNotification));
+                    .push(admin.messaging().sendToTopic(manTopic || useTopic, insuranceNotification));
             });
             return Promise.all(promises);
         })
@@ -180,6 +191,8 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
 
             querySnapshot.forEach(doc => {
                 const plateNo = doc.data().Truck;
+                let manageTopic = 'manager ${doc.data().company}';
+                let usTopic = 'puppies ${doc.data().company}';
                 const SpeedNotification = {
                     notification: {
                         title: "Speed governor expires is due in 48hrs",
@@ -189,7 +202,7 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
                     }
                 };
                 promises
-                    .push(admin.messaging().sendToTopic('manager' || 'user', SpeedNotification));
+                    .push(admin.messaging().sendToTopic(manageTopic || usTopic, SpeedNotification));
             });
             return Promise.all(promises);
         })

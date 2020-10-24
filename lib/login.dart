@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -142,14 +144,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if( id == "Fleet Manager" ) {
               _messaging.subscribeToTopic('manager ${document['company']}');
-              _messaging.subscribeToTopic('all');
+              _messaging.subscribeToTopic('all ${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new Manager()
               ));
             }
             if(id == "Accounts" ) {
               _messaging.subscribeToTopic('puppies ${document['company']}');
-              _messaging.subscribeToTopic('all');
+              _messaging.subscribeToTopic('all ${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new User()
               ));
@@ -158,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if(id == "Chief Mechanic" ) {
               _messaging.subscribeToTopic('mech ${document['company']}');
-              _messaging.subscribeToTopic('all');
+              _messaging.subscribeToTopic('all ${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new vehicleService()
               ));
@@ -166,6 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
             }
 
             if(id == "Administrator") {
+              _messaging.subscribeToTopic('admin ${document['company']}');
+              _messaging.subscribeToTopic('all ${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new adminHome()
               ));
