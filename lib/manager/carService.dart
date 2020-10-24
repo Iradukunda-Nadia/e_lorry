@@ -137,7 +137,7 @@ class _SeviceDatesState extends State<SeviceDates> {
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Text("Loading... Please wait"),
+                child: Text("Waiting For Data..."),
               );
             }if (snapshot.hasData == false){
               return Center(

@@ -45,7 +45,7 @@ class _RequisitionState extends State<Requisition> {
             builder: (context, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Text("Loading... Please wait"),
+                  child: Text("Waiting For Data..."),
                 );
               } if (snapshot.data == null){
                 return Center(

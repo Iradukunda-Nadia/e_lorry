@@ -49,7 +49,7 @@ class _truckServiceState extends State<truckService> {
                     builder: (context, snapshot){
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
-                          child: Text("Loading... Please wait"),
+                          child: Text("Waiting For Data..."),
                         );
                       }else{
                         return ListView.builder(
