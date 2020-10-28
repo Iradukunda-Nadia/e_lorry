@@ -143,15 +143,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
             if( id == "Fleet Manager" ) {
-              _messaging.subscribeToTopic('manager ${document['company']}');
-              _messaging.subscribeToTopic('all ${document['company']}');
+              _messaging.subscribeToTopic('manager${document['company']}');
+              _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new Manager()
               ));
             }
             if(id == "Accounts" ) {
-              _messaging.subscribeToTopic('puppies ${document['company']}');
-              _messaging.subscribeToTopic('all ${document['company']}');
+              _messaging.subscribeToTopic('puppies${document['company']}');
+              _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new User()
               ));
@@ -159,8 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
             }
 
             if(id == "Chief Mechanic" ) {
-              _messaging.subscribeToTopic('mech ${document['company']}');
-              _messaging.subscribeToTopic('all ${document['company']}');
+              _messaging.subscribeToTopic('mech${document['company']}');
+              _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new vehicleService()
               ));
@@ -168,8 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
             }
 
             if(id == "Administrator") {
-              _messaging.subscribeToTopic('admin ${document['company']}');
-              _messaging.subscribeToTopic('all ${document['company']}');
+              _messaging.subscribeToTopic('admin${document['company']}');
+              _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).push(new CupertinoPageRoute(
                   builder: (BuildContext context) => new adminHome()
               ));

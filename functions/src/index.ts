@@ -27,7 +27,7 @@ export const sendToTopic = functions.firestore
        .document('request/{Item}')
        .onCreate(async snapshot => {
        let comp = snapshot.get('company');
-       let uTopic = `puppies ${comp}`;
+       let uTopic = `puppies${comp}`;
          const message: admin.messaging.MessagingPayload = {
            notification: {
              title: 'New Request!',
@@ -42,7 +42,7 @@ export const sendToManager = functions.firestore
   .document('requisition/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');
-  let mTopic = `manager ${comp}`;
+  let mTopic = `manager${comp}`;
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
@@ -59,7 +59,7 @@ export const newMessage = functions.firestore
   .document('messages/{Item}')
   .onCreate(async snapshot => {
   let company = snapshot.get('company');
-  let allTopic = `all ${company}`;
+  let allTopic = `all${company}`;
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
@@ -156,8 +156,8 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
 
             querySnapshot.forEach(doc => {
                 const plate = doc.data().Truck;
-                let manTopic = 'manager ${doc.data().company}';
-                let useTopic = 'puppies ${doc.data().company}';
+                let manTopic = 'manager${doc.data().company}';
+                let useTopic = 'puppies${doc.data().company}';
                 const insuranceNotification = {
                     notification: {
                         title: "Insurance expires in 48hrs",
@@ -191,7 +191,7 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
 
             querySnapshot.forEach(doc => {
                 const plateNo = doc.data().Truck;
-                let manageTopic = 'manager ${doc.data().company}';
+                let manageTopic = 'manager${doc.data().company}';
                 let usTopic = 'puppies ${doc.data().company}';
                 const SpeedNotification = {
                     notification: {
