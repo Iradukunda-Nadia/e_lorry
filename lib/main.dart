@@ -12,7 +12,7 @@ import 'admin/fields/carFields.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() {
-  
+
   runApp(MyApp());
 }
 
