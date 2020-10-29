@@ -108,6 +108,75 @@ exports.sendDailyNotifications = functions.https.onRequest((request, response) =
     });
 });
 
+exports.sendDailyNotifications1 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const now = moment();
+        const dateFormatted1 = now.add('days', 7).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Next service", "==", dateFormatted1)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const truck = doc.data().Truck;
+                let managerTopic = 'manager ${doc.data().company}';
+                let userTopic = 'puppies ${doc.data().company}';
+                const notificationContent = {
+                    notification: {
+                        title: "Service is due in One Week",
+                        body: truck,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(managerTopic || userTopic, notificationContent));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+exports.sendDailyNotifications2 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const now = moment();
+        const dateFormatted2 = now.add('days', 14).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Next service", "==", dateFormatted2)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const truck = doc.data().Truck;
+                let managerTopic = 'manager ${doc.data().company}';
+                let userTopic = 'puppies ${doc.data().company}';
+                const notificationContent = {
+                    notification: {
+                        title: "Service is due in Two Weeks",
+                        body: truck,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(managerTopic || userTopic, notificationContent));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
 
 exports.sendInspectionNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
@@ -126,6 +195,76 @@ exports.sendInspectionNotifications = functions.https.onRequest((request, respon
                 const inspectionNotification = {
                     notification: {
                         title: "Inspection is due in 48hrs",
+                        body: truckNumber,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(managersTopic || usersTopic, inspectionNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+exports.sendInspectionNotifications1 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const today = moment();
+        const formattedDate1 = today.add('days', 7).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Inspection Expiry", "==", formattedDate1)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const truckNumber = doc.data().Truck;
+                let managersTopic = 'manager ${doc.data().company}';
+                let usersTopic = 'puppies ${doc.data().company}';
+                const inspectionNotification = {
+                    notification: {
+                        title: "Inspection is due in One Week",
+                        body: truckNumber,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(managersTopic || usersTopic, inspectionNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+exports.sendInspectionNotifications2 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const today = moment();
+        const formattedDate2 = today.add('days', 14).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Inspection Expiry", "==", formattedDate2)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const truckNumber = doc.data().Truck;
+                let managersTopic = 'manager ${doc.data().company}';
+                let usersTopic = 'puppies ${doc.data().company}';
+                const inspectionNotification = {
+                    notification: {
+                        title: "Inspection is due in Two Weeks",
                         body: truckNumber,
                         icon: "default",
                         sound: "default"
@@ -179,6 +318,77 @@ exports.sendInsuranceNotifications = functions.https.onRequest((request, respons
     });
 });
 
+exports.sendInsuranceNotifications1 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const date = moment();
+        const formatted1 = date.add('days', 7).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Insurance Expiry", "==", formatted1)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const plate = doc.data().Truck;
+                let manTopic = 'manager${doc.data().company}';
+                let useTopic = 'puppies${doc.data().company}';
+                const insuranceNotification = {
+                    notification: {
+                        title: "Insurance expires in One Week",
+                        body: plate,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(manTopic || useTopic, insuranceNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+exports.sendInsuranceNotifications2 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const date = moment();
+        const formatted2 = date.add('days', 14).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Insurance Expiry", "==", formatted2)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const plate = doc.data().Truck;
+                let manTopic = 'manager${doc.data().company}';
+                let useTopic = 'puppies${doc.data().company}';
+                const insuranceNotification = {
+                    notification: {
+                        title: "Insurance expires in 2 Weeks",
+                        body: plate,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(manTopic || useTopic, insuranceNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+
 exports.sendSpeedNotifications = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const todate = moment();
@@ -213,6 +423,77 @@ exports.sendSpeedNotifications = functions.https.onRequest((request, response) =
         });
     });
 });
+
+exports.sendSpeedNotifications1 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const todate = moment();
+        const format1 = todate.add('days', 7).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Speed Governor Expiry", "==", format1)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const plateNo = doc.data().Truck;
+                let manageTopic = 'manager${doc.data().company}';
+                let usTopic = 'puppies ${doc.data().company}';
+                const SpeedNotification = {
+                    notification: {
+                        title: "Speed governor expires is due in 1 Week",
+                        body: plateNo,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(manageTopic || usTopic, SpeedNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
+exports.sendSpeedNotifications2 = functions.https.onRequest((request, response) => {
+    cors(request, response, () => {
+        const todate = moment();
+        const format2 = todate.add('days', 14).format('MM/DD/YYYY');
+        admin.firestore()
+            .collection("service").where("Speed Governor Expiry", "==", format2)
+            .get()
+            .then(function (querySnapshot) {
+            const promises:any[] = [];
+
+            querySnapshot.forEach(doc => {
+                const plateNo = doc.data().Truck;
+                let manageTopic = 'manager${doc.data().company}';
+                let usTopic = 'puppies ${doc.data().company}';
+                const SpeedNotification = {
+                    notification: {
+                        title: "Speed governor expires is due in 2 Weeks",
+                        body: plateNo,
+                        icon: "default",
+                        sound: "default"
+                    }
+                };
+                promises
+                    .push(admin.messaging().sendToTopic(manageTopic || usTopic, SpeedNotification));
+            });
+            return Promise.all(promises);
+        })
+
+            .catch(error => {
+            console.log(error);
+            response.status(500).send(error);
+        });
+    });
+});
+
 
 exports.reportEnt = functions.https.onRequest((request, response) => {
     cors(request, response, () => {

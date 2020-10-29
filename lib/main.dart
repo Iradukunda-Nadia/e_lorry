@@ -13,6 +13,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() {
 
+  Crashlytics.instance.enableInDevMode = true;
+
+  // Pass all uncaught errors to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 

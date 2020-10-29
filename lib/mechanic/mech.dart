@@ -6,6 +6,7 @@ import 'Forms.dart';
 import 'car.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'truck.dart';
+import 'PTform.dart';
 
 class Mech extends StatefulWidget {
   @override
@@ -80,7 +81,7 @@ class _MechState extends State<Mech> {
                         itemBuilder: (context, index) {
                           return new GestureDetector(
                             onTap: (){
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckForms(
+                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Inspection(
 
                                 truckNumber: snapshot.data[index].data["plate"],
                                 driverName: snapshot.data[index].data["driver"],
