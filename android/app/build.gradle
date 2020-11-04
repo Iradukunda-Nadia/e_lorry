@@ -48,6 +48,15 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            storeFile file('elorry.jks')
+            keyAlias 'elorry'
+            storePassword 'iradukunda'
+            keyPassword 'iradukunda'
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
