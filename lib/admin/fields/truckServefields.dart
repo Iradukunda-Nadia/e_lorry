@@ -282,7 +282,7 @@ class _truckSerFieldsState extends State<truckSerFields> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: AppBar(title: Text("Car Form Fields"), centerTitle: true,),
+        appBar: AppBar(title: Text("Truck Service Fields"), centerTitle: true,),
         body: SingleChildScrollView(
           child: SafeArea(
               child: Padding(

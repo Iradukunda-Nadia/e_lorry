@@ -56,7 +56,7 @@ class _matRequestState extends State<matRequest> {
       CollectionReference reference = Firestore.instance.collection('request');
 
       await reference.add({
-        "Truck": _truck,
+        "Truck": widget.truckNo,
         "Item": Item,
         "Quantity": _quantity,
         "Name": _name,
@@ -264,31 +264,7 @@ class _matRequestState extends State<matRequest> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: Container(
-                    child: TextFormField(
-                      textCapitalization: TextCapitalization.sentences,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'SFUIDisplay'
-                      ),
-                      decoration: InputDecoration(
 
-                          errorStyle: TextStyle(color: Colors.red),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.1),
-                          labelText: 'Truck registration number',
-                          labelStyle: TextStyle(
-                              fontSize: 11
-                          )
-                      ),
-                      validator: (val) =>
-                      val.isEmpty  ? 'Enter a valid value' : null,
-                      onSaved: (val) => _truck = val,
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: Container(

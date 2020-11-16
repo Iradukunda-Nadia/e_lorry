@@ -194,80 +194,128 @@ class ChatMessageListItem extends StatelessWidget {
   List<Widget> getSentMessageLayout() {
     return <Widget>[
       new Expanded(
-        child: new Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            new Text(messageSnapshot.data['senderName'],
-                style: new TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold)),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: messageSnapshot.data['imageUrl'] != null
-                  ? new Image.network(
-                messageSnapshot.data['imageUrl'],
-                width: 250.0,
-              )
-                  : new Text(messageSnapshot.data['text']),
+          children: [
+            Container(
+              margin: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: .5,
+                      spreadRadius: 1.0,
+                      color: Colors.black.withOpacity(.12))
+                ],
+                color: Colors.greenAccent.shade100,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    new Text(messageSnapshot.data['senderName'],
+                        style: new TextStyle(
+                            fontSize: 11.0,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold)),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 5.0),
+                      child: messageSnapshot.data['imageUrl'] != null
+                          ? new Image.network(
+                        messageSnapshot.data['imageUrl'],
+                        width: 250.0,
+                      )
+                          : new Text(messageSnapshot.data['text']),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top:5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  new Text(DateFormat('dd-MMM-yy – kk:mm').format(messageSnapshot.data['time'].toDate()),
+                      style: new TextStyle(
+                          fontSize: 10.0,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      new Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Container(
-              margin: const EdgeInsets.only(left: 8.0),
-              child: new CircleAvatar(
-                backgroundColor: Colors.red[900],
-                child: new Text("${messageSnapshot.data['senderName']
-                    .substring(0,2)}",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.0,
-                      color: Colors.white),),
-              )),
-        ],
-      ),
+
     ];
   }
 
   List<Widget> getReceivedMessageLayout() {
     return <Widget>[
-      new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Container(
-              margin: const EdgeInsets.only(right: 8.0),
-              child: new CircleAvatar(
-                backgroundColor: const Color(0xff016836),
-                child: new Text("${messageSnapshot.data['senderName']
-                    .substring(0,2)}",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.0,
-                      color: Colors.white),),
-              )),
-        ],
-      ),
       new Expanded(
-        child: new Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text(messageSnapshot.data['senderName'],
-                style: new TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold)),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: messageSnapshot.data['imageUrl'] != null
-                  ? new Image.network(
-                messageSnapshot.data['imageUrl'],
-                width: 250.0,
-              )
-                  : new Text(messageSnapshot.data['text']),
+          children: [
+            Container(
+              margin: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: .5,
+                      spreadRadius: 1.0,
+                      color: Colors.black.withOpacity(.12))
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(messageSnapshot.data['senderName'],
+                        style: new TextStyle(
+                            fontSize: 11.0,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold)),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 5.0),
+                      child: messageSnapshot.data['imageUrl'] != null
+                          ? new Image.network(
+                        messageSnapshot.data['imageUrl'],
+                        width: 250.0,
+                      )
+                          : new Text(messageSnapshot.data['text']),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top:5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  new Text(DateFormat('dd-MMM-yy – kk:mm').format(messageSnapshot.data['time'].toDate()),
+                      style: new TextStyle(
+                          fontSize: 10.0,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           ],
         ),

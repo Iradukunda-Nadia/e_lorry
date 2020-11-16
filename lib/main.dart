@@ -1,26 +1,8 @@
-
-import 'package:e_lorry/manager/reporting/Reports.dart';
-import 'package:e_lorry/reuse.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'login.dart';
-import 'mechanic/car.dart';
 import 'mechanic/mech.dart';
-import 'package:e_lorry/user/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'admin/fields/carFields.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
-void main() {
-
-  Crashlytics.instance.enableInDevMode = true;
-
-  // Pass all uncaught errors to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -53,4 +35,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

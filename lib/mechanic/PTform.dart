@@ -238,7 +238,7 @@ class _InspectionState extends State<Inspection> {
 
     return docRef.get().then((datasnapshot) {
       if (datasnapshot.exists) {
-        List<dynamic> info = datasnapshot.data['Safety'].toList();
+        List<dynamic> info = datasnapshot.data['Wheels'].toList();
         print(info);
         return info;
       }

@@ -81,7 +81,7 @@ class _MechState extends State<Mech> {
                         itemBuilder: (context, index) {
                           return new GestureDetector(
                             onTap: (){
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Inspection(
+                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckForms(
 
                                 truckNumber: snapshot.data[index].data["plate"],
                                 driverName: snapshot.data[index].data["driver"],

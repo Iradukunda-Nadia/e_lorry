@@ -7,6 +7,7 @@ import 'package:e_lorry/user/requisition.dart';
 import 'package:e_lorry/user/truck_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:e_lorry/login.dart';
 
@@ -303,7 +304,9 @@ class _RequestsState extends State<Requests> {
   String _quoteOne;
   String _quoteTwo;
   String _quoteThree;
-  String _brand;
+  String _brand3;
+  String _brand1;
+  String _brand2;
   String _price;
   String _supplier;
   Map<String,dynamic> price;
@@ -336,7 +339,9 @@ class _RequestsState extends State<Requests> {
         "quoteOne" : _quoteOne,
         "quoteTwo" : _quoteTwo,
         "quoteThree" : _quoteThree,
-        "brand" : _brand,
+        "brand1" : _brand1,
+        "brand2" : _brand2,
+        "brand3" : _brand3,
         "price" : _price,
         "supplier" : _supplier,
         "reqDate" : _date,
@@ -397,7 +402,7 @@ class _RequestsState extends State<Requests> {
       }
     });
   }
-
+  TextEditingController dated = TextEditingController();
 
   @override
   void initState() {
@@ -586,129 +591,198 @@ class _RequestsState extends State<Requests> {
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
                         child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
+                          controller: dated,
                           decoration: InputDecoration(
-                              hintText: "mm/dd/yyyy",
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Date',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          inputFormatters: [mask],
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _date = val,
-                        ),
+                            labelText: "Date",
+                            hintText: "Enter Date",),
+                          onTap: () async{
+                            DateTime date = DateTime(1900);
+                            FocusScope.of(context).requestFocus(new FocusNode());
+
+                            date = await showDatePicker(
+                                context: context,
+                                initialDate:DateTime.now(),
+                                firstDate:DateTime(1900),
+                                lastDate: DateTime(2100));
+
+                            dated.text = DateFormat(' dd MMM yyyy').format(date);},
+                onSaved: (val) => _date = dated.text,
+              ),
+
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
+                    Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
 
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: '1st Qoute',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: '1st Qoute',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _quoteOne = val,
+                              ),
+                            ),
                           ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _quoteOne = val,
-                        ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Brand',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _brand1 = val,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
+                    Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
 
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: '2nd Quote',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: '2nd Quote',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _quoteTwo = val,
+                              ),
+                            ),
                           ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _quoteTwo = val,
-                        ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Brand',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _brand2 = val,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
+                    Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
 
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: '3rd Quote',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: '3rd Quote',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _quoteThree = val,
+                              ),
+                            ),
                           ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _quoteThree = val,
-                        ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Brand',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? 'Required' : null,
+                                onSaved: (val) => _brand3 = val,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
-
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Brand',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _brand = val,
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
