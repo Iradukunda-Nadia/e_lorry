@@ -81,14 +81,18 @@ class _RequisitionState extends State<Requisition> {
                                 reqName: doc.data["Name"],
                                 reqDate: doc.data["reqDate"],
                                 reqOne: doc.data["quoteOne"],
+                                brand1: doc.data["brand"],
                                 reqTwo: doc.data["quoteTwo"],
+                                brand2: doc.data["brand2"],
                                 reqThree: doc.data["quoteThree"],
-                                reqBrand: doc.data["brand"],
+                                brand3: doc.data["brand3"],
                                 reqPrice: doc.data["price"],
                                 reqSupplier: doc.data["supplier"],
                                 reqComment: doc.data["comment"],
                                 reqStatus: doc.data["status"],
+                                sample: doc.data["sample"],
                                 approvedby: doc.data["approved by"],
+                                approvedQuote: doc.data["approvedQuote"],
                                 ID: doc.documentID,
 
 
@@ -126,6 +130,11 @@ class RequisitionDetail extends StatefulWidget {
   String reqPrice;
   String reqSupplier;
   String reqStatus;
+  String brand1;
+  String brand2;
+  String brand3;
+  String sample;
+  String approvedQuote;
 
   RequisitionDetail({
 
@@ -142,8 +151,13 @@ class RequisitionDetail extends StatefulWidget {
     this.reqTwo,
     this.reqThree,
     this.reqBrand,
+    this.brand1,
+    this.brand2,
+    this.brand3,
     this.reqPrice,
-    this.reqSupplier
+    this.reqSupplier,
+    this.approvedQuote,
+    this.sample,
 
   });
 
@@ -336,6 +350,30 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                             ),
                           ],
                         ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.brand1,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
 
                         new SizedBox(
                           height: 5.0,
@@ -358,6 +396,30 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                             ),
                             new Text(
                               widget.reqTwo,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.brand2,
                               style: new TextStyle(
                                   fontSize: 11.0,
                                   color: Colors.indigo,
@@ -394,11 +456,6 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                             ),
                           ],
                         ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -415,7 +472,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                               ],
                             ),
                             new Text(
-                              widget.reqBrand,
+                              widget.brand3,
                               style: new TextStyle(
                                   fontSize: 11.0,
                                   color: Colors.indigo,
@@ -428,34 +485,6 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                           height: 5.0,
                         ),
 
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Final negotiated price",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.reqPrice,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
 
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -549,6 +578,36 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                           height: 10.0,
                         ),
 
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Approved qoute",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.approvedQuote,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+
+                        new SizedBox(
+                          height: 5.0,
+                        ),
+
+
                         MaterialButton(
                           child: Text('Generate LPO',
                             style: TextStyle(
@@ -570,6 +629,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                             itemQuantity: widget.itemQuantity,
                             itemNumber: widget.itemNumber,
                             reqPrice:  widget.reqPrice,
+                            appQuote:  widget.approvedQuote,
                             reqSupplier: widget.reqSupplier,
                             appby: widget.approvedby,
                             docID: widget.ID,

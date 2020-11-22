@@ -31,7 +31,7 @@ class _MechState extends State<Mech> {
   }
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).orderBy('plate').getDocuments();
     return qn.documents;
 
   }
@@ -79,6 +79,7 @@ class _MechState extends State<Mech> {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
+                          String counter = (index+1).toString();
                           return new GestureDetector(
                             onTap: (){
                               Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckForms(
@@ -100,7 +101,10 @@ class _MechState extends State<Mech> {
                                   new ListTile(
                                     leading: new CircleAvatar(
                                       backgroundColor: Colors.red[900],
-                                      child: new Icon(Icons.local_shipping, color: Colors.white,)
+                                      child:new Text(counter,style: new TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12.0,
+                                          color: Colors.white),),
                                     ),
                                     title: new Text("${snapshot.data[index].data["plate"]}",
                                       style: new TextStyle(
@@ -154,7 +158,7 @@ class _carsListState extends State<carsList> {
   }
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).orderBy('plate').getDocuments();
     return qn.documents;
 
   }
@@ -202,6 +206,7 @@ class _carsListState extends State<carsList> {
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
+                            String counter = (index+1).toString();
                             return new GestureDetector(
                               onTap: (){
                                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Car(
@@ -222,7 +227,10 @@ class _carsListState extends State<carsList> {
                                     new ListTile(
                                       leading: new CircleAvatar(
                                           backgroundColor: Colors.red[900],
-                                          child: new Icon(Icons.directions_car, color: Colors.white,)
+                                          child: new Text(counter,style: new TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12.0,
+                                              color: Colors.white),),
                                       ),
                                       title: new Text("${snapshot.data[index].data["plate"]}",
                                         style: new TextStyle(

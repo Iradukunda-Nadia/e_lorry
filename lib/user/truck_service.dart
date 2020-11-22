@@ -14,7 +14,7 @@ class truckService extends StatefulWidget {
 class _truckServiceState extends State<truckService> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).orderBy('plate').getDocuments();
     return qn.documents;
 
   }
@@ -55,6 +55,7 @@ class _truckServiceState extends State<truckService> {
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
+                            String counter = (index+1).toString();
                             return new GestureDetector(
                               onTap: (){
                                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new SeviceDates(
@@ -76,7 +77,10 @@ class _truckServiceState extends State<truckService> {
                                     new ListTile(
                                       leading: new CircleAvatar(
                                           backgroundColor: Colors.red[900],
-                                          child: new Icon(Icons.local_shipping)
+                                          child: new Text(counter,style: new TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12.0,
+                                              color: Colors.white),),
                                       ),
                                       title: new Text("${snapshot.data[index].data["plate"]}",
                                         style: new TextStyle(

@@ -9,6 +9,7 @@ import 'package:e_lorry/user/truck_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:e_lorry/login.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../chat.dart';
@@ -266,6 +267,9 @@ class _ItemsState extends State<Items> {
                               reqBrand: doc.data["brand"],
                               reqPrice: doc.data["price"],
                               reqSupplier: doc.data["supplier"],
+                              brand1: doc.data["supplier"],
+                              brand2: doc.data["supplier"],
+                              brand3: doc.data["supplier"],
                               status: doc.data["status"],
 
 
@@ -300,11 +304,17 @@ class Approval extends StatefulWidget {
   String reqPrice;
   String reqSupplier;
   String status;
+  String brand1;
+  String brand2;
+  String brand3;
 
   Approval({
 
-    this.itemID,
+    this.brand3,
+    this.brand2,
+    this.brand1,
     this.itemName,
+    this.itemID,
     this.itemQuantity,
     this.itemNumber,
     this.reqName,
@@ -325,9 +335,13 @@ class Approval extends StatefulWidget {
 
 class _ApprovalState extends State<Approval> {
 
+
+
   final formKey = GlobalKey<FormState>();
+  final fKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _comment;
+  String appQuote;
 
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -360,6 +374,7 @@ class _ApprovalState extends State<Approval> {
       'status': "Approved",
       'comment': "Approved",
       'approved by': currentUserEmail,
+      'approvedQuote': appQuote,
         });
   }
 
@@ -395,7 +410,9 @@ class _ApprovalState extends State<Approval> {
     await Firestore.instance
         .collection('requisition')
         .document(widget.itemID)
-        .updateData({'comment': _comment});
+        .updateData({
+      'comment': _comment,
+        });
   }
 
 
@@ -603,7 +620,30 @@ class _ApprovalState extends State<Approval> {
                             ),
                           ],
                         ),
-
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.brand1,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
                         new SizedBox(
                           height: 5.0,
                         ),
@@ -625,6 +665,30 @@ class _ApprovalState extends State<Approval> {
                             ),
                             new Text(
                               widget.reqTwo,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.brand2,
                               style: new TextStyle(
                                   fontSize: 11.0,
                                   color: Colors.indigo,
@@ -654,6 +718,30 @@ class _ApprovalState extends State<Approval> {
                             ),
                             new Text(
                               widget.reqThree,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.brand3,
                               style: new TextStyle(
                                   fontSize: 11.0,
                                   color: Colors.indigo,
@@ -782,51 +870,7 @@ class _ApprovalState extends State<Approval> {
                         new SizedBox(
                           height: 5.0,
                         ),
-                        Form(
-                          key: formKey,
-                          child: Column(
-                            children: <Widget>[
 
-                              new SizedBox(
-                                height: 10.0,
-                              ),
-                              new Text("comment",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                              new SizedBox(
-                                height: 10.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                child: Container(
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    textCapitalization: TextCapitalization.sentences,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'SFUIDisplay'
-                                    ),
-                                    decoration: InputDecoration(
-
-                                        errorStyle: TextStyle(color: Colors.red),
-                                        filled: true,
-                                        fillColor: Colors.white.withOpacity(0.1),
-                                        labelText: 'Comment',
-                                        labelStyle: TextStyle(
-                                            fontSize: 11
-                                        )
-                                    ),
-                                    validator: (val) =>
-                                    val.isEmpty  ? 'Required' : null,
-                                    onSaved: (val) => _comment = val,
-                                  ),
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: new Row(
@@ -839,8 +883,75 @@ class _ApprovalState extends State<Approval> {
                                     width: 5.0,
                                   ),
                                   MaterialButton(
-                                    onPressed: _submitCommand,
-                                    child: Text('comment',
+                                    onPressed: (){
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder:  (BuildContext context) {
+                                        // return object of type Dialog
+                                        return AlertDialog(
+                                          content: Form(
+                                            key: formKey,
+                                            child: Column(
+                                              children: <Widget>[
+
+                                                new SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                new Text("Comment",
+                                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                                new SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                                  child: Container(
+                                                    child: TextFormField(
+                                                      keyboardType: TextInputType.multiline,
+                                                      maxLines: null,
+                                                      textCapitalization: TextCapitalization.sentences,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontFamily: 'SFUIDisplay'
+                                                      ),
+                                                      decoration: InputDecoration(
+
+                                                          errorStyle: TextStyle(color: Colors.red),
+                                                          filled: true,
+                                                          fillColor: Colors.white.withOpacity(0.1),
+                                                          labelText: 'Comment',
+                                                          labelStyle: TextStyle(
+                                                              fontSize: 11
+                                                          )
+                                                      ),
+                                                      validator: (val) =>
+                                                      val.isEmpty  ? 'Required' : null,
+                                                      onSaved: (val) => _comment = val,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            // usually buttons at the bottom of the dialog
+                                            new RaisedButton(
+                                              color: Colors.grey,
+                                              elevation: 16.0,
+                                              child: new Text("Comment"),
+                                              onPressed: () {
+                                                _submitCommand();
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                      );
+                                    },
+                                    child: Text('Reject with Comment',
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontFamily: 'SFUIDisplay',
@@ -858,8 +969,49 @@ class _ApprovalState extends State<Approval> {
                                 ],
                               ),
                               MaterialButton(
-                                onPressed: _approveCommand,
-                                child: Text('Approve',
+                                onPressed: (){
+                                  showCupertinoDialog(
+                                      context: context,
+                                    builder: (BuildContext context) {
+                                      // return object of type Dialog
+                                      return AlertDialog(
+                                        content: FormBuilder(
+                                          key: fKey,
+                                          child: Column(
+                                            children: [
+                                              new FormBuilderDropdown(
+                                                attribute: "gender",
+                                                decoration: InputDecoration(labelText: "Gender"),
+                                                // initialValue: 'Male',
+                                                hint: Text('Select Gender'),
+                                                validators: [FormBuilderValidators.required()],
+                                                items: ['${widget.brand1} - ${widget.reqOne}', '${widget.brand2} ${widget.reqTwo}', '${widget.brand3} ${widget.reqThree}']
+                                                    .map((quotes) => DropdownMenuItem(
+                                                    value: quotes,
+                                                    child: Text("$quotes")
+                                                )).toList(),
+
+                                                onSaved: (val) => appQuote = val,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          // usually buttons at the bottom of the dialog
+                                          new FlatButton(
+                                            child: new Text("Approve"),
+                                            onPressed: () {
+                                              _approveCommand();
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text('Approve Quote',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontFamily: 'SFUIDisplay',

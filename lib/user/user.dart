@@ -7,6 +7,7 @@ import 'package:e_lorry/user/requisition.dart';
 import 'package:e_lorry/user/truck_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:e_lorry/login.dart';
@@ -246,6 +247,7 @@ class _ItemsState extends State<Items> {
                             Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Requests(
 
                               itemName: doc.data["Item"],
+                              person: doc.data["Name"],
                               itemQuantity: doc.data["Quantity"],
                               itemNumber: doc.data["Truck"],
                               truckType: doc.data["tType"],
@@ -275,11 +277,13 @@ class Requests extends StatefulWidget {
   String itemNumber;
   String truckType;
   String company;
+  String person;
 
 
   Requests({
 
     this.truckType,
+    this.person,
     this.company,
     this.itemName,
     this.itemQuantity,
@@ -305,8 +309,11 @@ class _RequestsState extends State<Requests> {
   String _quoteTwo;
   String _quoteThree;
   String _brand;
+  String _brand2;
+  String _brand3;
   String _price;
   String _supplier;
+  String _sample;
   Map<String,dynamic> price;
 
   var mask = new MaskTextInputFormatter(mask: '##/##/####', filter: { "#": RegExp(r'[0-9]') });
@@ -333,16 +340,19 @@ class _RequestsState extends State<Requests> {
         "Item": widget.itemName,
         "Quantity": widget.itemQuantity,
         "Name": _name,
-        "date" : DateTime.now(),
+        "date" : DateFormat(' dd MMM yyyy').format(DateTime.now()),
         "quoteOne" : _quoteOne,
         "quoteTwo" : _quoteTwo,
         "quoteThree" : _quoteThree,
-        "brand" : _brand,
+        "brand1" : _brand,
+        "brand2" : _brand2,
+        "brand3" : _brand3,
         "price" : _price,
         "supplier" : _supplier,
-        "reqDate" : _date,
+        "reqDate" : DateTime.now(),
         "status" : "pending",
         "company": widget.company,
+        "sample": _sample
       });
     }).then((result) =>
 
@@ -502,6 +512,54 @@ class _RequestsState extends State<Requests> {
                             ),
                           ],
                         ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Requested by",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.person,
+                              style: new TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Date",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              DateFormat(' dd MMM yyyy').format(DateTime.now()),
+                              style: new TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
 
                         new Text(
                           "Previous price",
@@ -554,85 +612,6 @@ class _RequestsState extends State<Requests> {
                     new SizedBox(
                       height: 10.0,
                     ),
-
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Name of person making request',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _name = val,
-                        ),
-                      ),
-                    ),
-
-                    new SizedBox(
-                      height: 10.0,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          controller: dated,
-                          decoration: InputDecoration(
-                            labelText: "Date",
-                            hintText: "Enter Date",),
-                          onTap: () async{
-                            DateTime date = DateTime(1900);
-                            FocusScope.of(context).requestFocus(new FocusNode());
-
-                            date = await showDatePicker(
-                                context: context,
-                                initialDate:DateTime.now(),
-                                firstDate:DateTime(1900),
-                                lastDate: DateTime(2100));
-
-                            dated.text = DateFormat(' dd MMM yyyy').format(date);},
-                onSaved: (val) => _date = dated.text,
-              ),
-
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
-                              hintText: "mm/dd/yyyy",
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Date',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          inputFormatters: [mask],
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _date = val,
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(
@@ -672,6 +651,31 @@ class _RequestsState extends State<Requests> {
                               errorStyle: TextStyle(color: Colors.red),
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.1),
+                              labelText: 'Brand',
+                              labelStyle: TextStyle(
+                                  fontSize: 11
+                              )
+                          ),
+                          validator: (val) =>
+                          val.isEmpty  ? 'Required' : null,
+                          onSaved: (val) => _brand = val,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                      child: Container(
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'SFUIDisplay'
+                          ),
+                          decoration: InputDecoration(
+
+                              errorStyle: TextStyle(color: Colors.red),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.1),
                               labelText: '2nd Quote',
                               labelStyle: TextStyle(
                                   fontSize: 11
@@ -680,6 +684,31 @@ class _RequestsState extends State<Requests> {
                           validator: (val) =>
                           val.isEmpty  ? 'Required' : null,
                           onSaved: (val) => _quoteTwo = val,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                      child: Container(
+                        child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'SFUIDisplay'
+                          ),
+                          decoration: InputDecoration(
+
+                              errorStyle: TextStyle(color: Colors.red),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.1),
+                              labelText: 'Brand',
+                              labelStyle: TextStyle(
+                                  fontSize: 11
+                              )
+                          ),
+                          validator: (val) =>
+                          val.isEmpty  ? 'Required' : null,
+                          onSaved: (val) => _brand2 = val,
                         ),
                       ),
                     ),
@@ -730,7 +759,30 @@ class _RequestsState extends State<Requests> {
                           ),
                           validator: (val) =>
                           val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _brand = val,
+                          onSaved: (val) => _brand3 = val,
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                      child: Container(
+                        child: FormBuilderCheckboxGroup(
+                          orientation: GroupedCheckboxOrientation.horizontal,
+                          decoration:
+                          InputDecoration(labelText: "Sample provided or shared?"),
+                          attribute: "sample",
+                          initialValue: ["Yes"],
+                          checkColor: Colors.red[900],
+                          options: [
+                            FormBuilderFieldOption(value: "Yes"),
+                            FormBuilderFieldOption(value: "No"),
+                          ],
+                          validators: [
+                            FormBuilderValidators.required(
+                                errorText: 'This field required.'),
+                          ],
+                          onSaved: (val) => _sample = val,
                         ),
                       ),
                     ),

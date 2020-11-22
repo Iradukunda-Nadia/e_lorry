@@ -820,7 +820,7 @@ class _repDivState extends State<repDiv> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Car Service",
+                            "Car Service History report",
                             style: new TextStyle(
                                 color: const Color(0xff016836), fontSize: 20.0),
                           )),
@@ -854,7 +854,7 @@ class _repDivState extends State<repDiv> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Truck Service",
+                            "Service History Report",
                             style: new TextStyle(
                                 color: const Color(0xff016836), fontSize: 20.0),
                           )),
@@ -889,7 +889,7 @@ class _repDivState extends State<repDiv> {
                               new Radius.circular(20.0))),
                       child: new Center(
                           child: new Text(
-                            "Material request",
+                            "Material request Report",
                             style: new TextStyle(
                                 color: const Color(0xff016836), fontSize: 20.0),
                           )),

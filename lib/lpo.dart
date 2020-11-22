@@ -37,6 +37,7 @@ class lpoForm extends StatefulWidget {
   String reqSupplier;
   String reqStatus;
   String docID;
+  String appQuote;
 
   lpoForm({
 
@@ -54,7 +55,8 @@ class lpoForm extends StatefulWidget {
     this.reqThree,
     this.reqBrand,
     this.reqPrice,
-    this.reqSupplier
+    this.reqSupplier,
+    this.appQuote,
 
   });
 
@@ -531,7 +533,7 @@ class _lpoFormState extends State<lpoForm> {
                                       height: 30.0,
                                       child: Center(
                                         child: Text(
-                                          "AMOUNT",
+                                          "Brand and Price",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.black,
@@ -603,7 +605,7 @@ class _lpoFormState extends State<lpoForm> {
                                       height: 30.0,
                                       child: Center(
                                         child: Text(
-                                          widget.reqPrice,
+                                          widget.appQuote,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.black,

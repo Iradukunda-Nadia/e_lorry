@@ -13,7 +13,7 @@ class Admin extends StatefulWidget {
 class _AdminState extends State<Admin> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("trucks").where('company', isEqualTo: userCompany).orderBy('plate').getDocuments();
     return qn.documents;
 
   }
@@ -67,6 +67,7 @@ class _AdminState extends State<Admin> {
                         return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
+                            String counter = (index+1).toString();
                             return new GestureDetector(
                               onTap: (){
                                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckDetails(
@@ -76,6 +77,8 @@ class _AdminState extends State<Admin> {
                                   driverNumber: snapshot.data[index].data["phone"],
                                   driverID: snapshot.data[index].data["ID"],
                                   turnboy: snapshot.data[index].data["turnboy"],
+                                  turnboyID: snapshot.data[index].data["turnboyID"],
+                                  turnboyNumber: snapshot.data[index].data["turnboyNumber"],
                                   itemID: snapshot.data[index].documentID,
                                   truckType: snapshot.data[index].data["type"],
 
@@ -88,7 +91,10 @@ class _AdminState extends State<Admin> {
                                     new ListTile(
                                       leading: new CircleAvatar(
                                           backgroundColor: Colors.red[900],
-                                          child: new Icon(Icons.local_shipping)
+                                          child: new Text(counter,style: new TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12.0,
+                                              color: Colors.white),),
                                       ),
                                       title: new Text("${snapshot.data[index].data["plate"]}",
                                         style: new TextStyle(
@@ -126,6 +132,8 @@ class TruckDetails extends StatefulWidget {
   String driverNumber;
   String driverID;
   String turnboy;
+  String turnboyID;
+  String turnboyNumber;
   String itemDescription;
   String truckType;
 
@@ -138,6 +146,8 @@ class TruckDetails extends StatefulWidget {
     this.driverNumber,
     this.driverID,
     this.turnboy,
+    this.turnboyID,
+    this.turnboyNumber,
     this.itemDescription
   });
   @override
@@ -151,6 +161,8 @@ class _TruckDetailsState extends State<TruckDetails> {
   String _driverNo;
   String _driverID;
   String _turnBoy;
+  String _turnBoyID;
+  String _turnBoyNumber;
   String _truckType;
 
 
@@ -183,6 +195,8 @@ class _TruckDetailsState extends State<TruckDetails> {
       'phone': _driverNo,
       'ID': _driverID,
       'turnboy': _turnBoy,
+      'turnboyID': _turnBoyID,
+      'turnboyNumber': _turnBoyNumber,
 
     }).then((result) =>
 
@@ -203,6 +217,7 @@ class _TruckDetailsState extends State<TruckDetails> {
             new FlatButton(
               child: new Text("close"),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
@@ -352,7 +367,7 @@ class _TruckDetailsState extends State<TruckDetails> {
                                     errorStyle: TextStyle(color: Colors.red),
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Turn Boy',
+                                    labelText: 'Turn Boy Name',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
@@ -361,6 +376,54 @@ class _TruckDetailsState extends State<TruckDetails> {
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
                                 onSaved: (val) => _turnBoy = val,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Turn Boy Number',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                initialValue: widget.turnboyNumber,
+                                validator: (val) =>
+                                val.isEmpty  ? null : null,
+                                onSaved: (val) => _turnBoyNumber = val,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Turn Boy ID',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                initialValue: widget.turnboyID,
+                                validator: (val) =>
+                                val.isEmpty  ? null : null,
+                                onSaved: (val) => _turnBoyID = val,
                               ),
                             ),
                           ),
@@ -419,6 +482,8 @@ class _addTruckState extends State<addTruck> {
   String _driverNo2;
   String _driverID2;
   String _turnBoy2;
+  String _turnBoyNumber2;
+  String _turnBoyID2;
   String _truckType;
   initState() {
     // TODO: implement initState
@@ -463,6 +528,8 @@ class _addTruckState extends State<addTruck> {
         'phone': _driverNo2,
         'ID': _driverID2,
         'turnboy': _turnBoy2,
+        'turnboyNumber': _turnBoyNumber2,
+        'turnboyID': _turnBoyID2,
         'type': _truckType,
         'company': userCompany,
 
@@ -484,6 +551,7 @@ class _addTruckState extends State<addTruck> {
             new FlatButton(
               child: new Text("close"),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
@@ -619,7 +687,7 @@ class _addTruckState extends State<addTruck> {
                                     errorStyle: TextStyle(color: Colors.red),
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.1),
-                                    labelText: 'Turn Boy',
+                                    labelText: 'Turn Boy Name',
                                     labelStyle: TextStyle(
                                         fontSize: 11
                                     )
@@ -627,6 +695,53 @@ class _addTruckState extends State<addTruck> {
                                 validator: (val) =>
                                 val.isEmpty  ? null : null,
                                 onSaved: (val) => _turnBoy2 = val,
+                              ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Turn Boy Number',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? null : null,
+                                onSaved: (val) => _turnBoyNumber2 = val,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                            child: Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'SFUIDisplay'
+                                ),
+                                decoration: InputDecoration(
+                                    errorStyle: TextStyle(color: Colors.red),
+                                    filled: true,
+                                    fillColor: Colors.white.withOpacity(0.1),
+                                    labelText: 'Turn Boy ID',
+                                    labelStyle: TextStyle(
+                                        fontSize: 11
+                                    )
+                                ),
+                                validator: (val) =>
+                                val.isEmpty  ? null : null,
+                                onSaved: (val) => _turnBoyID2 = val,
                               ),
                             ),
                           ),
@@ -653,7 +768,7 @@ class _addTruckState extends State<addTruck> {
                                         _truckType = value;
                                       });
                                     },
-                                    hint: new Text("Select Item"),
+                                    hint: new Text("Select Truck type"),
                                     style: TextStyle(color: Colors.black),
 
                                   );

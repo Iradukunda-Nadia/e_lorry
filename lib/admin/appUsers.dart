@@ -160,6 +160,7 @@ class _addUserState extends State<addUser> {
               child: new Text("close"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],

@@ -50,11 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String id;
   String user;
   String status;
-
-
-
-
-
+  bool checkedValue = false;
 
 
 
@@ -98,12 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   status = doc['status'];
 
+
                 });
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString('compLogo', doc['logo']);
                 prefs.setString('compEmail', doc['email']);
                 prefs.setString('compPhone', doc['phone']);
                 prefs.setString('compName', doc['name']);
+
 
                 if( status != "Active" ) {
                   showDialog(
@@ -141,6 +139,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
             });
 
+          if (checkedValue == true){
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('userID', _email);
+            prefs.setString('LoggedIn', 'yes');
+          }
+
 
             if( id == "Fleet Manager" ) {
               _messaging.subscribeToTopic('manager${document['company']}');
@@ -175,6 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ));
 
             }
+
+
 
         });
       }
@@ -222,8 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
-
   @override
   void initState() {
     changeTheme();
@@ -448,6 +453,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                   ),
+                                  CheckboxListTile(
+                                    title: Text("Remember me"),
+                                    value: checkedValue,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        checkedValue = newValue;
+                                      });
+
+                                    },
+                                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                  ),
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(70, 10, 70, 0),
                                     child: MaterialButton(
@@ -481,6 +497,348 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ));
                                         }
                                      ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Logged extends StatefulWidget {
+  @override
+  _LoggedState createState() => _LoggedState();
+}
+
+class _LoggedState extends State<Logged> {
+  bool colorSwitched = false;
+  var logoImage;
+
+  final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  //We have two private fields here
+  String _email;
+  String _uid;
+  String _password;
+  String name1;
+  String pw1;
+  String name2;
+  String pw2;
+  String name3;
+  String pw3;
+  String name4;
+  String pw4;
+  String avatar;
+  String id;
+  String user;
+  String status;
+  bool checkedValue = false;
+
+
+
+  void _submitCommand() {
+    //get state of our Form
+    final form = formKey.currentState;
+
+    //`validate()` validates every FormField that is a descendant of this Form,
+    // and returns true if there are no errors.
+    if (form.validate()) {
+      //`save()` Saves every FormField that is a descendant of this Form.
+      form.save();
+
+      // Email & password matched our validation rules
+      // and are saved to _email and _password fields.
+      _loginCommand();
+    }
+  }
+
+
+
+
+  _loginCommand() async {
+    var collectionReference = Firestore.instance.collection('userID');
+    var query = collectionReference.where("uid", isEqualTo: email ).where('pw', isEqualTo: _password);
+    query.getDocuments().then((querySnapshot) {
+      if (querySnapshot.documents.length == 0) {
+        final snack = SnackBar(
+          content: Text('invallid login details'),
+        );
+        scaffoldKey.currentState.showSnackBar(snack);
+      } else {
+        querySnapshot.documents.forEach((document)
+        async {
+
+          var newQuery = Firestore.instance.collection('companies').where("company", isEqualTo: document['company'] );
+          newQuery.getDocuments().then((querySnapshot) {
+            if (querySnapshot.documents.length != 0) {
+              querySnapshot.documents.forEach((doc)
+              async {
+                setState(() {
+                  status = doc['status'];
+
+
+                });
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('compLogo', doc['logo']);
+                prefs.setString('compEmail', doc['email']);
+                prefs.setString('compPhone', doc['phone']);
+                prefs.setString('compName', doc['name']);
+
+
+                if( status != "Active" ) {
+                  showDialog(
+                      context: context, // user must tap button!
+                      builder: (BuildContext context) {
+                        return WillPopScope(
+                          onWillPop: () async =>false,
+                          child: CupertinoAlertDialog(
+                            title: new Icon(Icons.error_outline, size: 50,),
+                            content: Text('Unfortunately Your account Status is currently Suspended \n Contact the system admin for more information.'),
+                            actions: <Widget>[
+                              CupertinoButton(
+                                child: Text("Okay"),
+                                onPressed: () async{
+                                  SystemNavigator.pop();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                  );
+                }
+
+              });
+
+            }
+          });
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('user', document['name']);
+          prefs.setString('company', document['company']);
+          prefs.setString('ref', document['ref']);
+          setState(() {
+            id = document['dept'];
+
+          });
+
+
+          if( id == "Fleet Manager" ) {
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new Manager()
+            ));
+          }
+          if(id == "Accounts" ) {
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new User()
+            ));
+
+          }
+
+          if(id == "Chief Mechanic" ) {
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new vehicleService()
+            ));
+
+          }
+
+          if(id == "Administrator") {
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new adminHome()
+            ));
+
+          }
+        });
+      }
+    });
+  }
+
+
+  String email;
+  checkLoggedin() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    email = prefs.getString('userID');
+
+
+  }
+  @override
+  void initState() {
+    checkLoggedin();
+
+    super.initState();
+
+
+    setState(() {
+      logoImage = 'assets/log02.png';
+    });
+  }
+
+  final FirebaseMessaging _messaging = FirebaseMessaging();
+
+
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: GestureDetector(
+            onLongPress: () {},
+            child: Container(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    child: Image.asset(
+                      logoImage,
+                      fit: BoxFit.contain,
+                      height: 180.0,
+                      width: 380.0,
+                    ),
+                  ),
+
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: 410.0,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10,10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15),
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15)),
+                              color: const Color(0xff016836),
+
+                            ),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
+                                    child: Container(
+                                        child: Text("Welcome", style: TextStyle(color: Colors.white, fontSize: 18),)
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                                    child: Container(
+                                      child:Text("You Are signed in as:\n ${email}", style: TextStyle(color: Colors.white, fontSize: 18),)
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                                    child: Container(
+                                      child: TextFormField(
+                                        obscureText: true,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'SFUIDisplay'
+                                        ),
+                                        decoration: InputDecoration(
+                                            errorStyle: TextStyle(color: Colors.white),
+                                            filled: true,
+                                            fillColor: Colors.white.withOpacity(0.1),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                              borderSide: new BorderSide(color: Colors.white70),
+                                            ),
+                                            labelText: 'Password',
+                                            prefixIcon: Icon(Icons.lock_outline),
+                                            labelStyle: TextStyle(
+                                                fontSize: 15
+                                            )
+                                        ),
+                                        validator: (val) =>
+                                        val.length < 4 ? 'Your password is too Password too short..' : null,
+                                        onSaved: (val) => _password = val,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(70, 10, 70, 0),
+                                    child: MaterialButton(
+                                      onPressed: _submitCommand,
+                                      child: Text('SIGN IN',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'SFUIDisplay',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      color: Colors.white,
+                                      elevation: 16.0,
+                                      minWidth: 400,
+                                      height: 50,
+                                      textColor: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: FlatButton(
+                                        child: new Text(
+                                            "Would you like to Logout?",
+                                            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300, color: Colors.white60)),
+                                        onPressed: () async {
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          prefs.remove('email');
+                                          Navigator.of(context).push(new MaterialPageRoute(
+                                              builder: (BuildContext context) => new LoginScreen()
+                                          ));
+                                        }
+                                    ),
                                   )
                                 ],
                               ),

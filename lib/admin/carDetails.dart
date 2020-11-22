@@ -12,7 +12,7 @@ class CarsList extends StatefulWidget {
 class _CarsListState extends State<CarsList> {
   Future getUsers() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).getDocuments();
+    QuerySnapshot qn = await firestore.collection("cars").where('company', isEqualTo: userCompany).orderBy('plate').getDocuments();
     return qn.documents;
 
   }
