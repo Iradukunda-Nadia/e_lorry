@@ -353,15 +353,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Image.asset(
                       logoImage,
                       fit: BoxFit.contain,
-                      height: 180.0,
-                      width: 380.0,
+                      height: 130.0,
+                      width: 330.0,
                     ),
                   ),
 
                   Column(
                     children: <Widget>[
                       Container(
-                        height: 410.0,
+                        height: 450.0,
                         width: MediaQuery
                             .of(context)
                             .size

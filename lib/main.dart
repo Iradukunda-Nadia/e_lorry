@@ -1,3 +1,4 @@
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -7,7 +8,9 @@ import 'mechanic/mech.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var email = prefs.getString('email');
+  FirebaseInAppMessaging fiam = FirebaseInAppMessaging();
+
+  var email = prefs.getString('userID');
   print(email);
   runApp(MaterialApp(
       title: 'E-lorry',
