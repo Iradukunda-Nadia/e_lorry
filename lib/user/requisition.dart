@@ -638,7 +638,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                             itemName: widget.itemName,
                             itemQuantity: widget.itemQuantity,
                             itemNumber: widget.itemNumber,
-                            reqPrice:  widget.reqPrice,
+                            reqPrice:  widget.approvedPrice,
                             appQuote:  widget.approvedQuote,
                             reqSupplier: widget.reqSupplier,
                             appby: widget.approvedby,

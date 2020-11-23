@@ -172,7 +172,7 @@ class _lpoFormState extends State<lpoForm> {
         "date" : DateFormat(' dd MMM yyyy').format(now),
         "prepared by" : name,
         "Approved by" : widget.appby,
-        "Supplier" : widget.reqSupplier,
+        "Supplier" : widget.appQuote,
         "company" : userCompany,
 
       });
@@ -605,7 +605,7 @@ class _lpoFormState extends State<lpoForm> {
                                       height: 30.0,
                                       child: Center(
                                         child: Text(
-                                          widget.appQuote,
+                                          widget.reqPrice,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: Colors.black,

@@ -372,6 +372,24 @@ class _ApprovalState extends State<Approval> {
   }
 
   _updateStatus() async {
+    if (radioItem =='1' ){
+      setState(() {
+        appQuote = widget.brand1;
+        appPrice = widget.reqOne;
+      });
+    }
+    if (radioItem =='2' ){
+      setState(() {
+        appQuote = widget.brand2;
+        appPrice = widget.reqTwo;
+      });
+    }
+    if (radioItem =='3' ){
+      setState(() {
+        appQuote = widget.brand3;
+        appPrice = widget.reqThree;
+      });
+    }
     await Firestore.instance
         .collection('requisition')
         .document(widget.itemID)
@@ -908,12 +926,10 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand1),
                                                   subtitle: Text(widget.reqOne),
-                                                  value: widget.brand1,
+                                                  value: '1',
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
-                                                      appQuote = radioItem;
-                                                      appPrice = widget.reqOne;
                                                     });
                                                   },
                                                 ),
@@ -921,12 +937,10 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand2),
                                                   subtitle: Text(widget.reqOne),
-                                                  value: widget.brand2,
+                                                  value: '2',
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
-                                                      appQuote = radioItem;
-                                                      appPrice = widget.reqTwo;
                                                     });
                                                   },
                                                 ),
@@ -935,12 +949,10 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand3),
                                                   subtitle: Text(widget.reqThree),
-                                                  value: widget.brand3,
+                                                  value: '3',
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
-                                                      appQuote = radioItem;
-                                                      appPrice = widget.reqThree;
                                                     });
                                                   },
                                                 ),

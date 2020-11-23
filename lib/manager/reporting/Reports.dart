@@ -702,7 +702,7 @@ class _matReportState extends State<matReport> {
               style: new TextStyle(fontSize: 8.0),)),
             DataCell(Text(doc.data["Item"],
               style: new TextStyle(fontSize: 8.0),)),
-            DataCell(Text(doc.data["brand"],
+            DataCell(Text(doc.data["approvedQuote"],
               style: new TextStyle(fontSize: 8.0),)),
             DataCell(Text(doc.data["price"],
               style: new TextStyle(fontSize: 8.0),)),
