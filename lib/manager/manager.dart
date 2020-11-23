@@ -164,9 +164,13 @@ class _ManagerState extends State<Manager> {
                 ),
               ),
               title: new Text("Logout"),
-              onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new LoginScreen()));
-              },
+              onTap: ()async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new LoginScreen()
+                ));
+              }
             ),
 
 

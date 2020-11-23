@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String id;
   String user;
   String status;
-  bool checkedValue = false;
+  bool checkedValue;
 
 
 
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             });
 
-          if (checkedValue == true){
+          if (checkedValue = true){
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('userID', _email);
@@ -231,6 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   void initState() {
+    checkedValue = false;
     changeTheme();
     super.initState();
     _messaging.getToken().then((token) {
@@ -639,26 +640,26 @@ class _LoggedState extends State<Logged> {
 
 
           if( id == "Fleet Manager" ) {
-            Navigator.of(context).push(new CupertinoPageRoute(
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                 builder: (BuildContext context) => new Manager()
             ));
           }
           if(id == "Accounts" ) {
-            Navigator.of(context).push(new CupertinoPageRoute(
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                 builder: (BuildContext context) => new User()
             ));
 
           }
 
           if(id == "Chief Mechanic" ) {
-            Navigator.of(context).push(new CupertinoPageRoute(
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                 builder: (BuildContext context) => new vehicleService()
             ));
 
           }
 
           if(id == "Administrator") {
-            Navigator.of(context).push(new CupertinoPageRoute(
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                 builder: (BuildContext context) => new adminHome()
             ));
 
@@ -772,7 +773,7 @@ class _LoggedState extends State<Logged> {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                                     child: Container(
-                                      child:Text("You Are signed in as:\n ${email}", style: TextStyle(color: Colors.white, fontSize: 18),)
+                                      child:Text("You Are signed in as:\n ${email}", style: TextStyle(color: Colors.white, fontSize: 18, ),)
                                     ),
                                   ),
                                   Padding(
