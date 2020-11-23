@@ -83,6 +83,7 @@ class _userDetailsState extends State<userDetails> {
               child: new Text("close"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -299,6 +300,7 @@ class _userDetailsState extends State<userDetails> {
                                         FlatButton(
                                           child: Text("Close"),
                                           onPressed: () {
+                                            Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                           },
                                         )
