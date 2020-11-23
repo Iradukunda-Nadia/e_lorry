@@ -211,6 +211,9 @@ class _ItemsState extends State<Items> {
   }
 
 
+  String radioItem = '';
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -397,7 +400,7 @@ class _RequestsState extends State<Requests> {
     query.getDocuments().then((querySnapshot) {
       if (querySnapshot.documents.length == 0) {
         final snack = SnackBar(
-          content: Text('invallid login details'),
+          content: Text('No price data'),
         );
         scaffoldKey.currentState.showSnackBar(snack);
       } else {
@@ -413,6 +416,8 @@ class _RequestsState extends State<Requests> {
     });
   }
   TextEditingController dated = TextEditingController();
+
+  String radioItem = '';
 
   @override
   void initState() {
@@ -768,28 +773,39 @@ class _RequestsState extends State<Requests> {
                       ),
                     ),
 
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: FormBuilderCheckboxGroup(
-                          orientation: GroupedCheckboxOrientation.horizontal,
-                          decoration:
-                          InputDecoration(labelText: "Sample provided or shared?"),
-                          attribute: "sample",
-                          initialValue: ["Yes"],
-                          checkColor: Colors.red[900],
-                          options: [
-                            FormBuilderFieldOption(value: "Yes"),
-                            FormBuilderFieldOption(value: "No"),
-                          ],
-                          validators: [
-                            FormBuilderValidators.required(
-                                errorText: 'This field required.'),
-                          ],
-                          onSaved: (val) => _sample = val,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: <Widget>[
+
+                        RadioListTile(
+                          groupValue: radioItem,
+                          title: Text('Yes'),
+                          value: 'Yes',
+                          onChanged: (val) {
+                            setState(() {
+                              radioItem = val;
+                              _sample = radioItem;
+                            });
+                          },
                         ),
-                      ),
+
+                        RadioListTile(
+                          groupValue: radioItem,
+                          title: Text('No'),
+                          value: 'No',
+                          onChanged: (val) {
+                            setState(() {
+                              radioItem = val;
+                              _sample = radioItem;
+                            });
+                          },
+                        ),
+
+                      ],
                     ),
+                  ),
+
                     Padding(
                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                       child: Container(

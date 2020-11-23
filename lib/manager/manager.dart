@@ -431,6 +431,7 @@ class _ApprovalState extends State<Approval> {
     ));
 
   }
+String radioItem ='';
 
   @override
   Widget build(BuildContext context) {
@@ -979,23 +980,55 @@ class _ApprovalState extends State<Approval> {
                                     builder: (BuildContext context) {
                                       // return object of type Dialog
                                       return AlertDialog(
-                                        content: FormBuilder(
+                                        content: Form(
                                           key: fKey,
                                           child: Column(
                                             children: [
-                                              new FormBuilderDropdown(
-                                                attribute: "gender",
-                                                decoration: InputDecoration(labelText: "Gender"),
-                                                // initialValue: 'Male',
-                                                hint: Text('Select Gender'),
-                                                validators: [FormBuilderValidators.required()],
-                                                items: ['${widget.brand1} - ${widget.reqOne}', '${widget.brand2} ${widget.reqTwo}', '${widget.brand3} ${widget.reqThree}']
-                                                    .map((quotes) => DropdownMenuItem(
-                                                    value: quotes,
-                                                    child: Text("$quotes")
-                                                )).toList(),
+                                              new Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  children: <Widget>[
 
-                                                onSaved: (val) => appQuote = val,
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand1),
+                                                      subtitle: Text(widget.reqOne),
+                                                      value: widget.reqOne,
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                          appQuote = radioItem;
+                                                        });
+                                                      },
+                                                    ),
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand2),
+                                                      subtitle: Text(widget.reqOne),
+                                                      value: widget.reqTwo,
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                          appQuote = radioItem;
+                                                        });
+                                                      },
+                                                    ),
+
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand3),
+                                                      subtitle: Text(widget.reqThree),
+                                                      value: widget.reqThree,
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                          appQuote = radioItem;
+                                                        });
+                                                      },
+                                                    ),
+
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
