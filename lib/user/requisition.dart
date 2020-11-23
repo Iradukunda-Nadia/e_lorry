@@ -93,6 +93,7 @@ class _RequisitionState extends State<Requisition> {
                                 sample: doc.data["sample"],
                                 approvedby: doc.data["approved by"],
                                 approvedQuote: doc.data["approvedQuote"],
+                                approvedPrice: doc.data["price"],
                                 ID: doc.documentID,
 
 
@@ -135,10 +136,12 @@ class RequisitionDetail extends StatefulWidget {
   String brand3;
   String sample;
   String approvedQuote;
+  String approvedPrice;
 
   RequisitionDetail({
 
     this.reqStatus,
+    this.approvedPrice,
     this.ID,
     this.approvedby,
     this.reqComment,
@@ -481,35 +484,8 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                           ],
                         ),
 
-                        new SizedBox(
-                          height: 5.0,
-                        ),
 
 
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Final approved supplier",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.reqSupplier,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
 
 
                         new SizedBox(
@@ -588,7 +564,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                                   width: 5.0,
                                 ),
                                 new Text(
-                                  "Approved qoute",
+                                  "Final Approved Brand",
                                   style: new TextStyle(color: Colors.black, fontSize: 18.0,),
                                 )
                               ],
@@ -606,6 +582,40 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                         new SizedBox(
                           height: 5.0,
                         ),
+
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Final negotiated price",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.approvedPrice,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+
+                        new SizedBox(
+                          height: 5.0,
+                        ),
+
+                        new SizedBox(
+                          height: 5.0,
+                        ),
+
 
 
                         MaterialButton(

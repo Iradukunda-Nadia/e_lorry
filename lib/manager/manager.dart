@@ -271,9 +271,9 @@ class _ItemsState extends State<Items> {
                               reqBrand: doc.data["brand"],
                               reqPrice: doc.data["price"],
                               reqSupplier: doc.data["supplier"],
-                              brand1: doc.data["supplier"],
-                              brand2: doc.data["supplier"],
-                              brand3: doc.data["supplier"],
+                              brand1: doc.data["brand1"],
+                              brand2: doc.data["brand2"],
+                              brand3: doc.data["brand3"],
                               status: doc.data["status"],
 
 
@@ -346,6 +346,7 @@ class _ApprovalState extends State<Approval> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _comment;
   String appQuote;
+  String appPrice;
 
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -379,6 +380,8 @@ class _ApprovalState extends State<Approval> {
       'comment': "Approved",
       'approved by': currentUserEmail,
       'approvedQuote': appQuote,
+      'price': appPrice,
+
         });
   }
 
@@ -431,7 +434,7 @@ class _ApprovalState extends State<Approval> {
     ));
 
   }
-String radioItem ='';
+  String radioItem = '';
 
   @override
   Widget build(BuildContext context) {
@@ -755,92 +758,7 @@ String radioItem ='';
                           ],
                         ),
 
-                        new SizedBox(
-                          height: 5.0,
-                        ),
 
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Brand",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.reqBrand,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Final negotiated price",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.reqPrice,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-
-                        new SizedBox(
-                          height: 5.0,
-                        ),
-
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                new SizedBox(
-                                  width: 5.0,
-                                ),
-                                new Text(
-                                  "Final approved supplier",
-                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
-                                )
-                              ],
-                            ),
-                            new Text(
-                              widget.reqSupplier,
-                              style: new TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
 
 
                         new SizedBox(
@@ -975,7 +893,7 @@ String radioItem ='';
                               ),
                               MaterialButton(
                                 onPressed: (){
-                                  showCupertinoDialog(
+                                  showDialog(
                                       context: context,
                                     builder: (BuildContext context) {
                                       // return object of type Dialog

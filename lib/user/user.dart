@@ -806,57 +806,6 @@ class _RequestsState extends State<Requests> {
                     ),
                   ),
 
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
-
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Final negotiated price',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _price = val,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                      child: Container(
-                        child: TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'SFUIDisplay'
-                          ),
-                          decoration: InputDecoration(
-
-                              errorStyle: TextStyle(color: Colors.red),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              labelText: 'Final approved supplier',
-                              labelStyle: TextStyle(
-                                  fontSize: 11
-                              )
-                          ),
-                          validator: (val) =>
-                          val.isEmpty  ? 'Required' : null,
-                          onSaved: (val) => _supplier = val,
-                        ),
-                      ),
-                    ),
-
 
 
 
