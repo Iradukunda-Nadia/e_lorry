@@ -774,7 +774,7 @@ class _LoggedState extends State<Logged> {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
                                     child: Container(
-                                        child: Text("Welcome", style: TextStyle(color: Colors.white, fontSize: 18),)
+                                        child: Text("Welcome Back", style: TextStyle(color: Colors.white, fontSize: 18),)
                                     ),
                                   ),
                                   Padding(

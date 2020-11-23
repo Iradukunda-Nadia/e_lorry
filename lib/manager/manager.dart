@@ -908,11 +908,12 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand1),
                                                   subtitle: Text(widget.reqOne),
-                                                  value: widget.reqOne,
+                                                  value: widget.brand1,
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
                                                       appQuote = radioItem;
+                                                      appPrice = widget.reqOne;
                                                     });
                                                   },
                                                 ),
@@ -920,11 +921,12 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand2),
                                                   subtitle: Text(widget.reqOne),
-                                                  value: widget.reqTwo,
+                                                  value: widget.brand2,
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
                                                       appQuote = radioItem;
+                                                      appPrice = widget.reqTwo;
                                                     });
                                                   },
                                                 ),
@@ -933,11 +935,12 @@ class _ApprovalState extends State<Approval> {
                                                   groupValue: radioItem,
                                                   title: Text(widget.brand3),
                                                   subtitle: Text(widget.reqThree),
-                                                  value: widget.reqThree,
+                                                  value: widget.brand3,
                                                   onChanged: (val) {
                                                     setState(() {
                                                       radioItem = val;
                                                       appQuote = radioItem;
+                                                      appPrice = widget.reqThree;
                                                     });
                                                   },
                                                 ),
