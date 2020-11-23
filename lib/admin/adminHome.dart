@@ -3,6 +3,7 @@ import 'package:e_lorry/admin/Admin.dart';
 import 'package:e_lorry/admin/appUsers.dart';
 import 'package:e_lorry/admin/carDetails.dart';
 import 'package:e_lorry/chat.dart';
+import 'package:e_lorry/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'emails.dart';
@@ -76,6 +77,13 @@ class _adminHomeState extends State<adminHome> {
       }
     });
   }
+  Logout()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    Navigator.of(context).push(new MaterialPageRoute(
+        builder: (BuildContext context) => new LoginScreen()
+    ));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,140 +107,181 @@ class _adminHomeState extends State<adminHome> {
         backgroundColor: const Color(0xff016836),
       ),
       //drawer: new Drawer(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8.0),
-        child: new Column(
-          children: <Widget>[
-            new SizedBox(
-              height: 20.0,
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-
-                new GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(new CupertinoPageRoute(
-                        builder: (context) => AppUsers()));
-                  },
-                  child: new CircleAvatar(
-                    maxRadius: 70.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Icon(Icons.person),
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-                        new Text("App Users"),
-                      ],
-                    ),
+      body: Stack(
+        children: [
+          Positioned(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      PopupMenuButton(
+                        icon: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: new Icon(Icons.exit_to_app,
+                              color: Colors.red[900],)),
+                        onSelected: (String value) {
+                          switch (value) {
+                            case 'Logout':
+                              Logout();
+                              break;
+                          // Other cases for other menu options
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem<String>(
+                            value: "Logout",
+                            child: Row(
+                              children: <Widget>[
+                                Text("Logout"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
+              )
+          ),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(8.0),
+            child: new Column(
+              children: <Widget>[
+                new SizedBox(
+                  height: 20.0,
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (context) => AppUsers()));
+                      },
+                      child: new CircleAvatar(
+                        maxRadius: 70.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Icon(Icons.person),
+                            new SizedBox(
+                              height: 10.0,
+                            ),
+                            new Text("App Users"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                new SizedBox(
+                  height: 20.0,
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (context) => Admin()));
+                      },
+                      child: new CircleAvatar(
+                        maxRadius: 70.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Icon(Icons.local_shipping),
+                            new SizedBox(
+                              height: 10.0,
+                            ),
+                            new Text("Trucks"),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (context) => CarsList()));
+                      },
+                      child: new CircleAvatar(
+                        maxRadius: 70.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Icon(Icons.directions_car),
+                            new SizedBox(
+                              height: 10.0,
+                            ),
+                            new Text("Cars"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                new SizedBox(
+                  height: 20.0,
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (context) => Chat()));
+                      },
+                      child: new CircleAvatar(
+                        maxRadius: 70.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Icon(Icons.chat),
+                            new SizedBox(
+                              height: 10.0,
+                            ),
+                            new Text("Group chat"),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (context) => reportEmails()));
+                      },
+                      child: new CircleAvatar(
+                        maxRadius: 70.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Icon(Icons.notifications_active),
+                            new SizedBox(
+                              height: 10.0,
+                            ),
+                            new Text("Emails"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                new SizedBox(
+                  height: 30.0,
+                ),
+
               ],
             ),
 
-            new SizedBox(
-              height: 20.0,
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(new CupertinoPageRoute(
-                        builder: (context) => Admin()));
-                  },
-                  child: new CircleAvatar(
-                    maxRadius: 70.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Icon(Icons.local_shipping),
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-                        new Text("Trucks"),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(new CupertinoPageRoute(
-                        builder: (context) => CarsList()));
-                  },
-                  child: new CircleAvatar(
-                    maxRadius: 70.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Icon(Icons.directions_car),
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-                        new Text("Cars"),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            new SizedBox(
-              height: 20.0,
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(new CupertinoPageRoute(
-                        builder: (context) => Chat()));
-                  },
-                  child: new CircleAvatar(
-                    maxRadius: 70.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Icon(Icons.chat),
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-                        new Text("Group chat"),
-                      ],
-                    ),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(new CupertinoPageRoute(
-                        builder: (context) => reportEmails()));
-                  },
-                  child: new CircleAvatar(
-                    maxRadius: 70.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Icon(Icons.notifications_active),
-                        new SizedBox(
-                          height: 10.0,
-                        ),
-                        new Text("Emails"),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            new SizedBox(
-              height: 30.0,
-            ),
-
-          ],
-        ),
-
+          ),
+        ],
       ),
     );
   }
