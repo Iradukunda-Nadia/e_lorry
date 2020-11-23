@@ -775,7 +775,7 @@ class _RequestsState extends State<Requests> {
 
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    child: Column(
                       children: <Widget>[
 
                         RadioListTile(

@@ -982,55 +982,49 @@ String radioItem ='';
                                       return AlertDialog(
                                         content: Form(
                                           key: fKey,
-                                          child: Column(
-                                            children: [
-                                              new Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: <Widget>[
-
-                                                    RadioListTile(
-                                                      groupValue: radioItem,
-                                                      title: Text(widget.brand1),
-                                                      subtitle: Text(widget.reqOne),
-                                                      value: widget.reqOne,
-                                                      onChanged: (val) {
-                                                        setState(() {
-                                                          radioItem = val;
-                                                          appQuote = radioItem;
-                                                        });
-                                                      },
-                                                    ),
-                                                    RadioListTile(
-                                                      groupValue: radioItem,
-                                                      title: Text(widget.brand2),
-                                                      subtitle: Text(widget.reqOne),
-                                                      value: widget.reqTwo,
-                                                      onChanged: (val) {
-                                                        setState(() {
-                                                          radioItem = val;
-                                                          appQuote = radioItem;
-                                                        });
-                                                      },
-                                                    ),
-
-                                                    RadioListTile(
-                                                      groupValue: radioItem,
-                                                      title: Text(widget.brand3),
-                                                      subtitle: Text(widget.reqThree),
-                                                      value: widget.reqThree,
-                                                      onChanged: (val) {
-                                                        setState(() {
-                                                          radioItem = val;
-                                                          appQuote = radioItem;
-                                                        });
-                                                      },
-                                                    ),
-
-                                                  ],
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: [
+                                                RadioListTile(
+                                                  groupValue: radioItem,
+                                                  title: Text(widget.brand1),
+                                                  subtitle: Text(widget.reqOne),
+                                                  value: widget.reqOne,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      radioItem = val;
+                                                      appQuote = radioItem;
+                                                    });
+                                                  },
                                                 ),
-                                              ),
-                                            ],
+                                                RadioListTile(
+                                                  groupValue: radioItem,
+                                                  title: Text(widget.brand2),
+                                                  subtitle: Text(widget.reqOne),
+                                                  value: widget.reqTwo,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      radioItem = val;
+                                                      appQuote = radioItem;
+                                                    });
+                                                  },
+                                                ),
+
+                                                RadioListTile(
+                                                  groupValue: radioItem,
+                                                  title: Text(widget.brand3),
+                                                  subtitle: Text(widget.reqThree),
+                                                  value: widget.reqThree,
+                                                  onChanged: (val) {
+                                                    setState(() {
+                                                      radioItem = val;
+                                                      appQuote = radioItem;
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         actions: <Widget>[

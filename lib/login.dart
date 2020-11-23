@@ -150,14 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
             if( id == "Fleet Manager" ) {
               _messaging.subscribeToTopic('manager${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
-              Navigator.of(context).push(new CupertinoPageRoute(
+              Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                   builder: (BuildContext context) => new Manager()
               ));
             }
             if(id == "Accounts" ) {
               _messaging.subscribeToTopic('puppies${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
-              Navigator.of(context).push(new CupertinoPageRoute(
+              Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                   builder: (BuildContext context) => new User()
               ));
 
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if(id == "Chief Mechanic" ) {
               _messaging.subscribeToTopic('mech${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
-              Navigator.of(context).push(new CupertinoPageRoute(
+              Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                   builder: (BuildContext context) => new vehicleService()
               ));
 
@@ -522,6 +522,13 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class Logged extends StatefulWidget {
+  String userID;
+
+  Logged({
+
+    this.userID,
+  });
+
   @override
   _LoggedState createState() => _LoggedState();
 }
@@ -773,7 +780,7 @@ class _LoggedState extends State<Logged> {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                                     child: Container(
-                                      child:Text("You Are signed in as:\n ${email}", style: TextStyle(color: Colors.white, fontSize: 18, ),)
+                                      child:Text("You Are signed in as:\n ${widget.userID}",textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18, ),)
                                     ),
                                   ),
                                   Padding(

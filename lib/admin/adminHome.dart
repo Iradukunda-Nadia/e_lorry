@@ -110,6 +110,8 @@ class _adminHomeState extends State<adminHome> {
       body: Stack(
         children: [
           Positioned(
+              top: 40,
+              left: 300,
               child: Align(
                 alignment: Alignment.topRight,
                 child: Container(
