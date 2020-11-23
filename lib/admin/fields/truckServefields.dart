@@ -249,6 +249,7 @@ class _truckSerFieldsState extends State<truckSerFields> {
               child: new Text("NO"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],

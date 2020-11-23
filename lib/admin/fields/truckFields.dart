@@ -275,6 +275,7 @@ class _truckPostFieldsState extends State<truckPostFields> {
               child: new Text("NO"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
           ],

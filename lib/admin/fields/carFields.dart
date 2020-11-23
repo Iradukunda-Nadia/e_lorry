@@ -105,6 +105,8 @@ class _carFieldsState extends State<carFields> {
               child: new Text("NO"),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
+
               },
             ),
           ],
