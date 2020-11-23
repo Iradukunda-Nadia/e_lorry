@@ -915,62 +915,66 @@ class _ApprovalState extends State<Approval> {
                                       context: context,
                                     builder: (BuildContext context) {
                                       // return object of type Dialog
-                                      return AlertDialog(
-                                        content: Form(
-                                          key: fKey,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                RadioListTile(
-                                                  groupValue: radioItem,
-                                                  title: Text(widget.brand1),
-                                                  subtitle: Text(widget.reqOne),
-                                                  value: '1',
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      radioItem = val;
-                                                    });
-                                                  },
-                                                ),
-                                                RadioListTile(
-                                                  groupValue: radioItem,
-                                                  title: Text(widget.brand2),
-                                                  subtitle: Text(widget.reqOne),
-                                                  value: '2',
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      radioItem = val;
-                                                    });
-                                                  },
-                                                ),
+                                      return StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return AlertDialog(
+                                            content: Form(
+                                              key: fKey,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand1),
+                                                      subtitle: Text(widget.reqOne),
+                                                      value: '1',
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                        });
+                                                      },
+                                                    ),
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand2),
+                                                      subtitle: Text(widget.reqOne),
+                                                      value: '2',
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                        });
+                                                      },
+                                                    ),
 
-                                                RadioListTile(
-                                                  groupValue: radioItem,
-                                                  title: Text(widget.brand3),
-                                                  subtitle: Text(widget.reqThree),
-                                                  value: '3',
-                                                  onChanged: (val) {
-                                                    setState(() {
-                                                      radioItem = val;
-                                                    });
-                                                  },
+                                                    RadioListTile(
+                                                      groupValue: radioItem,
+                                                      title: Text(widget.brand3),
+                                                      subtitle: Text(widget.reqThree),
+                                                      value: '3',
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          radioItem = val;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          // usually buttons at the bottom of the dialog
-                                          new FlatButton(
-                                            child: new Text("Approve"),
-                                            onPressed: () {
-                                              _approveCommand();
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
+                                            actions: <Widget>[
+                                              // usually buttons at the bottom of the dialog
+                                              new FlatButton(
+                                                child: new Text("Approve"),
+                                                onPressed: () {
+                                                  _approveCommand();
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        }
                                       );
                                     },
                                   );
