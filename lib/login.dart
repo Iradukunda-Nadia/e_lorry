@@ -858,7 +858,7 @@ class _LoggedState extends State<Logged> {
           Padding(
             padding: const EdgeInsets.fromLTRB(8.0,55.0, 25.0, 8.0),
             child: Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.topRight,
               child: Container(
                 height: 80,
                 width: 100,
