@@ -60,7 +60,7 @@ class _userDetailsState extends State<userDetails> {
       'name': _name,
       'uid': _uid,
       'pw': _pw,
-      'dept': _dept,
+      'dept': widget.dept,
 
     }).then((result) =>
 
@@ -139,43 +139,7 @@ class _userDetailsState extends State<userDetails> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          DropDownFormField(
-                            titleText: 'Access level',
-                            hintText: widget.dept,
-                            value: _dept,
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Required';
-                              }
-                            },
-                            onSaved: (value) {
-                              setState(() {
-                                _dept = value;
-                              });
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                _dept = value;
-                              });
-                            },
-                            dataSource: [
-                              {
-                                "display": "Fleet Manager",
-                                "value": "Fleet Manager",
-                              },
-                              {
-                                "display": "Accounts",
-                                "value": "Accounts",
-                              },
-                              {
-                                "display": "Chief Mechanic",
-                                "value": "Chief Mechanic",
-                              },
 
-                            ],
-                            textField: 'display',
-                            valueField: 'value',
-                          ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                             child: Container(

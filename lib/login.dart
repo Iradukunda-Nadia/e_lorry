@@ -851,165 +851,189 @@ class _LoggedState extends State<Logged> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff016836),
       key: scaffoldKey,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: GestureDetector(
-            onLongPress: () {},
-            child: Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              decoration: BoxDecoration(
-                color: Colors.white,
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0,55.0, 25.0, 8.0),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                height: 80,
+                width: 100,
+                child: ClipOval(
+                  child: Image.asset('assets/log.png'),
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                    child: Image.asset(
-                      logoImage,
-                      fit: BoxFit.contain,
-                      height: 180.0,
-                      width: 380.0,
-                    ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SafeArea(
+              child: GestureDetector(
+                onLongPress: () {},
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  decoration: BoxDecoration(
                   ),
-
-                  Column(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        height: 410.0,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15))),
 
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10,10),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+
+                      ),
+
+                      Expanded(
+                        child: ClipPath(
+                          clipper: MyClipper(),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15)),
-                              color: const Color(0xff016836),
-
+                              color: Colors.white
                             ),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
-                                    child: Container(
-                                        child: Text("Welcome Back", style: TextStyle(color: Colors.white, fontSize: 18),)
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                                    child: Container(
-                                      child:Text("You Are signed in as:\n ${widget.userID}",textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18, ),)
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
-                                    child: Container(
-                                      child: TextFormField(
-                                        obscureText: true,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'SFUIDisplay'
-                                        ),
-                                        decoration: InputDecoration(
-                                            errorStyle: TextStyle(color: Colors.white),
-                                            filled: true,
-                                            fillColor: Colors.white.withOpacity(0.1),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                              borderSide: new BorderSide(color: Colors.white70),
-                                            ),
-                                            labelText: 'Password',
-                                            prefixIcon: Icon(Icons.lock_outline),
-                                            labelStyle: TextStyle(
-                                                fontSize: 15
-                                            )
-                                        ),
-                                        validator: (val) =>
-                                        val.length < 4 ? 'Your password is too Password too short..' : null,
-                                        onSaved: (val) => _password = val,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(30, 200, 20, 5),
+                                      child: Container(
+                                          child:Text(widget.userID,textAlign: TextAlign.center, style: TextStyle(color: const Color(0xff016836), fontSize: 18, ),)
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(70, 10, 70, 0),
-                                    child: MaterialButton(
-                                      onPressed: _submitCommand,
-                                      child: Text('SIGN IN',
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: 'SFUIDisplay',
-                                          fontWeight: FontWeight.bold,
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(30, 40, 5, 20),
+                                      child: Container(
+                                          child: Text("Welcome Back", style: TextStyle(color: const Color(0xff016836), fontSize: 30, fontWeight: FontWeight.bold, ),)
+                                      ),
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                                      child: Container(
+                                        child: TextFormField(
+                                          obscureText: true,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'SFUIDisplay'
+                                          ),
+                                          decoration: InputDecoration(
+                                              errorStyle: TextStyle(color: const Color(0xff016836)),
+                                              filled: true,
+                                              fillColor: Colors.white.withOpacity(0.1),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                borderSide: new BorderSide(color: Colors.white70),
+                                              ),
+                                              labelText: 'Enter Password',
+                                              prefixIcon: Icon(Icons.lock_outline),
+                                              labelStyle: TextStyle(
+                                                  fontSize: 15
+                                              )
+                                          ),
+                                          validator: (val) =>
+                                          val.length < 4 ? 'Your password is too Password too short..' : null,
+                                          onSaved: (val) => _password = val,
                                         ),
                                       ),
-                                      color: Colors.white,
-                                      elevation: 16.0,
-                                      minWidth: 400,
-                                      height: 50,
-                                      textColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20)
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(20, 10, 150, 0),
+                                      child: MaterialButton(
+                                        onPressed: _submitCommand,
+                                        child: Text('SIGN IN',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'SFUIDisplay',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        color: Colors.white,
+                                        elevation: 16.0,
+                                        minWidth: 400,
+                                        height: 50,
+                                        textColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20)
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: FlatButton(
-                                        child: new Text(
-                                            "Would you like to Logout?",
-                                            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300, color: Colors.white60)),
-                                        onPressed: () async {
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          prefs.remove('email');
-                                          Navigator.of(context).push(new MaterialPageRoute(
-                                              builder: (BuildContext context) => new LoginScreen()
-                                          ));
-                                        }
-                                    ),
-                                  )
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: FlatButton(
+                                          child: new Text(
+                                              "Would you like to Logout?",
+                                              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300, color: Colors.grey)),
+                                          onPressed: () async {
+                                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                                            prefs.remove('email');
+                                            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                                                builder: (BuildContext context) => new LoginScreen()
+                                            ));
+                                          }
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+
                     ],
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
+  }
+}
+
+
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+
+    path.lineTo(0.0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, size.height/2);
+
+
+    path.quadraticBezierTo(
+
+        size.width * 1/3, 0.0, 0.0, size.height /3);
+
+
+
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

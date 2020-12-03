@@ -81,6 +81,7 @@ class _AdminState extends State<Admin> {
                                   turnboyNumber: snapshot.data[index].data["turnboyNumber"],
                                   itemID: snapshot.data[index].documentID,
                                   truckType: snapshot.data[index].data["type"],
+                                  docID: snapshot.data[index].documentID,
 
                                 )));
                               },
@@ -136,10 +137,13 @@ class TruckDetails extends StatefulWidget {
   String turnboyNumber;
   String itemDescription;
   String truckType;
+  String docID;
+
 
   TruckDetails({
 
     this.truckType,
+    this.docID,
     this.itemID,
     this.truckNumber,
     this.driverName,
@@ -227,6 +231,7 @@ class _TruckDetailsState extends State<TruckDetails> {
       },
     );
   }
+  final db = Firestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -447,6 +452,41 @@ class _TruckDetailsState extends State<TruckDetails> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)
                               ),
+                            ),
+                          ),
+
+                          FlatButton(
+                            color: Colors.deepPurple[900],
+                            onPressed: () async {
+                              await db
+                                  .collection('userID')
+                                  .document(widget.docID)
+                                  .delete();
+
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Deleted"),
+                                      content: Text("Removed from Database"),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text("Close"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                new Text('Delete Truck',style: TextStyle(color: Colors.white, fontSize: 10.0),),
+                              ],
                             ),
                           ),
 

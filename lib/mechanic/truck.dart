@@ -582,805 +582,26 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
 
         body: new TabBarView(
         children: <Widget>[
-            SingleChildScrollView(
-              child: SafeArea(
-                child: Column(
-                  mainAxisSize : MainAxisSize.min,
-                  children: <Widget>[
-                    FormBuilder(
-                      // readonly: true,
-                      child: Column(
-                        mainAxisSize : MainAxisSize.min,
-                        children: <Widget>[
+          SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                mainAxisSize : MainAxisSize.min,
+                children: <Widget>[
+                  FormBuilder(
+                    // readonly: true,
+                    child: Column(
+                      mainAxisSize : MainAxisSize.min,
+                      children: <Widget>[
 
-                          Card(
+                        Card(
 
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
 
-                                    child: FormBuilder(
-                                      key: _engKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Engine",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getEngine(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _eleKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Electronics",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getElectronics(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _brKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Brakes",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getBrakes(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return CircularProgressIndicator();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _frKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Front suspension",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getFsusp(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _reKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Rear suspension",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getRsusp(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _wdKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Wheel details",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getWheeldetails(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _caKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Cabin",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getCabin(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _boKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Body",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getBody(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _saKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Safety",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getSafety(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _wKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Wheels",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getWheels(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderDropdown(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            // initialValue: 'Male',
-                                                            hint: Text('Pass / Fail'),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            items: [
-                                                              DropdownMenuItem(
-                                                                value: 'Pass',
-                                                                child: Text('Pass'),
-                                                              ),
-                                                              DropdownMenuItem(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),
-                                                              ),
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _oKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Other",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getOther(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderTextField(
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            validators: [FormBuilderValidators.required()],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
                                   child: FormBuilder(
-                                    key: _daKey,
+                                    key: _engKey,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
@@ -1388,17 +609,17 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
                                           new SizedBox(
                                             height: 10.0,
                                           ),
-                                          new Text("Dates",
+                                          new Text("Engine",
                                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
 
                                           new SizedBox(
                                             height: 10.0,
                                           ),
                                           new FutureBuilder(
-                                            future: getdates(),
+                                            future: getEngine(),
                                             builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                                               if (snapshot.connectionState == ConnectionState.waiting) {
-                                                return CircularProgressIndicator();
+                                                return Offstage();
                                               }
                                               if (!snapshot.hasData) {
                                                 return Offstage();
@@ -1413,17 +634,31 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
                                                       itemCount: snapshot.data.length,
                                                       itemBuilder: (context, index) {
 
-                                                        return FormBuilderDateTimePicker(
-                                                          initialEntryMode: DatePickerEntryMode.calendar,
-                                                          attribute: snapshot.data[index],
-                                                          inputType: InputType.date,
-                                                          format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
-                                                          valueTransformer: (value) {
-                                                            return value.toString().substring(0,10);
-                                                          },
-                                                          validators: [FormBuilderValidators.required()],
-                                                          decoration:
-                                                          InputDecoration(labelText: snapshot.data[index]),
+                                                        return Column(
+                                                          children: [
+
+                                                            FormBuilderChoiceChip(
+                                                              attribute: snapshot.data[index],
+                                                              spacing: 10.0,
+                                                              runSpacing: 10.0,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(10.0),
+                                                              ),
+                                                              decoration: InputDecoration(
+                                                                labelText: snapshot.data[index],
+                                                                fillColor: Colors.red[900],
+                                                              ),
+                                                              validators: [FormBuilderValidators.required()],
+                                                              options: [
+                                                                FormBuilderFieldOption(
+                                                                  value: 'Pass',child: Text('Pass'),),
+                                                                FormBuilderFieldOption(
+                                                                  value: 'Fail',
+                                                                  child: Text('Fail'),),
+
+                                                              ],
+                                                            ),
+                                                          ],
                                                         );
 
                                                       }),
@@ -1434,109 +669,908 @@ class _TruckFormsState extends State<TruckForms> with SingleTickerProviderStateM
                                         ],
                                       ),
                                     ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _eleKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Electronics",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getElectronics(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _brKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+
+                                          new FutureBuilder(
+                                            future: getBrakes(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return CircularProgressIndicator();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: Column(
+
+                                                    children: [
+                                                      new SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      new Text("Brakes",
+                                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                                      new SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      ListView.builder(
+                                                          padding: const EdgeInsets.only(bottom: 20.0),
+                                                          scrollDirection: Axis.vertical,
+                                                          physics: const NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          itemCount: snapshot.data.length,
+                                                          itemBuilder: (context, index) {
+
+                                                            return FormBuilderChoiceChip(
+                                                              spacing: 10.0,
+                                                              runSpacing: 10.0,
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(10.0),
+
+                                                              ),
+                                                              attribute: snapshot.data[index],
+                                                              decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                              validators: [FormBuilderValidators.required()],
+                                                              options: [
+                                                                FormBuilderFieldOption(
+                                                                  value: 'Pass',child: Text('Pass'),),
+                                                                FormBuilderFieldOption(
+                                                                  value: 'Fail',
+                                                                  child: Text('Fail'),),
+
+                                                              ],
+                                                            );
+
+                                                          }),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _frKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Front suspension",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getFsusp(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _reKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Rear suspension",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getRsusp(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _wdKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Wheel details",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getWheeldetails(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _caKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Cabin",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getCabin(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _boKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Body",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getBody(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _saKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Safety",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getSafety(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _wKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new Text("Wheels",
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                          new SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          new FutureBuilder(
+                                            future: getWheels(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: ListView.builder(
+                                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                                      scrollDirection: Axis.vertical,
+                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (context, index) {
+
+                                                        return FormBuilderChoiceChip(
+                                                          spacing: 10.0,
+                                                          runSpacing: 10.0,
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10.0),
+                                                          ),
+                                                          attribute: snapshot.data[index],
+                                                          decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                          validators: [FormBuilderValidators.required()],
+                                                          options: [
+                                                            FormBuilderFieldOption(
+                                                              value: 'Pass',child: Text('Pass'),),
+                                                            FormBuilderFieldOption(
+                                                              value: 'Fail',
+                                                              child: Text('Fail'),),
+
+                                                          ],
+                                                        );
+
+                                                      }),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                  child: FormBuilder(
+                                    key: _oKey,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: <Widget>[
+
+                                          new FutureBuilder(
+                                            future: getOther(),
+                                            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Offstage();
+                                              }
+                                              if (!snapshot.hasData) {
+                                                return Offstage();
+                                              }
+                                              else {
+                                                return Center(
+                                                  child: Column(
+                                                    children: [
+                                                      new SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      new Text("Other",
+                                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                                      new SizedBox(
+                                                        height: 10.0,
+                                                      ),
+                                                      ListView.builder(
+                                                          padding: const EdgeInsets.only(bottom: 20.0),
+                                                          scrollDirection: Axis.vertical,
+                                                          physics: const NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          itemCount: snapshot.data.length,
+                                                          itemBuilder: (context, index) {
+
+                                                            return FormBuilderTextField(
+                                                              attribute: snapshot.data[index],
+                                                              decoration: InputDecoration(labelText: snapshot.data[index]),
+                                                              validators: [FormBuilderValidators.required()],
+                                                            );
+
+                                                          }),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Card(
+
+                          child: Column(
+                            mainAxisSize : MainAxisSize.min,
+                            children: [
+                              new Flexible(
+                                child: FormBuilder(
+                                  key: _daKey,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+
+                                        new FutureBuilder(
+                                          future: getdates(),
+                                          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                            if (snapshot.connectionState == ConnectionState.waiting) {
+                                              return CircularProgressIndicator();
+                                            }
+                                            if (!snapshot.hasData) {
+                                              return Offstage();
+                                            }
+                                            else {
+                                              return Center(
+                                                child: Column(
+                                                  children: [
+                                                    new SizedBox(
+                                                      height: 10.0,
+                                                    ),
+                                                    new Text("Dates",
+                                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
+
+                                                    new SizedBox(
+                                                      height: 10.0,
+                                                    ),
+                                                    ListView.builder(
+                                                        padding: const EdgeInsets.only(bottom: 20.0),
+                                                        scrollDirection: Axis.vertical,
+                                                        physics: const NeverScrollableScrollPhysics(),
+                                                        shrinkWrap: true,
+                                                        itemCount: snapshot.data.length,
+                                                        itemBuilder: (context, index) {
+
+                                                          return FormBuilderDateTimePicker(
+                                                            initialEntryMode: DatePickerEntryMode.calendar,
+                                                            attribute: snapshot.data[index],
+                                                            inputType: InputType.date,
+                                                            format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
+                                                            valueTransformer: (value) {
+                                                              return value.toString().substring(0,10);
+                                                            },
+                                                            validators: [FormBuilderValidators.required()],
+                                                            decoration:
+                                                            InputDecoration(labelText: snapshot.data[index]),
+                                                          );
+
+                                                        }),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
+                        ),
 
 
-                          Card(
-                            child: new Padding(
-                              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                              child: Container(
-                                child: FormBuilder(
-                                  key: _coKey,
-                                  child: FormBuilderTextField(
-                                    attribute: "Comment",
-                                    decoration: InputDecoration(labelText: "Any Comment?"),
-                                  ),
+                        Card(
+                          child: new Padding(
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: Container(
+                              child: FormBuilder(
+                                key: _coKey,
+                                child: FormBuilderTextField(
+                                  attribute: "Comment",
+                                  decoration: InputDecoration(labelText: "Any Comment?"),
                                 ),
                               ),
                             ),
                           ),
-
-
-
-
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        MaterialButton(
-                          child: Text("Submit"),
-                          onPressed: () {
-                            _engKey.currentState.save();
-                            _eleKey.currentState.save();
-                            _brKey.currentState.save();
-                            _frKey.currentState.save();
-                            _reKey.currentState.save();
-                            _wdKey.currentState.save();
-                            _caKey.currentState.save();
-                            _boKey.currentState.save();
-                            _saKey.currentState.save();
-                            _wKey.currentState.save();
-                            _oKey.currentState.save();
-                            _daKey.currentState.save();
-                            _coKey.currentState.save();
-
-
-                            if (_engKey.currentState.validate()&&
-                            _eleKey.currentState.validate()&&
-                            _brKey.currentState.validate()&&
-                            _frKey.currentState.validate()&&
-                            _reKey.currentState.validate()&&
-                            _wdKey.currentState.validate()&&
-                            _caKey.currentState.validate()&&
-                            _boKey.currentState.validate()&&
-                            _saKey.currentState.validate()&&
-                            _wKey.currentState.validate()&&
-                            _oKey.currentState.validate()&&
-                            _coKey.currentState.validate()&&
-                            _daKey.currentState.validate()) {
-
-                              _showDialog();
-
-                            }
-                          },
-                          textColor: Colors.white,
-                          elevation: 16.0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                          color: Colors.red[900],
                         ),
-                        MaterialButton(
-                          child: Text("Reset"),
-                          onPressed: () {
-                            _engKey.currentState.reset();
-                            _eleKey.currentState.reset();
-                            _brKey.currentState.reset();
-                            _frKey.currentState.reset();
-                            _reKey.currentState.reset();
-                            _wdKey.currentState.reset();
-                            _caKey.currentState.reset();
-                            _boKey.currentState.reset();
-                            _saKey.currentState.reset();
-                            _wKey.currentState.reset();
-                            _oKey.currentState.reset();
-                            _daKey.currentState.reset();
-                            _coKey.currentState.reset();
 
-                          },
-                          textColor: Colors.red[900],
-                          elevation: 16.0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                        ),
+
+
+
                       ],
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      MaterialButton(
+                        child: Text("Submit"),
+                        onPressed: () {
+                          _engKey.currentState.save();
+                          _eleKey.currentState.save();
+                          _brKey.currentState.save();
+                          _frKey.currentState.save();
+                          _reKey.currentState.save();
+                          _wdKey.currentState.save();
+                          _caKey.currentState.save();
+                          _boKey.currentState.save();
+                          _saKey.currentState.save();
+                          _wKey.currentState.save();
+                          _oKey.currentState.save();
+                          _daKey.currentState.save();
+                          _coKey.currentState.save();
+
+
+                          if (_engKey.currentState.validate()&&
+                              _eleKey.currentState.validate()&&
+                              _brKey.currentState.validate()&&
+                              _frKey.currentState.validate()&&
+                              _reKey.currentState.validate()&&
+                              _wdKey.currentState.validate()&&
+                              _caKey.currentState.validate()&&
+                              _boKey.currentState.validate()&&
+                              _saKey.currentState.validate()&&
+                              _wKey.currentState.validate()&&
+                              _oKey.currentState.validate()&&
+                              _coKey.currentState.validate()&&
+                              _daKey.currentState.validate()) {
+
+                            _showDialog();
+
+                          }
+                        },
+                        textColor: Colors.white,
+                        elevation: 16.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        color: Colors.red[900],
+                      ),
+                      MaterialButton(
+                        child: Text("Reset"),
+                        onPressed: () {
+                          _engKey.currentState.reset();
+                          _eleKey.currentState.reset();
+                          _brKey.currentState.reset();
+                          _frKey.currentState.reset();
+                          _reKey.currentState.reset();
+                          _wdKey.currentState.reset();
+                          _caKey.currentState.reset();
+                          _boKey.currentState.reset();
+                          _saKey.currentState.reset();
+                          _wKey.currentState.reset();
+                          _oKey.currentState.reset();
+                          _daKey.currentState.reset();
+                          _coKey.currentState.reset();
+
+                        },
+                        textColor: Colors.red[900],
+                        elevation: 16.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
+          ),
 
           SingleChildScrollView(
             child: SafeArea(

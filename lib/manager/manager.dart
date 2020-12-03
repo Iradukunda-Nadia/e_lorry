@@ -938,7 +938,7 @@ class _ApprovalState extends State<Approval> {
                                                     RadioListTile(
                                                       groupValue: radioItem,
                                                       title: Text(widget.brand2),
-                                                      subtitle: Text(widget.reqOne),
+                                                      subtitle: Text(widget.reqTwo),
                                                       value: '2',
                                                       onChanged: (val) {
                                                         setState(() {

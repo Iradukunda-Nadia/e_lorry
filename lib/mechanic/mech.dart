@@ -1,3 +1,4 @@
+import 'package:e_lorry/mechanic/testForms.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -82,7 +83,7 @@ class _MechState extends State<Mech> {
                           String counter = (index+1).toString();
                           return new GestureDetector(
                             onTap: (){
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TruckForms(
+                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new TestForms(
 
                                 truckNumber: snapshot.data[index].data["plate"],
                                 driverName: snapshot.data[index].data["driver"],
