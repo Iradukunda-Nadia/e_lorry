@@ -860,11 +860,15 @@ class _LoggedState extends State<Logged> {
             child: Align(
               alignment: Alignment.topRight,
               child: Container(
-                height: 80,
-                width: 100,
-                child: ClipOval(
-                  child: Image.asset('assets/log.png'),
-                ),
+                  width: 140.0,
+                  height: 100.0,
+                  decoration:  BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image:  AssetImage('assets/log02.png')
+                      )
+                  )
               ),
             ),
           ),

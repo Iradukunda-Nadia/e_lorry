@@ -275,6 +275,9 @@ class _ItemsState extends State<Items> {
                               brand2: doc.data["brand2"],
                               brand3: doc.data["brand3"],
                               status: doc.data["status"],
+                              reqComment: doc.data["comment"],
+                              approvedQuote: doc.data["approvedQuote"],
+                              approvedPrice: doc.data["price"],
 
 
                             )));
@@ -295,6 +298,11 @@ class _ItemsState extends State<Items> {
 
 class Approval extends StatefulWidget {
 
+  String sample;
+  String approvedQuote;
+  String approvedPrice;
+  String reqComment;
+
   String itemID;
   String itemName;
   String itemQuantity;
@@ -312,7 +320,12 @@ class Approval extends StatefulWidget {
   String brand2;
   String brand3;
 
+
   Approval({
+
+    this.approvedQuote,
+    this.approvedPrice,
+    this.reqComment,
 
     this.brand3,
     this.brand2,
@@ -358,7 +371,7 @@ class _ApprovalState extends State<Approval> {
 
   void _approveCommand() {
     //get state of our Form
-    final form = formKey.currentState;
+    final form = fKey.currentState;
       form.save();
       _updateStatus();
       _sendApproval();
@@ -404,11 +417,9 @@ class _ApprovalState extends State<Approval> {
   }
 
   void _sendApproval() {
-    final form = formKey.currentState;
+    final form = fKey.currentState;
     form.reset();
-    Navigator.of(context).push(new CupertinoPageRoute(
-        builder: (BuildContext context) => new Manager()
-    ));
+
   }
 
   void _submitCommand() {
@@ -447,9 +458,7 @@ class _ApprovalState extends State<Approval> {
     // flutter defined function
     final form = formKey.currentState;
     form.reset();
-    Navigator.of(context).push(new CupertinoPageRoute(
-        builder: (BuildContext context) => new Manager()
-    ));
+
 
   }
   String radioItem = '';
@@ -825,7 +834,7 @@ class _ApprovalState extends State<Approval> {
                                   ),
                                   MaterialButton(
                                     onPressed: (){
-                                      showCupertinoDialog(
+                                      showDialog(
                                           context: context,
                                           builder:  (BuildContext context) {
                                         // return object of type Dialog
@@ -1008,6 +1017,121 @@ class _ApprovalState extends State<Approval> {
                 new SizedBox(
                   height: 5.0,
                 ),
+                widget.status == "Manager Comment"?
+                new Card(
+                  child: new Container(
+                    margin: new EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new SizedBox(
+                          height: 10.0,
+                        ),
+                        new Text("Comment", style: TextStyle(fontSize: 12 , color: Colors.grey),),
+                        new SizedBox(
+                          height: 10.0,
+                        ),
+                        new Text(widget.reqComment, style: TextStyle(fontSize: 15, color: Colors.grey)),
+
+                        new SizedBox(
+                          height: 10.0,
+                        ),
+
+                        MaterialButton(
+                          child: Text('comment',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'SFUIDisplay',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          color: Colors.white,
+                          elevation: 16.0,
+                          height: 50,
+                          textColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
+                          ), onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ): new Offstage(),
+
+                widget.status == "Approved"?
+                new Card(
+                  child: new Container(
+                    margin: new EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new SizedBox(
+                          height: 10.0,
+                        ),
+
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Final Approved Brand",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.approvedQuote,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+
+                        new SizedBox(
+                          height: 5.0,
+                        ),
+
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Final approved price",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.approvedPrice,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+
+
+                        new SizedBox(
+                          height: 5.0,
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ): new Offstage(),
 
               ],
             ),

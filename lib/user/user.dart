@@ -29,10 +29,12 @@ class _UserState extends State<User> {
   }
 
   String userCompany;
+  String currentUser;
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userCompany = prefs.getString('company');
+      currentUser = prefs.getString('user');
     });
   }
   @override
@@ -190,10 +192,12 @@ class _ItemsState extends State<Items> {
   }
 
   String userCompany;
+  String currentUser;
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userCompany = prefs.getString('company');
+      currentUser = prefs.getString('user');
     });
 
   }
@@ -249,19 +253,25 @@ class _ItemsState extends State<Items> {
                               _currentDocument = doc;
                             });
 
-                            _updateData();
-
-                            Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Requests(
-
-                              itemName: doc.data["Item"],
-                              person: doc.data["Name"],
-                              itemQuantity: doc.data["Quantity"],
-                              itemNumber: doc.data["Truck"],
-                              truckType: doc.data["tType"],
-                              company: userCompany,
 
 
-                            )));
+                            if (doc.data['status'] != 'checked'){
+                              _updateData();
+                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Requests(
+
+                                itemName: doc.data["Item"],
+                                person: doc.data["Name"],
+                                itemQuantity: doc.data["Quantity"],
+                                itemNumber: doc.data["Truck"],
+                                truckType: doc.data["tType"],
+                                company: userCompany,
+                                userName: currentUser,
+
+
+                              )));
+                            }
+
+
                           },
                         ),
                       );
@@ -285,6 +295,7 @@ class Requests extends StatefulWidget {
   String truckType;
   String company;
   String person;
+  String userName;
 
 
   Requests({
@@ -295,6 +306,7 @@ class Requests extends StatefulWidget {
     this.itemName,
     this.itemQuantity,
     this.itemNumber,
+    this.userName,
   });
 
   @override
@@ -346,7 +358,7 @@ class _RequestsState extends State<Requests> {
         "Truck": widget.itemNumber,
         "Item": widget.itemName,
         "Quantity": widget.itemQuantity,
-        "Name": _name,
+        "Name": widget.userName,
         "date" : DateFormat(' dd MMM yyyy').format(DateTime.now()),
         "quoteOne" : _quoteOne,
         "quoteTwo" : _quoteTwo,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_lorry/lpo.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Requisition extends StatefulWidget {
@@ -79,9 +80,9 @@ class _RequisitionState extends State<Requisition> {
                                 itemQuantity: doc.data["Quantity"],
                                 itemNumber: doc.data["Truck"],
                                 reqName: doc.data["Name"],
-                                reqDate: doc.data["reqDate"],
+                                reqDate: doc.data["date"],
                                 reqOne: doc.data["quoteOne"],
-                                brand1: doc.data["brand"],
+                                brand1: doc.data["brand1"],
                                 reqTwo: doc.data["quoteTwo"],
                                 brand2: doc.data["brand2"],
                                 reqThree: doc.data["quoteThree"],
@@ -593,7 +594,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                                   width: 5.0,
                                 ),
                                 new Text(
-                                  "Final negotiated price",
+                                  "Final approved price",
                                   style: new TextStyle(color: Colors.black, fontSize: 18.0,),
                                 )
                               ],
@@ -608,9 +609,6 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                           ],
                         ),
 
-                        new SizedBox(
-                          height: 5.0,
-                        ),
 
                         new SizedBox(
                           height: 5.0,
@@ -633,14 +631,14 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)
                           ), onPressed: () {
-                          Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new lpoForm(
+                          Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context)=> new lpoForm(
 
                             itemName: widget.itemName,
                             itemQuantity: widget.itemQuantity,
                             itemNumber: widget.itemNumber,
                             reqPrice:  widget.approvedPrice,
                             appQuote:  widget.approvedQuote,
-                            reqSupplier: widget.reqSupplier,
+                            reqSupplier: widget.approvedQuote,
                             appby: widget.approvedby,
                             docID: widget.ID,
 

@@ -103,20 +103,24 @@ class _lpoFormState extends State<lpoForm> {
           'lpoDate': DateFormat(' dd MMM yyyy').format(DateTime.now()),
           "prepared by" : name,
         });
+    await Firestore.instance
+        .collection('lponumber')
+        .document(userCompany)
+        .updateData({
+      'number': Lpo,
+    });
   }
 
 
 
   Future getAccounts() async {
-   Firestore.instance.collection('lpo').where('company', isEqualTo: userCompany)
-        .orderBy("date", descending: true).limit(1) // new entries first, date is one the entries btw
+   Firestore.instance.collection('lponumber').where('company', isEqualTo: userCompany).limit(1) // new entries first, date is one the entries btw
         .snapshots()
        .listen((QuerySnapshot querySnapshot){
     querySnapshot.documents.forEach((document)
     {
       setState(() {
-        prevLpo = document['lpoNumber'];
-        prev = int.parse(prevLpo);
+        prev = document['number'];
         Lpo = prev+1;
         lpoString = Lpo.toString();
       });
