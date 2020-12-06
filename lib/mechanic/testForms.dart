@@ -17,9 +17,25 @@ class TestForms extends StatefulWidget {
   String turnboy;
   String itemDescription;
   String truckType;
+  String fR;
+  String fL;
+  String bR1;
+  String bL1;
+  String bR2;
+  String bL2;
+  String docID;
+
+  final Map<String,dynamic> tyres;
 
   TestForms({
-
+    this.docID,
+    this.fR,
+    this.fL,
+    this.bR1,
+    this.bL1,
+    this.bR2,
+    this.bL2,
+    this.tyres,
     this.truckNumber,
     this.truckType,
     this.driverName,
@@ -36,6 +52,8 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
   ScrollController _scrollViewController;
   TabController _tabController;
   bool _isVisible = false;
+
+
 
   void initState() {
     super.initState();
@@ -78,6 +96,12 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
   bool readOnly = false;
   bool showSegmentedControl = true;
   List<TextEditingController> _controllers = new List();
+  final frController = TextEditingController();
+  final fLController = TextEditingController();
+  final bR1Controller = TextEditingController();
+  final bR2Controller = TextEditingController();
+  final bL1Controller = TextEditingController();
+  final bL2Controller = TextEditingController();
   var options = ["Pass", "Fail"];
   Map map = {};
 
@@ -375,6 +399,7 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
                   CollectionReference reference = Firestore.instance.collection('service');
 
                   await reference.add(Map<String, dynamic>.from(map));
+
                 }).then((result) =>
 
                     _goRequest());
@@ -463,7 +488,7 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
       },
     );
   }
-  void _loginCommand() {
+  Future<void> _loginCommand() async {
     final form = formKey.currentState;
 
     Firestore.instance.runTransaction((Transaction transaction) async {
@@ -478,7 +503,7 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
         "Brakes": _brKey.currentState.value,
         "Front suspension": _frKey.currentState.value,
         "Rear suspension": _reKey.currentState.value,
-        "Wheel Details": _wdKey.currentState.value,
+        "Tyres": _wdKey.currentState.value,
         "Cabin": _caKey.currentState.value,
         "Body": _boKey.currentState.value,
         "Safety": _saKey.currentState.value,
@@ -489,9 +514,25 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
         "company": userCompany,
 
       });
+      print("Second text field: ${frController.text}");
+      await Firestore.instance
+          .collection("trucks")
+          .document(widget.docID)
+          .updateData({
+        'Front Right': frController.text ==''|| frController.text == null? '': frController.text,
+        'Front Left': fLController.text ==''|| fLController.text == null? '': fLController.text,
+        'Back Left1': bL1Controller.text ==''|| bL1Controller.text == null? '': bL1Controller.text,
+        'Back Right1': bR1Controller.text ==''|| bR1Controller.text == null? '': bR1Controller.text,
+        'Back Right2': bR2Controller.text ==''|| bR2Controller.text == null? '': bR2Controller.text,
+        'Back Left2': bL2Controller.text ==''|| bL2Controller.text == null? '': bL2Controller.text,
+
+      });
+
     }).then((result) =>
 
+
         _showRequest());
+
 
   }
 
@@ -510,36 +551,40 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
     _daKey.currentState.reset();
     _coKey.currentState.reset();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Your data has been saved"),
-          content: new Text("Do you want to Request any Material?"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("YES"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(new CupertinoPageRoute(
-                    builder: (BuildContext context) => new  matRequest(
-                      truckNo: widget.truckNumber,
-                      driverName: widget.driverName,
-                      truckType: widget.truckType,
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: new Text("Your data has been saved"),
+            content: new Text("Do you want to Request any Material?"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("YES"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new  matRequest(
+                        truckNo: widget.truckNumber,
+                        driverName: widget.driverName,
+                        truckType: widget.truckType,
 
-                    )
-                )
-                );
-              },
-            ),
-            new FlatButton(
-              child: new Text("NO"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+                      )
+                  )
+                  );
+                },
+              ),
+              new FlatButton(
+                child: new Text("NO"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
         );
       },
     );
@@ -986,11 +1031,167 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
                                             new SizedBox(
                                               height: 10.0,
                                             ),
-                                            new Text("Wheel details",
+                                            new Text("Tyres",
                                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
 
                                             new SizedBox(
                                               height: 10.0,
+                                            ),
+                                            widget.fR =="" || widget.fR == null ? FormBuilderTextField(
+                                              attribute: "Front Right",
+                                              controller: frController,
+                                              decoration: InputDecoration(
+                                                  labelText: "Front Right",
+                                                  floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                                ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Front Right",
+                                              decoration: InputDecoration(
+                                                labelText: 'Front Right Serial number: ${widget.fR}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
+                                            ),
+                                            widget.fL ==""|| widget.fL == null? FormBuilderTextField(
+                                              attribute: "Front Left",
+                                              controller: fLController,
+                                              decoration: InputDecoration(
+                                                labelText: "Front Left",
+                                                floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                              ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Front Left",
+                                              decoration: InputDecoration(
+                                                labelText: 'Front Left Serial number: ${widget.fL}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
+                                            ),
+                                            widget.bR1 =="" || widget.bR1 == null? FormBuilderTextField(
+                                              attribute: "Back Right 1",
+                                              controller: bR1Controller,
+                                              decoration: InputDecoration(
+                                                labelText: "Back Right 1",
+                                                floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                              ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Back Right 1",
+                                              decoration: InputDecoration(
+                                                labelText: 'Back Right 1 Serial number: ${widget.bR1}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
+                                            ),
+                                            widget.bL1 =="" || widget.bL1 == null ?  FormBuilderTextField(
+                                              attribute: "Back Left 1",
+                                              controller: bL1Controller,
+                                              decoration: InputDecoration(
+                                                labelText: "Back Left 1",
+                                                floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                              ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Back Left 1",
+                                              decoration: InputDecoration(
+                                                labelText: 'Back Left 1 Serial number: ${widget.bL1}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
+                                            ),
+                                            widget.bR2 =="" || widget.bR2 == null? FormBuilderTextField(
+                                              attribute: "Back Right 2",
+                                              controller: bR2Controller,
+                                              decoration: InputDecoration(
+                                                labelText: "Back Right 2",
+                                                floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                              ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Back Right 2",
+                                              decoration: InputDecoration(
+                                                labelText: 'Back Right 2 Serial number: ${widget.bR2}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
+                                            ),
+                                            widget.bL2 =="" || widget.bL2 == null? FormBuilderTextField(
+                                              attribute: "Back Left 2",
+                                              controller: bL2Controller,
+                                              decoration: InputDecoration(
+                                                labelText: "Back Left 2",
+                                                floatingLabelBehavior:FloatingLabelBehavior.always,
+                                                prefixText: "Serial Number:",
+                                              ),
+                                            )
+                                                :FormBuilderChoiceChip(
+                                              spacing: 10.0,
+                                              runSpacing: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              attribute: "Back Left 2",
+                                              decoration: InputDecoration(
+                                                labelText: 'Back Left 2 Serial number: ${widget.bL2}',
+                                              ),
+                                              options: [
+                                                FormBuilderFieldOption(
+                                                    value: 'Pass', child: Text('Pass')),
+                                                FormBuilderFieldOption(
+                                                    value: 'Fail', child: Text('Fail')),
+                                              ],
                                             ),
                                             new FutureBuilder(
                                               future: getWheeldetails(),
@@ -1261,81 +1462,6 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
                               ],
                             ),
                           ),
-
-                          Card(
-
-                            child: Column(
-                              mainAxisSize : MainAxisSize.min,
-                              children: [
-                                new Flexible(
-                                    child: FormBuilder(
-                                      key: _wKey,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new Text("Wheels",
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),),
-
-                                            new SizedBox(
-                                              height: 10.0,
-                                            ),
-                                            new FutureBuilder(
-                                              future: getWheels(),
-                                              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return Offstage();
-                                                }
-                                                if (!snapshot.hasData) {
-                                                  return Offstage();
-                                                }
-                                                else {
-                                                  return Center(
-                                                    child: ListView.builder(
-                                                        padding: const EdgeInsets.only(bottom: 20.0),
-                                                        scrollDirection: Axis.vertical,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot.data.length,
-                                                        itemBuilder: (context, index) {
-
-                                                          return FormBuilderChoiceChip(
-                                                            spacing: 10.0,
-                                                            runSpacing: 10.0,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(10.0),
-                                                            ),
-                                                            attribute: snapshot.data[index],
-                                                            decoration: InputDecoration(labelText: snapshot.data[index]),
-                                                            validators: [FormBuilderValidators.required()],
-                                                            options: [
-                                                              FormBuilderFieldOption(
-                                                                value: 'Pass',child: Text('Pass'),),
-                                                              FormBuilderFieldOption(
-                                                                value: 'Fail',
-                                                                child: Text('Fail'),),
-
-                                                            ],
-                                                          );
-
-                                                        }),
-                                                  );
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ),
-
-
 
                           Card(
 
