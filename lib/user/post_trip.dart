@@ -332,6 +332,45 @@ class _PostDetailsState extends State<PostDetails> {
                 new SizedBox(
                   height: 10.0,
                 ),
+
+                new Card(child: new Container(
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize:MainAxisSize.min,
+                    children: <Widget>[
+                      Center(
+                        child: new Text(
+                          "SAFETY",
+                          style: new TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      widget.safety == null ? Container() :
+                      new Flexible(
+                        child: new ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: widget.safety.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String key = widget.safety.keys.elementAt(index);
+                            return new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new ListTile(
+                                  title: new Text("$key"),
+                                  subtitle: new Text("${widget.safety[key]}"),
+                                ),
+                                new Divider(
+                                  height: 2.0,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),),
                 new Card(child: new Container(
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -522,44 +561,7 @@ class _PostDetailsState extends State<PostDetails> {
                     ],
                   ),
                 ),),
-                new Card(child: new Container(
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize:MainAxisSize.min,
-                    children: <Widget>[
-                      Center(
-                        child: new Text(
-                          "WHEEL DETAIL",
-                          style: new TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      widget.wheelDetail == null ? Container() :
-                      new Flexible(
-                        child: new ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: widget.wheelDetail.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String key = widget.wheelDetail.keys.elementAt(index);
-                            return new Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new ListTile(
-                                  title: new Text("$key"),
-                                  subtitle: new Text("${widget.wheelDetail[key]}"),
-                                ),
-                                new Divider(
-                                  height: 2.0,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),),
+
                 new Card(child: new Container(
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -636,6 +638,7 @@ class _PostDetailsState extends State<PostDetails> {
                     ],
                   ),
                 ),),
+
                 new Card(child: new Container(
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -643,63 +646,25 @@ class _PostDetailsState extends State<PostDetails> {
                     children: <Widget>[
                       Center(
                         child: new Text(
-                          "SAFETY",
+                          "TYRES",
                           style: new TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      widget.safety == null ? Container() :
+                      widget.wheelDetail == null ? Container() :
                       new Flexible(
                         child: new ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: widget.safety.length,
+                          itemCount: widget.wheelDetail.length,
                           itemBuilder: (BuildContext context, int index) {
-                            String key = widget.safety.keys.elementAt(index);
+                            String key = widget.wheelDetail.keys.elementAt(index);
                             return new Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 new ListTile(
                                   title: new Text("$key"),
-                                  subtitle: new Text("${widget.safety[key]}"),
-                                ),
-                                new Divider(
-                                  height: 2.0,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),),
-                new Card(child: new Container(
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize:MainAxisSize.min,
-                    children: <Widget>[
-                      Center(
-                        child: new Text(
-                          "WHEELS",
-                          style: new TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      widget.wheels == null ? Container() :
-                      new Flexible(
-                        child: new ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: widget.wheels.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String key = widget.wheels.keys.elementAt(index);
-                            return new Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new ListTile(
-                                  title: new Text("$key"),
-                                  subtitle: new Text("${widget.wheels[key]}"),
+                                  subtitle: new Text("${widget.wheelDetail[key]}"),
                                 ),
                                 new Divider(
                                   height: 2.0,
@@ -720,7 +685,7 @@ class _PostDetailsState extends State<PostDetails> {
                     children: <Widget>[
                       Center(
                         child: new Text(
-                          "Dates",
+                          "DATES",
                           style: new TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700),
                         ),
@@ -759,7 +724,7 @@ class _PostDetailsState extends State<PostDetails> {
                     children: <Widget>[
                       Center(
                         child: new Text(
-                          "Other",
+                          "OTHER",
                           style: new TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700),
                         ),

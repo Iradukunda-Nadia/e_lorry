@@ -456,10 +456,10 @@ class _TruckDetailsState extends State<TruckDetails> {
                           ),
 
                           FlatButton(
-                            color: Colors.deepPurple[900],
+                            color: Colors.red[900],
                             onPressed: () async {
                               await db
-                                  .collection('userID')
+                                  .collection('trucks')
                                   .document(widget.docID)
                                   .delete();
 
@@ -473,6 +473,7 @@ class _TruckDetailsState extends State<TruckDetails> {
                                         FlatButton(
                                           child: Text("Close"),
                                           onPressed: () {
+                                            Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                           },
@@ -591,6 +592,7 @@ class _addTruckState extends State<addTruck> {
             new FlatButton(
               child: new Text("close"),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
