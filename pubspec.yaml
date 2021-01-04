@@ -40,12 +40,13 @@ dependencies:
   csv: ^4.0.3
   json_table: ^1.4.0
   flutter_chips_input: ^1.8.3
-  permission_handler: ^5.0.1+1
+  permission_handler:
   firebase_crashlytics:
   firebase_in_app_messaging:
-  package_info: ^0.4.3+2
+  package_info:
   firebase_remote_config:
   url_launcher:
+  image_picker:
 
 
 dev_dependencies:
@@ -74,6 +75,7 @@ flutter:
     - assets/log.png
     - assets/lo.png
     - assets/rep.png
+    - assets/empty.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

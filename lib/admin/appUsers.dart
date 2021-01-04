@@ -224,6 +224,10 @@ class _addUserState extends State<addUser> {
                                 "display": "Chief Mechanic",
                                 "value": "Chief Mechanic",
                               },
+                              {
+                                "display": "Approvals",
+                                "value": "Approvals",
+                              },
 
                             ],
                             textField: 'display',

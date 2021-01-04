@@ -496,7 +496,7 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
 
       await reference.add({
         "Truck": widget.truckNumber,
-        "timestamp" : DateFormat('dd MMM yyyy').format(DateTime.now()),
+        "timestamp" : DateTime.now(),
         "date" : DateFormat('dd MMM yyyy').format(DateTime.now()),
         "Engine": _engKey.currentState.value,
         "Electronics": _eleKey.currentState.value,

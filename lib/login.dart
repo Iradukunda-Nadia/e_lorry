@@ -1,8 +1,14 @@
 import 'package:e_lorry/admin/adminHome.dart';
+import 'package:e_lorry/approvals/appTabs.dart';
+import 'package:e_lorry/manager/dailyReport.dart';
 import 'package:e_lorry/signup.dart';
+import 'package:e_lorry/user/fuelRequest.dart';
+import 'package:e_lorry/user/partRequest.dart';
+import 'package:e_lorry/user/requisition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'manager/reporting/pdfView.dart';
 import 'mechanic/car.dart';
 import 'mechanic/vehicle.dart';
 import 'user/user.dart';
@@ -222,14 +228,14 @@ class _LoginScreenState extends State<LoginScreen> {
               _messaging.subscribeToTopic('manager${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).pushReplacement(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new Manager()
+                  builder: (BuildContext context) => new PdfViewerPage()
               ));
             }
             if(id == "Accounts" ) {
               _messaging.subscribeToTopic('puppies${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
               Navigator.of(context).pushReplacement(new CupertinoPageRoute(
-                  builder: (BuildContext context) => new User()
+                  builder: (BuildContext context) => new Requisition(use: 'mech',)
               ));
 
             }
@@ -242,7 +248,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ));
 
             }
-
             if(id == "Administrator") {
               _messaging.subscribeToTopic('admin${document['company']}');
               _messaging.subscribeToTopic('all${document['company']}');
@@ -251,6 +256,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ));
 
             }
+          if(id == "Approvals" ) {
+            _messaging.subscribeToTopic('approvals${document['company']}');
+            _messaging.subscribeToTopic('all${document['company']}');
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
+                builder: (BuildContext context) => new Approvals()
+            ));
+
+          }
 
 
 
@@ -724,12 +737,12 @@ class _LoggedState extends State<Logged> {
 
           if( id == "Fleet Manager" ) {
             Navigator.of(context).pushReplacement(new CupertinoPageRoute(
-                builder: (BuildContext context) => new Manager()
+                builder: (BuildContext context) => new dailyRep()
             ));
           }
           if(id == "Accounts" ) {
             Navigator.of(context).pushReplacement(new CupertinoPageRoute(
-                builder: (BuildContext context) => new User()
+                builder: (BuildContext context) => new Requisition( use: 'mech',)
             ));
 
           }
@@ -744,6 +757,14 @@ class _LoggedState extends State<Logged> {
           if(id == "Administrator") {
             Navigator.of(context).pushReplacement(new CupertinoPageRoute(
                 builder: (BuildContext context) => new adminHome()
+            ));
+
+          }
+          if(id == "Approvals" ) {
+            _messaging.subscribeToTopic('approvals${document['company']}');
+            _messaging.subscribeToTopic('all${document['company']}');
+            Navigator.of(context).pushReplacement(new CupertinoPageRoute(
+                builder: (BuildContext context) => new Approvals()
             ));
 
           }

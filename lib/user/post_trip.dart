@@ -52,7 +52,7 @@ class _PostState extends State<Post> {
                         );
                       }if (snapshot.data == null){
                         return Center(
-                          child: Text("The are no pending requests"),);
+                          child: Text("The are no Forms"),);
                       }else{
                         return ListView.builder(
                           itemCount: snapshot.data.length,
@@ -162,7 +162,7 @@ class _PostDatesState extends State<PostDates> {
                   var doc = snapshot.data.documents[index];
                       return Card(
                         child: ListTile(
-                          title: Text("Date: ${doc.data['timestamp']}"),
+                          title: Text("Date: ${doc.data['date']}"),
 
                           onTap: () async {
 

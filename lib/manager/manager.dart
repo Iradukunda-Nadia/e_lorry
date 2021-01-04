@@ -209,7 +209,7 @@ class _ItemsState extends State<Items> {
 
   }
   CollectionReference collectionReference =
-  Firestore.instance.collection("requisition");
+  Firestore.instance.collection("partRequest");
 
   DocumentSnapshot _currentDocument;
 
@@ -263,17 +263,20 @@ class _ItemsState extends State<Items> {
                               itemName: doc.data["Item"],
                               itemQuantity: doc.data["Quantity"],
                               itemNumber: doc.data["Truck"],
-                              reqName: doc.data["Name"],
-                              reqDate: doc.data["date"].toString().substring(0,10),
+                              reqName: doc.data["request by"],
+                              reqDate: doc.data["date"],
+                              brand1: doc.data["Supplier 1"],
                               reqOne: doc.data["quoteOne"],
+                              vat1: doc.data["1VAT"],
+                              brand2: doc.data["Supplier 2"],
                               reqTwo: doc.data["quoteTwo"],
+                              vat2: doc.data["2VAT"],
+                              brand3: doc.data["Supplier 3"],
                               reqThree: doc.data["quoteThree"],
+                              vat3: doc.data["3VAT"],
                               reqBrand: doc.data["brand"],
                               reqPrice: doc.data["price"],
                               reqSupplier: doc.data["supplier"],
-                              brand1: doc.data["brand1"],
-                              brand2: doc.data["brand2"],
-                              brand3: doc.data["brand3"],
                               status: doc.data["status"],
                               reqComment: doc.data["comment"],
                               approvedQuote: doc.data["approvedQuote"],
@@ -319,10 +322,15 @@ class Approval extends StatefulWidget {
   String brand1;
   String brand2;
   String brand3;
+  String vat1;
+  String vat2;
+  String vat3;
 
 
   Approval({
-
+    this.vat1,
+    this.vat2,
+    this.vat3,
     this.approvedQuote,
     this.approvedPrice,
     this.reqComment,
@@ -665,7 +673,7 @@ class _ApprovalState extends State<Approval> {
                                   width: 5.0,
                                 ),
                                 new Text(
-                                  "Brand",
+                                  "Supplier",
                                   style: new TextStyle(color: Colors.black, fontSize: 18.0,),
                                 )
                               ],
@@ -679,6 +687,31 @@ class _ApprovalState extends State<Approval> {
                             ),
                           ],
                         ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Including VAT?",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.vat1,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        Divider(),
                         new SizedBox(
                           height: 5.0,
                         ),
@@ -717,7 +750,7 @@ class _ApprovalState extends State<Approval> {
                                   width: 5.0,
                                 ),
                                 new Text(
-                                  "Brand",
+                                  "Supplier",
                                   style: new TextStyle(color: Colors.black, fontSize: 18.0,),
                                 )
                               ],
@@ -731,6 +764,31 @@ class _ApprovalState extends State<Approval> {
                             ),
                           ],
                         ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "including VAT?",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.vat2,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        Divider(),
 
                         new SizedBox(
                           height: 5.0,
@@ -770,13 +828,37 @@ class _ApprovalState extends State<Approval> {
                                   width: 5.0,
                                 ),
                                 new Text(
-                                  "Brand",
+                                  "Supplier",
                                   style: new TextStyle(color: Colors.black, fontSize: 18.0,),
                                 )
                               ],
                             ),
                             new Text(
                               widget.brand3,
+                              style: new TextStyle(
+                                  fontSize: 11.0,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                new SizedBox(
+                                  width: 5.0,
+                                ),
+                                new Text(
+                                  "Including VAT?",
+                                  style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                )
+                              ],
+                            ),
+                            new Text(
+                              widget.vat3,
                               style: new TextStyle(
                                   fontSize: 11.0,
                                   color: Colors.indigo,

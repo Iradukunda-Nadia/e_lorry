@@ -88,18 +88,6 @@ class _adminHomeState extends State<adminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff016836),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _created == true ?
-      Offstage(): FloatingActionButton.extended(
-          onPressed: (){
-            Navigator.of(context).push(new CupertinoPageRoute(
-          builder: (BuildContext context) => new fieldCats(
-              truckPostForm: truckPostForm,
-              carForm: carForm,
-              truckSerForm: truckSerForm,
-          )));
-            },
-          label: Text ("Create Mechanic Form fields")),
       appBar: new AppBar(
         title: new Text("App Admin"),
         centerTitle: true,
@@ -110,7 +98,7 @@ class _adminHomeState extends State<adminHome> {
       body: Stack(
         children: [
           Positioned(
-              top: 40,
+              bottom: 20,
               left: 300,
               child: Align(
                 alignment: Alignment.topRight,
@@ -276,7 +264,45 @@ class _adminHomeState extends State<adminHome> {
                 ),
 
                 new SizedBox(
-                  height: 30.0,
+                  height: 10.0,
+                ),
+
+                _created == true ?
+                Offstage(): Padding(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
+                  child: new InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(new CupertinoPageRoute(
+                          builder: (BuildContext context) => new fieldCats(
+                            truckPostForm: truckPostForm,
+                            carForm: carForm,
+                            truckSerForm: truckSerForm,
+                          )));
+                    },
+                    child: new Container(
+                      height: 60.0,
+                      margin: new EdgeInsets.only(top: 5.0),
+                      child: new Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: new Container(
+                          margin: new EdgeInsets.only(
+                              left: 10.0, right: 10.0, bottom: 2.0),
+                          height: 60.0,
+                          decoration: new BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: new BorderRadius.all(
+                                  new Radius.circular(20.0))),
+                          child: new Center(
+                              child: new Text(
+                                "Create Mechanic Form fields",
+                                style: new TextStyle(
+                                    color: const Color(0xffffffff),),
+                              )),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
 
               ],

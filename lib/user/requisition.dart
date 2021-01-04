@@ -1,10 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_lorry/lpo.dart';
+import 'package:e_lorry/manager/carService.dart';
+import 'package:e_lorry/user/document.dart';
+import 'package:e_lorry/user/fuelRequest.dart';
+import 'package:e_lorry/user/partRequest.dart';
+import 'package:e_lorry/user/post_trip.dart';
+import 'package:e_lorry/user/truck_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../chat.dart';
+import '../login.dart';
+
 class Requisition extends StatefulWidget {
+  String use;
+
+  Requisition ({
+    this.use,
+  });
   @override
   _RequisitionState createState() => _RequisitionState();
 }
@@ -18,15 +33,17 @@ class _RequisitionState extends State<Requisition> {
   }
 
   String userCompany;
+  String currentUser;
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userCompany = prefs.getString('company');
+      currentUser = prefs.getString('user');
     });
   }
 
   CollectionReference collectionReference =
-  Firestore.instance.collection("requisition");
+  Firestore.instance.collection("partRequest");
 
   DocumentSnapshot _currentDocument;
 
@@ -35,22 +52,170 @@ class _RequisitionState extends State<Requisition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.red[900],
-        title: Text("Requisition status"),
+        title: Text("Part Requests"),
+        actions: <Widget>[
+
+          new Stack(
+            alignment: Alignment.topLeft,
+            children: <Widget>[
+              new IconButton(icon: new Icon(Icons.chat,
+                color: Colors.white,)
+                  , onPressed: (){
+                    Navigator.of(context).push(new CupertinoPageRoute(
+                        builder: (BuildContext context) => new Chat()
+                    ));
+                  }),
+
+            ],
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            Navigator.of(context).push(new CupertinoPageRoute(
+                builder: (BuildContext context) => new partRequest()));
+          },
+          label: Text ("Request A Part")),
+
+      drawer: new Drawer(
+        child: new Column(
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    "assets/lo.png",
+                    fit: BoxFit.contain,
+                    height: 100.0,
+                    width: 300.0,
+                  ),
+                  Text("Accounts"),
+                ],
+              ),
+            ),
+
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.receipt,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Fuel Requests"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FRequests( type: 'mech',)));
+              },
+            ),
+
+            new Divider(),
+            widget.use == 'mech'? new Offstage():new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.directions_car,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Truck Post Trip"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Post()));
+              },
+            ),
+
+            new Divider(),
+            widget.use == 'mech'? new Offstage():new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.settings,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Truck Service"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new truckService()));
+              },
+            ),
+
+            new Divider(),
+            widget.use == 'mech'? new Offstage(): new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.directions_car,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Car Sevice"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new carService()));
+              },
+            ),
+
+            new Divider(),
+
+            widget.use == 'mech'? new Offstage():new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.settings,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("LPO"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new prevLpo()));
+              },
+            ),
+
+            new Divider(),
+            new ListTile(
+                trailing: new CircleAvatar(
+                  child: new Icon(Icons.subdirectory_arrow_left,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                ),
+                title: new Text("Logout"),
+                onTap: ()async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.remove('email');
+                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                      builder: (BuildContext context) => new LoginScreen()
+                  ));
+                }
+            ),
+
+
+          ],
+        ),
       ),
 
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
-            stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
+            stream: collectionReference.where('company', isEqualTo: userCompany).where('request by', isEqualTo: currentUser ).snapshots(),
             builder: (context, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: Text("Waiting For Data..."),
                 );
-              } if (snapshot.data == null){
+              } if ( snapshot.data == null ){
+                print('no data');
                 return Center(
-                  child: Text("The are no pending requests"),);
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 100,
+                          child: Image.asset('assets/empty.png'),
+                        ),
+                      ),
+                      Text("Looks like you haven't made any Requests Yet."),
+                    ],
+                  ),);
+
               }
               else{
                 return ListView.builder(
@@ -79,22 +244,21 @@ class _RequisitionState extends State<Requisition> {
                                 itemName: doc.data["Item"],
                                 itemQuantity: doc.data["Quantity"],
                                 itemNumber: doc.data["Truck"],
-                                reqName: doc.data["Name"],
+                                reqName: doc.data["request by"],
                                 reqDate: doc.data["date"],
+                                brand1: doc.data["Supplier 1"],
                                 reqOne: doc.data["quoteOne"],
-                                brand1: doc.data["brand1"],
+                                brand2: doc.data["Supplier 2"],
                                 reqTwo: doc.data["quoteTwo"],
-                                brand2: doc.data["brand2"],
+                                brand3: doc.data["Supplier 3"],
                                 reqThree: doc.data["quoteThree"],
-                                brand3: doc.data["brand3"],
+                                reqBrand: doc.data["brand"],
                                 reqPrice: doc.data["price"],
                                 reqSupplier: doc.data["supplier"],
                                 reqComment: doc.data["comment"],
-                                reqStatus: doc.data["status"],
-                                sample: doc.data["sample"],
-                                approvedby: doc.data["approved by"],
                                 approvedQuote: doc.data["approvedQuote"],
                                 approvedPrice: doc.data["price"],
+                                reqStatus: doc.data["status"],
                                 ID: doc.documentID,
 
 
@@ -173,6 +337,7 @@ class _RequisitionDetailState extends State<RequisitionDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: new AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
         title: new Text("Item Detail"),

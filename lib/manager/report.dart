@@ -307,7 +307,8 @@ class _ReportState extends State<Report> {
                 child: pdf.Image(image),
               ),
             ); // Center
-          })); // Page
+          }));
+      // Page
 
       return document.save();
     });
@@ -330,6 +331,7 @@ class _ReportState extends State<Report> {
     });
   }
   final _renderObjectKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

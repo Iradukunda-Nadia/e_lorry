@@ -1,5 +1,7 @@
 import 'package:e_lorry/login.dart';
 import 'package:e_lorry/mechanic/testForms.dart';
+import 'package:e_lorry/user/fuelRequest.dart';
+import 'package:e_lorry/user/requisition.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -77,8 +79,39 @@ class _MechState extends State<Mech> {
                 ],
               ),
             ),
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.receipt,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Fuel Requests"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FRequests(
+                  type: 'mech',
+                )));
+              },
+            ),
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.receipt,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Part Requests"),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Requisition(
+                  use: 'mech',
+                )));
+              },
+            ),
 
             new Divider(),
+
             new ListTile(
                 trailing: new CircleAvatar(
                   child: new Icon(Icons.edit_attributes,
