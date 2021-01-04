@@ -98,7 +98,7 @@ class _ItemsState extends State<Items> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.where('company', isEqualTo: userCompany).orderBy('status', descending: true).snapshots(),
+          stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
