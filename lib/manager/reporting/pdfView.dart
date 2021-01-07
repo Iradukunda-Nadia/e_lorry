@@ -40,7 +40,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+
       body: Center(
           child: _isLoading
               ? Center(child: CircularProgressIndicator())

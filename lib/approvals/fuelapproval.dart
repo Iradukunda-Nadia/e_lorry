@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_lorry/mechanic/Requests/fuel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -724,13 +725,22 @@ class _AppFuelState extends State<AppFuel> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                          child: Image.network(
-                            widget.image,
-                            fit: BoxFit.contain,
-                            height: 200.0,
-                            width: 200.0,
+                        GestureDetector(
+                          onTap: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (_) => ImageDialog( img: widget.image,)
+                            );
+                          },
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Image.network(
+                              widget.image,
+                              fit: BoxFit.contain,
+                              height: 200.0,
+                              width: 200.0,
+                            ),
                           ),
                         ),
                       ],
