@@ -54,11 +54,27 @@ export const sendToManager = functions.firestore
     return fcm.sendToTopic(mTopic, message);
   });
 
+export const sendPostFuel = functions.firestore
+  .document('partRequest/{Item}')
+  .onCreate(async snapshot => {
+  let comp = snapshot.get('company');
+  let aTopic = `approvals${comp}`;
+
+    const message: admin.messaging.MessagingPayload = {
+      notification: {
+        title: 'New Part Request!',
+        body: `New request awaiting approval`,
+      }
+    };
+
+    return fcm.sendToTopic(aTopic, message);
+  });
+
 export const sendforApproval = functions.firestore
   .document('partRequest/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');
-  let aTopic = `manager${comp}`;
+  let aTopic = `approvals${comp}`;
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
