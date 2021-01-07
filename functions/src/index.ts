@@ -54,22 +54,38 @@ export const sendToManager = functions.firestore
     return fcm.sendToTopic(mTopic, message);
   });
 
-  export const sendToManager = functions.firestore
-    .document('update/{Item}')
-    .onCreate(async snapshot => {
-    let comp = snapshot.get('company');
-    let tTopic = `allsig`;
+export const sendforApproval = functions.firestore
+  .document('partRequest/{Item}')
+  .onCreate(async snapshot => {
+  let comp = snapshot.get('company');
+  let aTopic = `manager${comp}`;
 
-      const message: admin.messaging.MessagingPayload = {
-        "notification":{
-        "title":"E-Lorry app Update!!",
-        "body":"There is a new version of the E-lorry app. Click here to update now!",
-        "click_action": "https://play.google.com/store/apps/details?id=com.nadia.e_lorry"
-        }
-      };
+    const message: admin.messaging.MessagingPayload = {
+      notification: {
+        title: 'New Part Request!',
+        body: `New request awaiting approval`,
+      }
+    };
 
-      return fcm.sendToTopic(tTopic, message);
-    });
+    return fcm.sendToTopic(aTopic, message);
+  });
+
+export const sendToApproval = functions.firestore
+  .document('fuelRequest/{Item}')
+  .onCreate(async snapshot => {
+  let comp = snapshot.get('company');
+  let fTopic = `approvals${comp}`;
+
+    const message: admin.messaging.MessagingPayload = {
+      notification: {
+        title: 'New Fuel Request!',
+        body: `New fuel request awaiting approval`,
+      }
+    };
+
+    return fcm.sendToTopic(fTopic, message);
+  });
+
 
 
 export const newMessage = functions.firestore

@@ -52,7 +52,7 @@ class _dailyRepState extends State<dailyRep>  with SingleTickerProviderStateMixi
   initState() {
     // TODO: implement initState
     super.initState();
-    controller = new TabController(length: 3, vsync: this);
+    controller = new TabController(length: 2, vsync: this);
     getStringValue();
   }
 
@@ -177,9 +177,8 @@ class _dailyRepState extends State<dailyRep>  with SingleTickerProviderStateMixi
                 onTap: ()async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.remove('email');
-                  Navigator.of(context).push(new MaterialPageRoute(
-                      builder: (BuildContext context) => new LoginScreen()
-                  ));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  new LoginScreen()), (Route<dynamic> route) => false);
                 }
             ),
 
@@ -192,7 +191,7 @@ class _dailyRepState extends State<dailyRep>  with SingleTickerProviderStateMixi
       body: new TabBarView(
         physics: NeverScrollableScrollPhysics(),
         // Add tabs as widgets
-        children: <Widget>[new PdfViewerPage(formType: 'fuel',),  new PdfViewerPage(formType: 'parts',), new  PdfViewerPage(formType: 'ptrip',) ],
+        children: <Widget>[new PdfViewerPage(formType: 'fuel',),  new PdfViewerPage(formType: 'parts',) ],
         // set the controller
         controller: controller,
       ),
@@ -211,10 +210,6 @@ class _dailyRepState extends State<dailyRep>  with SingleTickerProviderStateMixi
             new Tab(
               text: 'Parts',
               icon: new Icon(Icons.settings),
-            ),
-            new Tab(
-              text: 'Service',
-              icon: new Icon(Icons.insert_drive_file),
             ),
 
           ],

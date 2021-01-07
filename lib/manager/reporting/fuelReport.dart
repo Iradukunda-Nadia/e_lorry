@@ -20,7 +20,7 @@ fuelReportView(context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String userCompany = prefs.getString('company');
   final QuerySnapshot result =
-  await Firestore.instance.collection("fuelRequest").where('company', isEqualTo: userCompany).getDocuments();
+  await Firestore.instance.collection("fuelRequest").where('company', isEqualTo: userCompany).where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now())).orderBy('timestamp', descending: true).getDocuments();
   final List<DocumentSnapshot> documents = result.documents;
   // My list I want to create.
 

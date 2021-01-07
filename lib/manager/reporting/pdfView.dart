@@ -40,11 +40,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-          child: Icon(Icons.print)
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      
       body: Center(
           child: _isLoading
               ? Center(child: CircularProgressIndicator())

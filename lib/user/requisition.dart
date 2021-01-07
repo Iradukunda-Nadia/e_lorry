@@ -73,12 +73,6 @@ class _RequisitionState extends State<Requisition> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){
-            Navigator.of(context).push(new CupertinoPageRoute(
-                builder: (BuildContext context) => new partRequest()));
-          },
-          label: Text ("Request A Part")),
 
       drawer: new Drawer(
         child: new Column(
@@ -96,23 +90,8 @@ class _RequisitionState extends State<Requisition> {
                 ],
               ),
             ),
-
             new Divider(),
             new ListTile(
-              trailing: new CircleAvatar(
-                child: new Icon(Icons.receipt,
-                  color: Colors.white,
-                  size: 20.0,
-                ),
-              ),
-              title: new Text("Fuel Requests"),
-              onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FRequests( type: 'mech',)));
-              },
-            ),
-
-            new Divider(),
-            widget.use == 'mech'? new Offstage():new ListTile(
               trailing: new CircleAvatar(
                 child: new Icon(Icons.directions_car,
                   color: Colors.white,
@@ -126,7 +105,7 @@ class _RequisitionState extends State<Requisition> {
             ),
 
             new Divider(),
-            widget.use == 'mech'? new Offstage():new ListTile(
+            new ListTile(
               trailing: new CircleAvatar(
                 child: new Icon(Icons.settings,
                   color: Colors.white,
@@ -140,7 +119,7 @@ class _RequisitionState extends State<Requisition> {
             ),
 
             new Divider(),
-            widget.use == 'mech'? new Offstage(): new ListTile(
+            new ListTile(
               trailing: new CircleAvatar(
                 child: new Icon(Icons.directions_car,
                   color: Colors.white,
@@ -155,7 +134,7 @@ class _RequisitionState extends State<Requisition> {
 
             new Divider(),
 
-            widget.use == 'mech'? new Offstage():new ListTile(
+            new ListTile(
               trailing: new CircleAvatar(
                 child: new Icon(Icons.settings,
                   color: Colors.white,
@@ -180,9 +159,8 @@ class _RequisitionState extends State<Requisition> {
                 onTap: ()async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.remove('email');
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (BuildContext context) => new LoginScreen()
-                  ));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  new LoginScreen()), (Route<dynamic> route) => false);
                 }
             ),
 
@@ -193,7 +171,7 @@ class _RequisitionState extends State<Requisition> {
 
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
-            stream: collectionReference.where('company', isEqualTo: userCompany).where('request by', isEqualTo: currentUser ).snapshots(),
+            stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
             builder: (context, snapshot){
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(

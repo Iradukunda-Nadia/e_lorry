@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_lorry/approvals/partsApproval.dart';
 import 'package:e_lorry/manager/carService.dart';
 import 'package:e_lorry/manager/manager.dart';
 import 'package:e_lorry/user/document.dart';
@@ -229,7 +230,7 @@ class _ApprovalsState extends State<Approvals> {
               child: new InkWell(
                 onTap: () {
                   Navigator.of(context).push(new CupertinoPageRoute(
-                      builder: (BuildContext context) => new Manager()
+                      builder: (BuildContext context) => new partsApproval()
                   ));
                 },
                 child: new Container(

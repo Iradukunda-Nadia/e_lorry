@@ -35,9 +35,8 @@ class _vehicleServiceState extends State<vehicleService> {
   Logout()async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
-    Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (BuildContext context) => new LoginScreen()
-    ));
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+    new LoginScreen()), (Route<dynamic> route) => false);
   }
 
   @override

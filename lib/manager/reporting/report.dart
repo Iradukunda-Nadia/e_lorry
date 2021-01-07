@@ -40,14 +40,14 @@ reportView(context) async {
   var servicelist = [];
 
   Future getDocs() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection("collection").getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection("collection").orderBy('timestamp', descending: true).getDocuments();
     servicelist = querySnapshot.documents;
   }
   List<List<String>> serve = new List();
   serve.add(<String>['Truck', 'Item','Quantity','Supplier 1', 'Price', 'VAT?' , "Supplier 2", "Price", 'VAT?', "Supplier 3", "Price", 'VAT?', "reqDate", 'request by'],);
 
     final QuerySnapshot result =
-    await Firestore.instance.collection("partRequest").getDocuments();
+    await Firestore.instance.collection("partRequest").where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now())).orderBy('timestamp', descending: true).getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     // My list I want to create.
 

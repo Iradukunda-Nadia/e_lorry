@@ -98,7 +98,7 @@ class _ItemsState extends State<Items> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-          stream: collectionReference.where('company', isEqualTo: userCompany).snapshots(),
+          stream: collectionReference.where('company', isEqualTo: userCompany).orderBy('timestamp', descending: true).snapshots(),
           builder: (context, snapshot){
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -156,6 +156,8 @@ class _ItemsState extends State<Items> {
                           status: doc.data["status"],
                           reqBy: doc.data["reqby"],
                           itemID: doc.documentID,
+                          image: doc.data["image"],
+                          newLtrs: doc.data['New Fuel reading'],
 
 
                         )));
@@ -187,6 +189,8 @@ class AppFuel extends StatefulWidget {
   String truck;
   String reqBy;
   String itemID;
+  String image;
+  String newLtrs;
 
 
 
@@ -203,6 +207,8 @@ class AppFuel extends StatefulWidget {
     this.status,
     this.reqBy,
     this.itemID,
+    this.image,
+    this.newLtrs,
 
   });
   @override
@@ -639,7 +645,7 @@ class _AppFuelState extends State<AppFuel> {
                 new SizedBox(
                   height: 10.0,
                 ),
-                widget.status != "Approved"?
+                widget.status == "pending"?
                 new Card(
                   child: new Container(
                     margin: new EdgeInsets.only(left: 20.0, right: 20.0),
@@ -656,7 +662,7 @@ class _AppFuelState extends State<AppFuel> {
                             onPressed: (){
                               _approveCommand();
                             },
-                            child: Text('Approve Request',
+                            child: Text('Approve And pay?',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontFamily: 'SFUIDisplay',
@@ -683,6 +689,54 @@ class _AppFuelState extends State<AppFuel> {
                 new SizedBox(
                   height: 5.0,
                 ),
+
+                widget.status == "Refilled"?
+                new Card(
+                  child: new Container(
+                    margin: new EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              new Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  new SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  new Text(
+                                    "Total Litres Post Refill ",
+                                    style: new TextStyle(color: Colors.black, fontSize: 18.0,),
+                                  )
+                                ],
+                              ),
+                              new Text(
+                                widget.newLtrs,
+                                style: new TextStyle(
+                                    fontSize: 11.0,
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                          child: Image.network(
+                            widget.image,
+                            fit: BoxFit.contain,
+                            height: 200.0,
+                            width: 200.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ): new Offstage(),
 
 
               ],

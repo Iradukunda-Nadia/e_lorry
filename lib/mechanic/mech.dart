@@ -11,6 +11,8 @@ import 'car.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'truck.dart';
 import 'PTform.dart';
+import 'Requests/fuel.dart';
+import 'Requests/parts.dart';
 
 class Mech extends StatefulWidget {
   @override
@@ -26,10 +28,12 @@ class _MechState extends State<Mech> {
   }
 
   String userCompany;
+  String currentUser;
   getStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userCompany = prefs.getString('company');
+      currentUser = prefs.getString('user');
     });
 
   }
@@ -75,7 +79,10 @@ class _MechState extends State<Mech> {
                     height: 100.0,
                     width: 300.0,
                   ),
-                  Text("Mechanic"),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(currentUser),
+                  ),
                 ],
               ),
             ),
@@ -89,9 +96,7 @@ class _MechState extends State<Mech> {
               ),
               title: new Text("Fuel Requests"),
               onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new FRequests(
-                  type: 'mech',
-                )));
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new fuel()));
               },
             ),
             new Divider(),
@@ -104,9 +109,7 @@ class _MechState extends State<Mech> {
               ),
               title: new Text("Part Requests"),
               onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new Requisition(
-                  use: 'mech',
-                )));
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new parts()));
               },
             ),
 
@@ -138,9 +141,8 @@ class _MechState extends State<Mech> {
                 onTap: ()async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.remove('email');
-                  Navigator.of(context).push(new MaterialPageRoute(
-                      builder: (BuildContext context) => new LoginScreen()
-                  ));
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                  new LoginScreen()), (Route<dynamic> route) => false);
                 }
             ),
 
