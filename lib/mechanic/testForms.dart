@@ -104,6 +104,8 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
   final bL2Controller = TextEditingController();
   var options = ["Pass", "Fail"];
   Map map = {};
+  String inspection;
+  String insurance;
 
 
 
@@ -512,6 +514,8 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
         "Dates": _daKey.currentState.value,
         "Comment": _coKey.currentState.value,
         "company": userCompany,
+        'inspection': inspection,
+        'insurance': insurance,
 
       });
       print("Second text field: ${frController.text}");
@@ -1565,28 +1569,32 @@ class _TestFormsState extends State<TestForms> with SingleTickerProviderStateMix
                                                       new SizedBox(
                                                         height: 10.0,
                                                       ),
-                                                      ListView.builder(
-                                                          padding: const EdgeInsets.only(bottom: 20.0),
-                                                          scrollDirection: Axis.vertical,
-                                                          physics: const NeverScrollableScrollPhysics(),
-                                                          shrinkWrap: true,
-                                                          itemCount: snapshot.data.length,
-                                                          itemBuilder: (context, index) {
-
-                                                            return FormBuilderDateTimePicker(
-                                                              initialEntryMode: DatePickerEntryMode.calendar,
-                                                              attribute: snapshot.data[index],
-                                                              inputType: InputType.date,
-                                                              format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
-                                                              valueTransformer: (value) {
-                                                                return value.toString().substring(0,10);
-                                                              },
-                                                              validators: [FormBuilderValidators.required()],
-                                                              decoration:
-                                                              InputDecoration(labelText: snapshot.data[index]),
-                                                            );
-
-                                                          }),
+                                                  FormBuilderDateTimePicker(
+                                                    initialEntryMode: DatePickerEntryMode.calendar,
+                                                    attribute: 'Inspection Date',
+                                                    inputType: InputType.date,
+                                                    format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
+                                                    valueTransformer: (value) {
+                                                      return value.toString().substring(0,10);
+                                                    },
+                                                    validators: [FormBuilderValidators.required()],
+                                                    decoration:
+                                                    InputDecoration(labelText: 'Inspection Date'),
+                                                    onSaved: (val) => inspection = DateFormat('MM/DD/YYYY').format(val),
+                                                  ),
+                                                      FormBuilderDateTimePicker(
+                                                        initialEntryMode: DatePickerEntryMode.calendar,
+                                                        attribute: 'Insurance Expiry',
+                                                        inputType: InputType.date,
+                                                        format: DateFormat("yyyy-MM-dd"),firstDate: DateTime.now(),
+                                                        valueTransformer: (value) {
+                                                          return value.toString().substring(0,10);
+                                                        },
+                                                        validators: [FormBuilderValidators.required()],
+                                                        decoration:
+                                                        InputDecoration(labelText: 'Insurance Expiry'),
+                                                        onSaved: (val) => insurance = DateFormat('MM/DD/YYYY').format(val),
+                                                      ),
                                                     ],
                                                   ),
                                                 );

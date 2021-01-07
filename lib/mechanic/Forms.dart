@@ -3020,7 +3020,7 @@ class _ServiceFormState extends State<ServiceForm> with SingleTickerProviderStat
                                        firstDate:DateTime(1900),
                                        lastDate: DateTime(3000));
 
-                                   sInsp.text = DateFormat(' dd MMM yyyy').format(date);},),
+                                   sInsp.text = DateFormat(' MM/DD/YYYY').format(date);},),
                              ),
                            ),
                            Padding(

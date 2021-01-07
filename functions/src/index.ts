@@ -55,7 +55,7 @@ export const sendToManager = functions.firestore
   });
 
 export const sendPostFuel = functions.firestore
-  .document('partRequest/{Item}')
+  .document('refilled/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');
   let aTopic = `approvals${comp}`;
