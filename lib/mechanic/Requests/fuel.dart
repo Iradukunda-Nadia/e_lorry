@@ -1320,7 +1320,8 @@ class _postFuelEvidenceState extends State<postFuelEvidence> {
         .updateData({
       'New Fuel reading': totalL,
       'image': _uploadedFileURL,
-      'status': 'Refilled'
+      'status': 'Refilled',
+      'company': widget.userComp,
     }).then((result) =>
 
         _showRequest());
