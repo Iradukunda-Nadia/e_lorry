@@ -16,7 +16,7 @@ fuelReportView(context) async {
   final Document pdf = Document();
 
   List<List<String>> serve = new List();
-  serve.add(<String>['TRUCK', 'CURR LTRS','REQUESTED FUEL','PER LTR', 'TOTAL (KSH.)', 'FUEL STATION', 'TILL', 'RECEPIENT', 'REQUESTED BY', 'STATUS'],);
+  serve.add(<String>['TRUCK', 'CURR LTRS','REQUESTED FUEL','PER LTR', 'TOTAL (KSH.)', 'FUEL STATION', 'TILL', 'RECEPIENT', 'REQUESTED BY', 'STATUS', 'NEW READING'],);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String userCompany = prefs.getString('company');
   final QuerySnapshot result =
@@ -27,15 +27,16 @@ fuelReportView(context) async {
   documents.forEach((snapshot) {
     List<String> recind = <String>[
       snapshot.data['Truck'],
-      snapshot.data['Current litres'].toString(),
-      snapshot.data['Requested fuel'].toString(),
-      snapshot.data['Price per liter'].toString(),
-      snapshot.data['Total'].toString(),
-      snapshot.data['FuelStaion'].toString(),
-      snapshot.data['Till'].toString(),
-      snapshot.data['Receipent'].toString(),
-      snapshot.data['reqby'].toString(),
-      snapshot.data['status'].toString(),
+      snapshot.data['Current litres'],
+      snapshot.data['Requested fuel'],
+      snapshot.data['Price per liter'],
+      snapshot.data['Total'],
+      snapshot.data['FuelStaion'],
+      snapshot.data['Till'],
+      snapshot.data['Receipent'],
+      snapshot.data['reqby'],
+      snapshot.data['status'],
+      snapshot.data['New Fuel reading'],
     ];
     serve.add(recind);
   });
