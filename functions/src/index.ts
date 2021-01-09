@@ -58,19 +58,21 @@ export const sendPostFuel = functions.firestore
   .document('refilled/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');
-  let aTopic = `approvals${comp}`;
+  let apTopic = `approvals${comp}`;
+  let img = snapshot.get('image');
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
         title: 'New Part Request!',
         body: `New request awaiting approval`,
+        "image": img
       }
     };
 
     return fcm.sendToTopic(aTopic, message);
   });
 
-export const sendforApproval = functions.firestore
+export const sendpartRequest = functions.firestore
   .document('partRequest/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');
@@ -86,7 +88,7 @@ export const sendforApproval = functions.firestore
     return fcm.sendToTopic(aTopic, message);
   });
 
-export const sendToApproval = functions.firestore
+export const sendfuelRequest = functions.firestore
   .document('fuelRequest/{Item}')
   .onCreate(async snapshot => {
   let comp = snapshot.get('company');

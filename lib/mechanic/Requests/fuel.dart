@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_lorry/mechanic/material_request.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -226,12 +227,13 @@ class _fuelFormState extends State<fuelForm> {
       _loginCommand();
     }
   }
-
+  final FirebaseMessaging _messaging = FirebaseMessaging();
   void _loginCommand() {
     final form = formKey.currentState;
 
     Firestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference = Firestore.instance.collection('fuelRequest');
+      String fcmToken = await _messaging.getToken();
 
       await reference.add({
         "Truck": Item,
@@ -248,6 +250,7 @@ class _fuelFormState extends State<fuelForm> {
         'status': 'pending',
         'reqby':currentUser,
         'time': DateFormat('h:mm a').format(DateTime.now()),
+        'token': fcmToken,
       });
     }).then((result) =>
 
@@ -1300,12 +1303,14 @@ class _postFuelEvidenceState extends State<postFuelEvidence> {
         .collection('refilled')
         .reference()
         .add({
-      'Previous readind': widget.truck,
+      'Previous reading': widget.prevReading,
       'New Fuel reading': totalL,
       'image': _uploadedFileURL,
       'status': 'Refilled',
       "date" : DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'timesstamp': DateTime.now()
+      'timestamp': DateTime.now(),
+      'company': widget.userComp,
+
 
     });
 
