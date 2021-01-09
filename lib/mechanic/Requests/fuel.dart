@@ -1303,6 +1303,7 @@ class _postFuelEvidenceState extends State<postFuelEvidence> {
         .collection('refilled')
         .reference()
         .add({
+      'Truck': widget.truck,
       'Previous reading': widget.prevReading,
       'New Fuel reading': totalL,
       'image': _uploadedFileURL,

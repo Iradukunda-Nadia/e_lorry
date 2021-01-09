@@ -63,9 +63,9 @@ export const sendPostFuel = functions.firestore
 
     const message: admin.messaging.MessagingPayload = {
       notification: {
-        title: 'New Part Request!',
+        title: 'TRUCK !',
         body: `New request awaiting approval`,
-        "image": img
+        image: img,
       }
     };
 
